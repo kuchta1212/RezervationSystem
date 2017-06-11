@@ -5,9 +5,9 @@ using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
 using Owin;
-using WebApplication3.Models;
+using ReservationSystem.Models;
 
-namespace WebApplication3
+namespace ReservationSystem
 {
     public partial class Startup
     {
