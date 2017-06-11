@@ -1,4 +1,6 @@
-﻿@{
+﻿@using ReservationSystem.Models
+
+@{
     ViewBag.Title = "Home Page";
 }
 
@@ -9,7 +11,7 @@
         <h2> AC SPARTA PRAHA stolní tenis</h2>
         <p class="lead">Pro rezervaci je nutné se přihlásit</p>
         <p>
-            @Html.ActionLink("Přihlásit se", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink", @class="btn btn-primary btn-lg" })
+            @Html.ActionLink("Přihlásit se", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink", @class = "btn btn-primary btn-lg" })
             @Html.ActionLink("Registrovat se", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink", @class = "btn btn-primary btn-lg" })
 
         </p>
@@ -17,9 +19,40 @@
 }
 else
 {
-    <script type="text/javascript">
-        $(document).ready(function () {
-        $("#news_date").datepicker({ dateFormat: 'dd/mm/yy' });
-        });
-    </script>
+    if (!ViewBag.Message.Equals("OK"))
+    {
+        <p class="lead">SOMETHING WENT TERRIBLY WRONG.='( PROBABLY YOU FAULT ;-) </p>
+        <p> @ViewBag.Message </p>
+    }
+
+
+    <div class="jumbotron">
+
+        <p align="left">Datum: <input class='date-picker' value="@ViewBag.Date" inputmode="readonly"/> </p>
+        
+        <p align="right">
+            @Html.ActionLink("Ulozit", "Save", "ReservationController", routeValues: null, htmlAttributes: new { id = "registerLink", @class = "btn btn-primary btn-lg" })
+        </p>
+    </div>
+
+
+    <div align="center">
+        <div class="datagridTips">
+            <table>
+                <thead>
+                    <tr>
+                        @for (var i = 1; i < 10; i++)
+                        {
+                            <th>stůl @i</th>
+                        }
+                    </tr> 
+                </thead>
+                <tbody>
+                    
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
 }

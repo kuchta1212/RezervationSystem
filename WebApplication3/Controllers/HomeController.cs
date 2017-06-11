@@ -10,6 +10,21 @@ namespace ReservationSystem.Controllers
     {
         public ActionResult Index()
         {
+            if(!Request.IsAuthenticated)
+                return View();
+
+            try
+            {
+                //ViewBag.Reservations = ReservationController.GetReservations();
+                ViewBag.Date = DateTime.Now.ToString("dd.MM.yyyy");
+                ViewBag.ReservationTable = ReservationController.GetReservationsForDate(DateTime.Now);
+                ViewBag.Message = "OK";
+            }
+            catch(Exception ex)
+            {
+                ViewBag.Message = ex.Message;
+            }
+
             return View();
         }
 
