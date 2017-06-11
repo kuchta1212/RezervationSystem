@@ -1,0 +1,17 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+@if (!Request.IsAuthenticated)
+{
+    <div class="jumbotron">
+        <h1>REZERVAČNÍ SYSTÉM</h1>
+        <h2> AC SPARTA PRAHA stolní tenis</h2>
+        <p class="lead">Pro rezervaci je nutné se přihlásit</p>
+        <p>
+            @Html.ActionLink("Přihlásit se", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink", @class="btn btn-primary btn-lg" })
+            @Html.ActionLink("Registrovat se", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink", @class = "btn btn-primary btn-lg" })
+
+        </p>
+     </div>
+}   
