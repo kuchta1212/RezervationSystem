@@ -8,30 +8,33 @@ using System.Data.Entity;
 
 namespace ReservationSystem.Models
 {
-    public class TableModel
+    public class TimeModel
     {
-        public TableModel() { }
+        public TimeModel() { }
 
-        public TableModel(int number)
+        public TimeModel(int starthour, bool isHalf)
         {
-            this.Number = number;
+            this.StartTime = new TimeSpan(starthour, isHalf ? 30 : 0, 0);
         }
 
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        public int Number { get; private set; }
+        public TimeSpan StartTime { get; private set; }
     }
 
-    public class TableDbContext : DbContextWrap
+    public class TimeDbContext : DbContextWrap
     {
-        public DbSet<TableModel> Tables { get; set; }
+        public DbSet<TimeModel> Times { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            //for (int i = 1; i < 10; i++)
-            //    this.Tables.Add(new TableModel(i));
+            //for (int i = 18; i < 22; i++)
+            //{
+            //    this.Times.Add(new TimeModel(i, false));
+            //    this.Times.Add(new TimeModel(i, true));
+            //}
 
             //this.SaveChanges();
 

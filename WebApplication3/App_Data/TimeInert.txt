@@ -1,0 +1,12 @@
+﻿SET IDENTITY_INSERT dbo.TimeModels ON
+insert into TimeModels(Id, StartTime) values 
+(1,'1900-01-01 18:00'),
+(2,'1900-01-01 18:30'),
+(3,'1900-01-01 19:00'),
+(4,'1900-01-01 19:30'),
+(5,'1900-01-01 20:00'),
+(6,'1900-01-01 20:30'),
+(7,'1900-01-01 21:00'),
+(8,'1900-01-01 21:30'),
+(9,'1900-01-01 22:00')
+SET IDENTITY_INSERT dbo.TimeModels off

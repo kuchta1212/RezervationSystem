@@ -21,7 +21,7 @@ else
 {
     if (!ViewBag.Message.Equals("OK"))
     {
-        <p class="lead">SOMETHING WENT TERRIBLY WRONG.='( PROBABLY YOU FAULT ;-) </p>
+        <p class="lead">SOMETHING WENT TERRIBLY WRONG.='( PROBABLY YOUR FAULT ;-) </p>
         <p> @ViewBag.Message </p>
     }
 
@@ -35,24 +35,44 @@ else
         </p>
     </div>
 
-
-    <div align="center">
-        <div class="datagridTips">
+        <div class="datagrid">
             <table>
                 <thead>
                     <tr>
-                        @for (var i = 1; i < 10; i++)
+                        <th>Čas</th>
+                        @foreach (var table in ViewBag.Tables as List<TableModel>)
                         {
-                            <th>stůl @i</th>
+                            <th>Stůl @table.Number</th>
                         }
-                    </tr> 
+                    </tr>
                 </thead>
                 <tbody>
-                    
+                    <tr>
+                        @foreach (var time in ViewBag.Times as List<TimeModel>)
+                        {
+                            foreach (var table in ViewBag.Tables as List<TableModel>)
+                            {
+                                <td class="free">VOLNO</td>
+                            }
+                        }
+                    </tr>
                 </tbody>
             </table>
         </div>
-    </div>
+        <!--
+        <div align="center">
+            <div class="datagrid">
+                <table>
+                    <thead>
+                        <tr>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
 
-
-}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+            -->
+        }

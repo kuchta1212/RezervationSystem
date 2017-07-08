@@ -15,8 +15,9 @@ namespace ReservationSystem.Controllers
 
             try
             {
-                //ViewBag.Reservations = ReservationController.GetReservations();
                 ViewBag.Date = DateTime.Now.ToString("dd.MM.yyyy");
+                ViewBag.Tables = ReservationController.GetTables();
+                ViewBag.Times = ReservationController.GetTimes();
                 ViewBag.ReservationTable = ReservationController.GetReservationsForDate(DateTime.Now);
                 ViewBag.Message = "OK";
             }
@@ -24,20 +25,6 @@ namespace ReservationSystem.Controllers
             {
                 ViewBag.Message = ex.Message;
             }
-
-            return View();
-        }
-
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
 
             return View();
         }
