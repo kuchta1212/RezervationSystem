@@ -78,6 +78,7 @@ namespace ReservationSystem.Controllers
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
             var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password + _passwordPostfix, model.RememberMe, shouldLockout: false);
+            
             switch (result)
             {
                 case SignInStatus.Success:
@@ -164,7 +165,7 @@ namespace ReservationSystem.Controllers
                     // Send an email with this link
                     string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    await UserManager.SendEmailAsync(user.Id, "Potvrzení vašho účtu. AC SPARTA PRAHA - stolní tenis", "Prosím potvrďte vaši rezervaci kliknutím na tento <a href=\"" + callbackUrl + "\">odkaz</a>");
+                    await UserManager.SendEmailAsync(user.Id, "Potvrzení vašeho účtu. AC SPARTA PRAHA - stolní tenis", "Prosím potvrďte vaši registraci kliknutím na tento <a href=\"" + callbackUrl + "\">odkaz</a>");
 
                     return RedirectToAction("Index", "Home");
                 }

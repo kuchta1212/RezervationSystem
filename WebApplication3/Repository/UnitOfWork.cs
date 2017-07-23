@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data.Entity.Infrastructure;
 using ReservationSystem.Models;
+using ReservationSystem.Utils;
 
 namespace ReservationSystem.Repository
 {
@@ -18,6 +19,7 @@ namespace ReservationSystem.Repository
 
         public void SaveChanges()
         {
+            Logger.Instance.WriteToLog("Saving Db changes", "UnitOfWork",LogType.INFO);
             ((IObjectContextAdapter)_dbContext).ObjectContext.SaveChanges();
         }
 

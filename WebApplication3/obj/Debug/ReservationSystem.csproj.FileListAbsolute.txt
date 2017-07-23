@@ -164,3 +164,12 @@ D:\Privat\Sparta-rezervační systém\RezervationSystem\WebApplication3\obj\Debu
 D:\Privat\Sparta-rezervační systém\RezervationSystem\WebApplication3\obj\Debug\ReservationSystem.csprojResolveAssemblyReference.cache
 D:\Privat\Sparta-rezervační systém\RezervationSystem\WebApplication3\obj\Debug\ReservationSystem.Migrations.ReservationModel.resources
 D:\Privat\Sparta-rezervační systém\RezervationSystem\WebApplication3\obj\Debug\ReservationSystem.csproj.GenerateResource.Cache
+D:\Privat\Sparta-rezervační systém\RezervationSystem\WebApplication3\bin\Common.Logging.Core.dll
+D:\Privat\Sparta-rezervační systém\RezervationSystem\WebApplication3\bin\Common.Logging.dll
+D:\Privat\Sparta-rezervační systém\RezervationSystem\WebApplication3\bin\Quartz.dll
+D:\Privat\Sparta-rezervační systém\RezervationSystem\WebApplication3\bin\Common.Logging.pdb
+D:\Privat\Sparta-rezervační systém\RezervationSystem\WebApplication3\bin\Common.Logging.xml
+D:\Privat\Sparta-rezervační systém\RezervationSystem\WebApplication3\bin\Common.Logging.Core.pdb
+D:\Privat\Sparta-rezervační systém\RezervationSystem\WebApplication3\bin\Common.Logging.Core.xml
+D:\Privat\Sparta-rezervační systém\RezervationSystem\WebApplication3\bin\Quartz.pdb
+D:\Privat\Sparta-rezervační systém\RezervationSystem\WebApplication3\bin\Quartz.xml

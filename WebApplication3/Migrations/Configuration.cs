@@ -1,6 +1,8 @@
 using System.Collections.Generic;
+using Microsoft.AspNet.Identity.EntityFramework;
 using ReservationSystem.Models;
 using ReservationSystem.Repository;
+using ReservationSystem.Utils;
 
 namespace ReservationSystem.Migrations
 {
@@ -30,6 +32,14 @@ namespace ReservationSystem.Migrations
             //      new Person { FullName = "Rowan Miller" }
             //    );
             //
+
+         //   Logger.Instance.WriteToLog("Configuration migration seed","Configuration",LogType.INFO);
+         /*
+            ApplicationDbContext appContext = new ApplicationDbContext();
+            appContext.Roles.Add(new IdentityRole("Admin"));
+            appContext.SaveChanges();*/
+
+
             var tables = new List<TableModel>
             {
                 new TableModel(1) {Id = 1},
