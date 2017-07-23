@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Data.Entity;
+
 
 namespace ReservationSystem.Models
 {
@@ -18,24 +18,27 @@ namespace ReservationSystem.Models
         }
 
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int Id { get; set; }
 
         public int Number { get; private set; }
+
+
+
     }
 
-    public class TableDbContext : DbContextWrap
-    {
-        public DbSet<TableModel> Tables { get; set; }
-
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
-            //for (int i = 1; i < 10; i++)
-            //    this.Tables.Add(new TableModel(i));
-
-            //this.SaveChanges();
-
-            base.OnModelCreating(modelBuilder);
-        }
-    }
+//    public class TableDbContext : DbContextWrap
+//    {
+//        public DbSet<TableModel> Tables { get; set; }
+//
+//        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+//        {
+//            //for (int i = 1; i < 10; i++)
+//            //    this.Tables.Add(new TableModel(i));
+//
+//            //this.SaveChanges();
+//
+//            base.OnModelCreating(modelBuilder);
+//        }
+//    }
 }

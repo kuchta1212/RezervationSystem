@@ -41,8 +41,8 @@ namespace ReservationSystem.Models
         }
     }
 
-    public class ReservationDbContext : DbContextWrap
-    {
-        public DbSet<ReservationModel> Reservations { get; set; }
-    }
+//    public class ReservationDbContext : DbContextWrap
+//    {
+//        public DbSet<ReservationModel> Reservations { get; set; }
+//    }
 }

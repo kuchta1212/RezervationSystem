@@ -1,17 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using ReservationSystem.Models;
+using ReservationSystem.Repository;
 
 namespace ReservationSystem.Controllers
 {
     public class ReservationController : Controller
     {
-        private static ReservationDbContext reservationDbContext = new ReservationDbContext();
-        private static TableDbContext tableDbContext = new TableDbContext();
-        private static TimeDbContext timeDbContext = new TimeDbContext();
+//        private static ReservationDbContext reservationDbContext = new ReservationDbContext();
+//        private static TableDbContext tableDbContext = new TableDbContext();
+//        private static TimeDbContext timeDbContext = new TimeDbContext();
+
+        
 
         // GET: Reservation
         public ActionResult Index()
@@ -26,40 +30,55 @@ namespace ReservationSystem.Controllers
 
         public static List<TableModel> GetTables()
         {
-            return tableDbContext.Tables.ToList();
+            using (IUnitOfWork uow = new UnitOfWork(new DbContextWrap()))
+            {
+                return uow.Repository.GetAll<TableModel>().ToList();
+            }
         }
 
         public static List<TimeModel> GetTimes()
         {
-            return timeDbContext.Times.ToList();
+            using (IUnitOfWork uow = new UnitOfWork(new DbContextWrap()))
+            {
+                return uow.Repository.GetAll<TimeModel>().ToList();
+            }
         }
 
         public static DayReservation GetReservationsForDate(DateTime date)
         {
-            var reservations = reservationDbContext.Reservations.Where(res => res.Date == date.Date).ToList();
-            var tables = tableDbContext.Tables.ToList();
-
-            var day = new DayReservation();
-
-
-            //var list = (from res in reservations
-            //            join table in tables
-            //            on res.TableId equals table.Id
-            //            select new { table, res }).ToList();
-
-
-            foreach (var table in tables)
+            using (IUnitOfWork uow = new UnitOfWork(new DbContextWrap()))
             {
-                var tr = new TableReservation(table);
-                foreach (var reservation in reservations)
-                {
-                    if (reservation.TableId == table.Id)
-                        tr.AddReservation(reservation);
-                }
-                day.Add(tr);
-            }
+//                var test = uow.Repository.GetAll<ReservationModel>().ToList();
 
-            return day;
+                var rezervations = uow.Repository.Get<ReservationModel, int>(
+                    (res => res.Date == date.Date), (res => res.Id),
+                    SortOrder.Ascending);
+
+                var tables = uow.Repository.GetAll<TableModel>();
+
+
+                var day = new DayReservation();
+
+
+//                var list = (from res in rezervations
+//                            join table in tables
+//                        on res.TableId equals table.Id
+//                    select new {table, res}).ToList();
+
+                var reservationModels = rezervations as IList<ReservationModel> ?? rezervations.ToList();
+                foreach (var table in tables)
+                {
+                    var tr = new TableReservation(table);
+                    foreach (var reservation in reservationModels)
+                    {
+                        if (reservation.TableId == table.Id)
+                            tr.AddReservation(reservation);
+                    }
+                    day.Add(tr);
+                }
+
+                return day;
+            }
         }
     }
 }
