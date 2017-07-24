@@ -9,6 +9,9 @@ namespace ReservationSystem.Models
     public class DbContextWrap : DbContext
     {
         public DbContextWrap() : base("name=ReservationSystem")
-        { }
+        {
+            //Database.SetInitializer(new MigrateDatabaseToLatestVersion<DbContextWrap, DbConfiguration>());
+            Database.SetInitializer(new DropCreateDatabaseAlways<DbContextWrap>());
+        }
     }
 }

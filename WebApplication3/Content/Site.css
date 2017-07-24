@@ -70,14 +70,19 @@ textarea {
         font-weight: normal;
     }
 
-    .datagrid table tbody td .free {
+    .datagrid table tbody .free {
         background: green;
-        color: #80141C;
+        color: #030804;
     }
 
     .datagrid table tbody td .reserved {
         background: red;
-        color: #80141C;
+        color: #030804;
+    }
+
+    .datagrid table tbody td .picked {
+        background: yellow;
+        color: #030804;
     }
 
     .datagrid table tbody td:first-child {

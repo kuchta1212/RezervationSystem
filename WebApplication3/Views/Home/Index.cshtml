@@ -28,6 +28,7 @@ else
 
     <div class="jumbotron">
 
+        @{ var selDate = ViewBag.Date; }
         <p align="left">Datum: <input class='date-picker' value="@ViewBag.Date" inputmode="readonly"/> </p>
         
         <p align="right">
@@ -36,7 +37,7 @@ else
     </div>
 
         <div class="datagrid">
-            <table>
+            <table table width='100%'>
                 <thead>
                     <tr>
                         <th>Čas</th>
@@ -47,32 +48,19 @@ else
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
                         @foreach (var time in ViewBag.Times as List<TimeModel>)
                         {
-                            foreach (var table in ViewBag.Tables as List<TableModel>)
-                            {
-                                <td class="free">VOLNO</td>
-                            }
+                            <tr>
+                                <td>@time.StartTime.Hours : @time.StartTime.Minutes </td>
+                                @foreach (var table in ViewBag.Tables as List<TableModel>)
+                                {
+                                    <td class="free">
+                                        @Html.ActionLink("VOLNO", "PickedTime", "Reservation", new { table=table.Id, time=time.Id, sdate = selDate }, new { @class = "navbar-brand" })
+                                  </td>
+                                }
+                            </tr>
                         }
-                    </tr>
                 </tbody>
             </table>
         </div>
-        <!--
-        <div align="center">
-            <div class="datagrid">
-                <table>
-                    <thead>
-                        <tr>
-                            
-                        </tr>
-                    </thead>
-                    <tbody>
-
-                    </tbody>
-                </table>
-            </div>
-        </div>
-            -->
         }

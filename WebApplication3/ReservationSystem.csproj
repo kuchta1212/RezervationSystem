@@ -207,6 +207,7 @@
     <Compile Include="Models\DbContextWrap.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\PickedModel.cs" />
     <Compile Include="Models\ReservationModel.cs" />
     <Compile Include="Controllers\TableReservation.cs" />
     <Compile Include="Models\TableModel.cs" />
