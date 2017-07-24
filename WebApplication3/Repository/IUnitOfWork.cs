@@ -1,11 +1,12 @@
 ﻿using System;
+using ReservationSystem.Models;
 
 namespace ReservationSystem.Repository
 {
     public interface IUnitOfWork : IDisposable
     {
 
-        IRepository Repository { get; }
+        DbContextWrap DbContext { get; }
 
         void SaveChanges();
     }

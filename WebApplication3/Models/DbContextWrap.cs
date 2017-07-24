@@ -12,6 +12,7 @@ namespace ReservationSystem.Models
         public DbSet<TableModel> Tables { get; set; }
         public DbSet<ReservationModel> Reservations { get; set; }
         public DbSet<TimeModel> Times { get; set; }
+        public DbSet<PickedModel> PickedReservations { get; set; }
 
         public DbContextWrap() : base("name=ReservationSystem")
         {

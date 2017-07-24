@@ -173,3 +173,8 @@ D:\Privat\Sparta-rezervační systém\RezervationSystem\WebApplication3\bin\Comm
 D:\Privat\Sparta-rezervační systém\RezervationSystem\WebApplication3\bin\Common.Logging.Core.xml
 D:\Privat\Sparta-rezervační systém\RezervationSystem\WebApplication3\bin\Quartz.pdb
 D:\Privat\Sparta-rezervační systém\RezervationSystem\WebApplication3\bin\Quartz.xml
+D:\Privat\Sparta-rezervační systém\RezervationSystem\WebApplication3\bin\Castle.Core.dll
+D:\Privat\Sparta-rezervační systém\RezervationSystem\WebApplication3\bin\Castle.Windsor.dll
+D:\Privat\Sparta-rezervační systém\RezervationSystem\WebApplication3\bin\Castle.Core.xml
+D:\Privat\Sparta-rezervační systém\RezervationSystem\WebApplication3\bin\Castle.Windsor.xml
+D:\Privat\Sparta-rezervační systém\RezervationSystem\WebApplication3\obj\Debug\ReservationSystem.Migrations.PickedModel.resources

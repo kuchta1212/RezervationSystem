@@ -16,13 +16,13 @@ namespace ReservationSystem.Models
 
         public string UserId { get; set; }
 
-        //[ForeignKey("Table")]
+        [ForeignKey("Table")]
         public int TableId { get; set; }
-        //public virtual TableModel Table { get; set; }
+        public virtual TableModel Table { get; set; }
 
-        //[ForeignKey("Time")]
+        [ForeignKey("Time")]
         public int TimeId { get; set; }
-        //public virtual TimeModel Time { get; set; }
+        public virtual TimeModel Time { get; set; }
 
         /*IN HALF HOURS*/
         public int Length { get; set; }
@@ -30,10 +30,5 @@ namespace ReservationSystem.Models
         [DataType(DataType.Date)]
         public DateTime PickedDate { get; set; }
         
-    }
-
-    public class PickedReservationDbContext : DbContextWrap
-    {
-        public DbSet<PickedModel> PickedReservations { get; set; }
     }
 }

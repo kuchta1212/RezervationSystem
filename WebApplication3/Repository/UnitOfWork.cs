@@ -8,14 +8,21 @@ namespace ReservationSystem.Repository
     public class UnitOfWork : IUnitOfWork
     {
         private readonly DbContextWrap _dbContext;
-        private Repository _repository;
 
         public UnitOfWork(DbContextWrap dbContext)
         {
             this._dbContext = dbContext;
         }
 
-        public IRepository Repository => _repository ?? (_repository = new Repository(_dbContext));
+        public DbContextWrap DbContext
+        {
+            get
+            {
+                if (_dbContext != null)
+                    return _dbContext;
+                throw new Exception("Missing db context");
+            }
+        }
 
         public void SaveChanges()
         {
@@ -29,25 +36,27 @@ namespace ReservationSystem.Repository
         ///     Performs application-defined tasks associated with freeing, 
         ///     releasing, or resetting unmanaged resources.
         /// </summary>
-        public void Dispose()
+        protected void Dispose(bool bDisposing)
+        {
+            if (!_disposed)
+            {
+                if (bDisposing)
+                {
+                    _dbContext?.Dispose();
+                }
+                _disposed = true;
+            }
+        }
+
+        public void Close()
         {
             Dispose(true);
             GC.SuppressFinalize(this);
         }
 
-        /// <summary>
-        ///     Disposes off the managed and unmanaged resources used.
-        /// </summary>
-        /// <param name="disposing"></param>
-        private void Dispose(bool disposing)
+        public void Dispose()
         {
-            if (!disposing)
-                return;
-
-            if (_disposed)
-                return;
-
-            _disposed = true;
+            Close();
         }
 
     }
