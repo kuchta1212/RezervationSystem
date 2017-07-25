@@ -216,7 +216,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\DayReservation.cs" />
+    <Compile Include="Reservation\DayReservation.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ReservationController.cs" />
@@ -224,6 +224,8 @@
     <Compile Include="Migrations\201707242048422_PickedModel.Designer.cs">
       <DependentUpon>201707242048422_PickedModel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Reservation\IReservationManager.cs" />
+    <Compile Include="Reservation\ReservationManager.cs" />
     <Compile Include="Utils\IoC.cs" />
     <Compile Include="Job\RezervationCleaner.cs" />
     <Compile Include="Global.asax.cs">
@@ -243,7 +245,7 @@
     <Compile Include="Repository\Repository.cs" />
     <Compile Include="Models\PickedModel.cs" />
     <Compile Include="Models\ReservationModel.cs" />
-    <Compile Include="Controllers\TableReservation.cs" />
+    <Compile Include="Reservation\TableReservation.cs" />
     <Compile Include="Models\TableModel.cs" />
     <Compile Include="Models\TimeModel.cs" />
     <Compile Include="Repository\UnitOfWork.cs" />
@@ -327,7 +329,6 @@
     <Content Include="Views\Home\ReservationDone.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="IoC\" />
     <Folder Include="Views\Reservation\" />
   </ItemGroup>
   <ItemGroup>

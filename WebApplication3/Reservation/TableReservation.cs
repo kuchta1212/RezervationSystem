@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using ReservationSystem.Models;
 
-namespace ReservationSystem.Controllers
+namespace ReservationSystem.Reservation
 {
     public class TableReservation
     {

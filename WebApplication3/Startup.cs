@@ -18,8 +18,14 @@ namespace ReservationSystem
         {
             Logger.Instance.WriteToLog("Starting app...","Startup",LogType.INFO);
 
+
+
             IWindsorInstaller ioc = new IoC();
-            ioc.Install(new WindsorContainer(), new DefaultConfigurationStore());
+            var container = new WindsorContainer();
+
+            container.Install(ioc);
+
+//            ioc.Install(new WindsorContainer(), new DefaultConfigurationStore());
 
             ConfigureAuth(app);
 
