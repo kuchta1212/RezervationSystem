@@ -9,6 +9,13 @@ namespace ReservationSystem.Job
 {
     public class RezervationCleaner : IJob
     {
+        private IRepository repository;
+
+        public RezervationCleaner(IRepository repository)
+        {
+            this.repository = repository;
+        }
+
         public void Execute(IJobExecutionContext context)
         {
             Logger.Instance.WriteToLog("Reservation cleaner job started", "ReservationCleaner", LogType.INFO);
@@ -19,8 +26,9 @@ namespace ReservationSystem.Job
             //should runned once a day at 23:55
             using (var uow = new UnitOfWork(new DbContextWrap()))
             {
-                uow.Repository.Delete(
-                    uow.Repository.Get<ReservationModel, int>(model => model.Date <= date, model => model.Id).ToList());
+                var toDelete = this.repository.Get<ReservationModel, int>(uow, model => model.Date <= date, model => model.Id).ToList();
+                foreach (var item in toDelete)
+                    this.repository.Delete<ReservationModel>(uow, item);
                 uow.SaveChanges();
             }
         }

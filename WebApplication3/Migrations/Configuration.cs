@@ -37,7 +37,7 @@ namespace ReservationSystem.Migrations
          /*
             ApplicationDbContext appContext = new ApplicationDbContext();
             appContext.Roles.Add(new IdentityRole("Admin"));
-            appContext.SaveChanges();*/
+            appContext.SaveChanges(); */
 
 
             var tables = new List<TableModel>
@@ -67,13 +67,12 @@ namespace ReservationSystem.Migrations
 
             };
 
-            using (var uow = new UnitOfWork(context))
-            {
-                tables.ForEach( t => uow.Repository.Add<TableModel>(t));
-                times.ForEach(t => uow.Repository.Add<TimeModel>(t));
-                uow.SaveChanges();
-            }
-            
+
+            context.Tables.AddRange(tables);
+            context.Times.AddRange(times);
+            context.SaveChanges();
+
+
 
 
         }

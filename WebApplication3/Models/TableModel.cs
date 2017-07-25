@@ -26,19 +26,4 @@ namespace ReservationSystem.Models
 
 
     }
-
-//    public class TableDbContext : DbContextWrap
-//    {
-//        public DbSet<TableModel> Tables { get; set; }
-//
-//        protected override void OnModelCreating(DbModelBuilder modelBuilder)
-//        {
-//            //for (int i = 1; i < 10; i++)
-//            //    this.Tables.Add(new TableModel(i));
-//
-//            //this.SaveChanges();
-//
-//            base.OnModelCreating(modelBuilder);
-//        }
-//    }
 }

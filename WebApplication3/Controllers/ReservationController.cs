@@ -13,12 +13,16 @@ namespace ReservationSystem.Controllers
 {
     public class ReservationController : Controller
     {
-//        private static ReservationDbContext reservationDbContext = new ReservationDbContext();
-//        private static TableDbContext tableDbContext = new TableDbContext();
-//        private static TimeDbContext timeDbContext = new TimeDbContext();
-        private static PickedReservationDbContext pickedDbContext = new PickedReservationDbContext();
+        private IRepository repository;
 
-        
+        public ReservationController()
+        {
+        }
+
+        public ReservationController(IRepository repository)
+        {
+            this.repository = repository;
+        }
 
         // GET: Reservation
         public ActionResult Index()
@@ -47,38 +51,38 @@ namespace ReservationSystem.Controllers
             //var userPickeds = pickedDbContext.PickedReservations.Where(
             //    pick => pick.TableId == table && pick.TimeId == time).Select(item => item.UserId).ToList();
 
-            pickedDbContext.PickedReservations.ToList();
+            //pickedDbContext.PickedReservations.ToList();
 
             return RedirectToAction("Index", "Home");
         }
 
-        public static List<TableModel> GetTables()
+        public List<TableModel> GetTables()
         {
             using (IUnitOfWork uow = new UnitOfWork(new DbContextWrap()))
             {
-                return uow.Repository.GetAll<TableModel>().ToList();
+                return repository.GetAll<TableModel>(uow).ToList();
             }
         }
 
-        public static List<TimeModel> GetTimes()
+        public List<TimeModel> GetTimes()
         {
             using (IUnitOfWork uow = new UnitOfWork(new DbContextWrap()))
             {
-                return uow.Repository.GetAll<TimeModel>().ToList();
+                return repository.GetAll<TimeModel>(uow).ToList();
             }
         }
 
-        public static DayReservation GetReservationsForDate(DateTime date)
+        public DayReservation GetReservationsForDate(DateTime date)
         {
             using (IUnitOfWork uow = new UnitOfWork(new DbContextWrap()))
             {
 //                var test = uow.Repository.GetAll<ReservationModel>().ToList();
 
-                var rezervations = uow.Repository.Get<ReservationModel, int>(
-                    (res => res.Date == date.Date), (res => res.Id),
+                var rezervations = repository.Get<ReservationModel, int>(
+                    uow, (res => res.Date == date.Date), (res => res.Id),
                     SortOrder.Ascending);
 
-                var tables = uow.Repository.GetAll<TableModel>();
+                var tables = repository.GetAll<TableModel>(uow);
 
 
                 var day = new DayReservation();

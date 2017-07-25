@@ -8,6 +8,13 @@ namespace ReservationSystem.Controllers
 {
     public class HomeController : Controller
     {
+        private ReservationController reservationController;
+
+        public HomeController(ReservationController reservationController)
+        {
+            this.reservationController = reservationController;
+        }
+
         public ActionResult Index()
         {
             if(!Request.IsAuthenticated)
@@ -16,9 +23,9 @@ namespace ReservationSystem.Controllers
             try
             {
                 ViewBag.Date = DateTime.Now.ToString("dd.MM.yyyy");
-                ViewBag.Tables = ReservationController.GetTables();
-                ViewBag.Times = ReservationController.GetTimes();
-                ViewBag.ReservationTable = ReservationController.GetReservationsForDate(DateTime.Now);
+                ViewBag.Tables = reservationController.GetTables();
+                //ViewBag.Times = ReservationController.GetTimes();
+                //ViewBag.ReservationTable = ReservationController.GetReservationsForDate(DateTime.Now);
                 ViewBag.Message = "OK";
             }
             catch(Exception ex)

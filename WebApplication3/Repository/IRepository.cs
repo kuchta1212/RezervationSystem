@@ -7,7 +7,7 @@ using System.Linq.Expressions;
 
 namespace ReservationSystem.Repository
 {
-    public interface IRepository : IDisposable
+    public interface IRepository
     {
         /// <summary>
         ///     Gets entity by key.
@@ -15,14 +15,14 @@ namespace ReservationSystem.Repository
         /// <typeparam name="TEntity">The type of the entity.</typeparam>
         /// <param name="keyValue">The key value.</param>
         /// <returns></returns>
-        TEntity GetByKey<TEntity>(object keyValue) where TEntity : class;
+        TEntity GetByKey<TEntity>(IUnitOfWork uow, object keyValue) where TEntity : class;
 
         /// <summary>
         ///     Gets the query.
         /// </summary>
         /// <typeparam name="TEntity">The type of the entity.</typeparam>
         /// <returns></returns>
-        IQueryable<TEntity> GetQuery<TEntity>() where TEntity : class;
+        IQueryable<TEntity> GetQuery<TEntity>(IUnitOfWork uow) where TEntity : class;
 
         /// <summary>
         ///     Gets the query.
@@ -31,7 +31,7 @@ namespace ReservationSystem.Repository
         /// <param name="predicate">The predicate.</param>
         /// <returns></returns>
         IQueryable<TEntity> GetQuery<TEntity>
-        (Expression<Func<TEntity, bool>> predicate) where TEntity : class;
+        (IUnitOfWork uow, Expression<Func<TEntity, bool>> predicate) where TEntity : class;
 
 
         /// <summary>
@@ -39,7 +39,7 @@ namespace ReservationSystem.Repository
         /// </summary>
         /// <typeparam name="TEntity">The type of the entity.</typeparam>
         /// <returns></returns>
-        IEnumerable<TEntity> GetAll<TEntity>() where TEntity : class;
+        IEnumerable<TEntity> GetAll<TEntity>(IUnitOfWork uow) where TEntity : class;
 
         /// <summary>
         ///     Gets the specified criteria.
@@ -53,7 +53,7 @@ namespace ReservationSystem.Repository
         /// <param name="sortOrder">The sort order.</param>
         /// <returns></returns>
         IEnumerable<TEntity> Get<TEntity,
-        TOrderBy>(Expression<Func<TEntity, bool>> criteria,
+        TOrderBy>(IUnitOfWork uow, Expression<Func<TEntity, bool>> criteria,
             Expression<Func<TEntity, TOrderBy>> orderBy,
             SortOrder sortOrder = SortOrder.Ascending) where TEntity : class;
 
@@ -62,7 +62,7 @@ namespace ReservationSystem.Repository
         /// </summary>
         /// <typeparam name="TEntity">The type of the entity.</typeparam>
         /// <param name="entity">The entity.</param>
-        void Add<TEntity>(TEntity entity) where TEntity : class;
+        void Add<TEntity>(IUnitOfWork uow, TEntity entity) where TEntity : class;
 
         /// <summary>
         ///     Updates changes of the existing entity.
@@ -71,14 +71,14 @@ namespace ReservationSystem.Repository
         /// </summary>
         /// <typeparam name="TEntity">The type of the entity.</typeparam>
         /// <param name="entity">The entity.</param>
-        void Update<TEntity>(TEntity entity) where TEntity : class;
+        void Update<TEntity>(IUnitOfWork uow, TEntity entity) where TEntity : class;
 
         /// <summary>
         ///     Deletes the specified entity.
         /// </summary>
         /// <typeparam name="TEntity">The type of the entity.</typeparam>
         /// <param name="entity">The entity.</param>
-        void Delete<TEntity>(TEntity entity) where TEntity : class;
+        void Delete<TEntity>(IUnitOfWork uow, TEntity entity) where TEntity : class;
 
     }
 }
