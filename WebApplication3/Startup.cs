@@ -1,7 +1,4 @@
-﻿using Castle.MicroKernel.Registration;
-using Castle.MicroKernel.SubSystems.Configuration;
-using Castle.Windsor;
-using Microsoft.Owin;
+﻿using Microsoft.Owin;
 using Owin;
 using Quartz;
 using Quartz.Impl;
@@ -17,15 +14,6 @@ namespace ReservationSystem
         public void Configuration(IAppBuilder app)
         {
             Logger.Instance.WriteToLog("Starting app...","Startup",LogType.INFO);
-
-
-
-            IWindsorInstaller ioc = new IoC();
-            var container = new WindsorContainer();
-
-            container.Install(ioc);
-
-//            ioc.Install(new WindsorContainer(), new DefaultConfigurationStore());
 
             ConfigureAuth(app);
 

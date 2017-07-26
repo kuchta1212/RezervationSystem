@@ -17,12 +17,6 @@ namespace ReservationSystem.Utils
             container.Register(Component.For<IReservationManager>().ImplementedBy<ReservationManager>());
 
             container.Register(Component.For<RezervationCleaner>());
-
-            container.Register(Component.For<ReservationController>());
-
-            container.Register(Component.For<HomeController>());
-
-
         }
     }
 }

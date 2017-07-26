@@ -17,6 +17,9 @@ namespace ReservationSystem.Controllers
         private List<TimeModel> times;
         private List<TableModel> tables;
 
+        public HomeController()
+        { }
+
         public HomeController(IRepository repository, IReservationManager reservationManager)
         {
             this.repository = repository;
