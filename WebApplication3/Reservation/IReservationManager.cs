@@ -10,6 +10,8 @@ namespace ReservationSystem.Reservation
 {
     public interface IReservationManager
     {
-        DayReservation GetReservationsForDate(IUnitOfWork unitOfWork, DateTime date, List<TableModel> tables);
+        DayReservation GetReservationsForDate(IUnitOfWork unitOfWork, DateTime date, List<TableModel> tables, string userId);
+
+        List<PickedModel> GetPickedForDateAndUser(IUnitOfWork unitOfWork, DateTime date, string userId);
     }
 }

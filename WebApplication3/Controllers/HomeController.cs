@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
 
 namespace ReservationSystem.Controllers
 {
@@ -26,14 +27,16 @@ namespace ReservationSystem.Controllers
             this.reservationManager = reservationManager;
         }
 
-        public ActionResult Index()
+        public ActionResult Index(string message)
         {
             if(!Request.IsAuthenticated)
                 return View();
 
             try
             {
-                ViewBag.Date = DateTime.Now.ToString("dd.MM.yyyy");
+                ViewBag.ReservationMessage = message ?? string.Empty;
+
+                ViewBag.Date = DateTime.Now;
                 using (IUnitOfWork uow = new UnitOfWork(new DbContextWrap()))
                 {
                     if(tables == null)
@@ -42,7 +45,7 @@ namespace ReservationSystem.Controllers
                     if(times == null)
                         times = repository.GetAll<TimeModel>(uow).ToList();
                     ViewBag.Times = times;
-                    ViewBag.ReservationTable = reservationManager.GetReservationsForDate(uow, DateTime.Now, tables);
+                    ViewBag.ReservationDay = reservationManager.GetReservationsForDate(uow, DateTime.Now, tables, User.Identity.GetUserId());
                 }
                 ViewBag.Message = "OK";
             }
@@ -53,5 +56,6 @@ namespace ReservationSystem.Controllers
 
             return View();
         }
+         
     }
 }
