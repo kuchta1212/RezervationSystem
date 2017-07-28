@@ -29,7 +29,7 @@ else
     <div class="jumbotron">
 
         @{ var selDate = ViewBag.Date; }
-        <p align="left">Datum: <input class='date-picker' value="@ViewBag.Date" inputmode="readonly"/> </p>
+        <p align="left">Datum: <input id="mydatepicker"/> </p>
         
         <p align="right">
             @Html.ActionLink("Ulozit", "Save", "ReservationController", routeValues: null, htmlAttributes: new { id = "registerLink", @class = "btn btn-primary btn-lg" })
@@ -64,3 +64,18 @@ else
             </table>
         </div>
         }
+
+@section scripts
+{
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js" ;></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#mydatepicker").datepicker();
+        });
+    </script>
+}
+
+
+
