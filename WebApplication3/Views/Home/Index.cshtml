@@ -1,7 +1,4 @@
-﻿@using ReservationSystem.Models
-@using ReservationSystem.Reservation
-
-@{
+﻿@{
     ViewBag.Title = "Home Page";
 }
 
@@ -23,14 +20,14 @@ else
     if (!ViewBag.Message.Equals("OK"))
     {
         <p class="lead">SOMETHING WENT TERRIBLY WRONG.='( PROBABLY YOUR FAULT ;-) </p>
+        
         <p> @ViewBag.Message </p>
     }
-
 
     <div class="jumbotron">
 
         @{ var selDate = ViewBag.Date; }
-        <p align="center">Datum: <input class='date-picker' value="@ViewBag.Date.ToString("dddd dd MMMM")" inputmode="readonly"/> </p>
+        <p align="center">Datum: <input class="ui-datepicker-multi-4" value="@ViewBag.Date.ToString("dddd dd MMMM")" inputmode="readonly" /> </p>
         @if (ViewBag.ReservationMessage != string.Empty)
         {
             <p align="center">
@@ -39,52 +36,9 @@ else
         }
 
         <p align="center">
-            @Html.ActionLink("Ulozit", "Save", "Reservation", routeValues: new { sdate = selDate }, htmlAttributes: new { id = "registerLink", @class = "btn btn-primary btn-lg" })
+            @Html.ActionLink("Ulozit", "Save", "Reservation", routeValues: new {sdate = selDate}, htmlAttributes: new {id = "registerLink", @class = "btn btn-primary btn-lg"})
         </p>
     </div>
-        <div class="datagrid">
-            <table table width='100%'>
-                <thead>
-                    <tr>
-                        <th>Čas</th>
-                        @foreach (var table in ViewBag.Tables as List<TableModel>)
-                        {
-                            <th>Stůl @table.Number</th>
-                        }
-                    </tr>
-                </thead>
-                <tbody>
-                        @foreach (var time in ViewBag.Times as List<TimeModel>)
-                        {
-                            <tr>
-                                <td>@time.StartTime.Hours : @time.StartTime.Minutes </td>
-                                @foreach (var table in ViewBag.Tables as List<TableModel>)
-                                {
-                                    int res = ViewBag.ReservationDay.IsReserved(time, table);
-                                    switch (res)
-                                    {
-                                        case 1:
-                                            <td class="free">
-                                                @Html.ActionLink("VOLNO", "PickedTime", "Reservation", new {table = table.Id, time = time.Id, sdate = selDate}, new {@class = "navbar-brand"})
-                                            </td>
-                                            break;
-                                        case 2:
-                                            <td class="picked">
-                                                @Html.ActionLink("VYBRÁNO", "PickedTime", "Reservation", new {table = table.Id, time = time.Id, sdate = selDate}, new {@class = "navbar-brand"})
-                                            </td>
-                                            break;
-                                        case 3:
-                                            <td class="reserved">
-                                                REZERVOVÁNO
-                                            </td>
-                                            break;
-                                    }
 
-
-                                }
-                            </tr>
-                        }
-                </tbody>
-            </table>
-        </div>
+         @Html.Partial("_ReservationTable")
         }

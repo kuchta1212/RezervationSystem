@@ -1,0 +1,47 @@
+﻿@using ReservationSystem.Models
+@{ var selDate = ViewBag.Date; }
+<div class="datagrid">
+    <table table width='100%'>
+        <thead>
+            <tr>
+                <th>Čas</th>
+                @foreach (var table in ViewBag.Tables as List<TableModel>)
+                {
+                    <th>Stůl @table.Number</th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var time in ViewBag.Times as List<TimeModel>)
+            {
+                <tr>
+                    <td>@time.StartTime.Hours : @time.StartTime.Minutes </td>
+                    @foreach (var table in ViewBag.Tables as List<TableModel>)
+                    {
+                        int res = ViewBag.ReservationDay.IsReserved(time, table);
+                        switch (res)
+                        {
+                            case 1:
+                                <td class="free">
+                                    @Html.ActionLink("VOLNO", "PickedTime", "Reservation", new { table = table.Id, time = time.Id, sdate = selDate }, new { @class = "navbar-brand" })
+                                </td>
+                                break;
+                            case 2:
+                                <td class="picked">
+                                    @Html.ActionLink("VYBRÁNO", "PickedTime", "Reservation", new { table = table.Id, time = time.Id, sdate = selDate }, new { @class = "navbar-brand" })
+                                </td>
+                                break;
+                            case 3:
+                                <td class="reserved">
+                                    REZERVOVÁNO
+                                </td>
+                                break;
+                        }
+
+
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

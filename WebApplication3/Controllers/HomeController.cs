@@ -27,7 +27,7 @@ namespace ReservationSystem.Controllers
             this.reservationManager = reservationManager;
         }
 
-        public ActionResult Index(string message)
+        public ActionResult Index(string message, string date)
         {
             if(!Request.IsAuthenticated)
                 return View();
@@ -36,7 +36,8 @@ namespace ReservationSystem.Controllers
             {
                 ViewBag.ReservationMessage = message ?? string.Empty;
 
-                ViewBag.Date = DateTime.Now;
+                ViewBag.Date = date == null ? DateTime.Now : DateTime.Parse(date);
+
                 using (IUnitOfWork uow = new UnitOfWork(new DbContextWrap()))
                 {
                     if(tables == null)
@@ -56,6 +57,5 @@ namespace ReservationSystem.Controllers
 
             return View();
         }
-         
     }
 }

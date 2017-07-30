@@ -290,10 +290,6 @@
     <Content Include="Scripts\jquery-3.1.1.min.js" />
     <Content Include="Scripts\jquery-3.1.1.slim.js" />
     <Content Include="Scripts\jquery-3.1.1.slim.min.js" />
-    <Content Include="Scripts\jquery.ui.core.js" />
-    <Content Include="Scripts\jquery.ui.core.min.js" />
-    <Content Include="Scripts\jquery.ui.datepicker.js" />
-    <Content Include="Scripts\jquery.ui.datepicker.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -334,6 +330,7 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Home\ReservationDone.cshtml" />
+    <Content Include="Views\Shared\_ReservationTable.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Reservation\" />
