@@ -1,4 +1,4 @@
-﻿@{
+﻿{
     ViewBag.Title = "Home Page";
 }
 
@@ -27,7 +27,7 @@ else
     <div class="jumbotron">
 
         @{ var selDate = ViewBag.Date; }
-        <p align="center">Datum: <input class="ui-datepicker-multi-4" value="@ViewBag.Date.ToString("dddd dd MMMM")" inputmode="readonly" /> </p>
+        <p align="center">Datum: <input id="mydatepicker"/> </p>
         @if (ViewBag.ReservationMessage != string.Empty)
         {
             <p align="center">
@@ -39,6 +39,21 @@ else
             @Html.ActionLink("Ulozit", "Save", "Reservation", routeValues: new {sdate = selDate}, htmlAttributes: new {id = "registerLink", @class = "btn btn-primary btn-lg"})
         </p>
     </div>
-
+       
          @Html.Partial("_ReservationTable")
         }
+
+@section scripts
+{
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js" ;></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#mydatepicker").datepicker();
+        });
+    </script>
+}
+
+
+
