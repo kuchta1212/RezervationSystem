@@ -10,6 +10,7 @@ using Microsoft.AspNet.Identity.Owin;
 using ReservationSystem.Models;
 using ReservationSystem.Repository;
 using ReservationSystem.Reservation;
+using ReservationSystem.Utils;
 
 namespace ReservationSystem.Controllers
 {
@@ -32,26 +33,34 @@ namespace ReservationSystem.Controllers
 
         public ActionResult Save(string sdate)
         {
-            DateTime date = DateTime.Parse(sdate);
-            using (IUnitOfWork uow = new UnitOfWork(new DbContextWrap()))
+            try
             {
-                var picked = reservationManager.GetPickedForDateAndUser(uow, date, User.Identity.GetUserId());
-                foreach (var pick in picked)
+                DateTime date = DateTime.Parse(sdate);
+                using (IUnitOfWork uow = new UnitOfWork(new DbContextWrap()))
                 {
-                    var model = new ReservationModel()
+                    var picked = reservationManager.GetPickedForDateAndUser(uow, date, User.Identity.GetUserId());
+                    foreach (var pick in picked)
                     {
-                        Date = pick.PickedDate,
-                        TableId = pick.TableId,
-                        TimeId = pick.TimeId,
-                        UserId = pick.UserId
-                    };
-                    repository.Delete<PickedModel>(uow, pick);
-                    repository.Add<ReservationModel>(uow,model);
+                        var model = new ReservationModel()
+                        {
+                            Date = pick.PickedDate,
+                            TableId = pick.TableId,
+                            TimeId = pick.TimeId,
+                            UserId = pick.UserId
+                        };
+                        repository.Delete<PickedModel>(uow, pick);
+                        repository.Add<ReservationModel>(uow, model);
+                    }
+                    uow.SaveChanges();
                 }
-                uow.SaveChanges();
+                return RedirectToAction("Index", "Home", new { code = ReturnCode.RESERVATION_SUCCESS });
+            }
+            catch(Exception ex)
+            {
+                return RedirectToAction("Index", "Home", new { code = ReturnCode.ERROR });
             }
 
-            return RedirectToAction("Index", "Home",new {message = "Rezervace uložena"});
+            
         }
 
         public ActionResult PickedTime(int table, int time, string sdate)
@@ -86,7 +95,7 @@ namespace ReservationSystem.Controllers
                 uow.SaveChanges();
             }
            // return PartialView("_ReservationTable");
-            return RedirectToAction("Index", "Home", new {message="PageReaload", date=sdate});
+            return RedirectToAction("Index", "Home", new {code=ReturnCode.RELOAD_PAGE, date=sdate});
         }
 
         

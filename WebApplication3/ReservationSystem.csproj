@@ -258,6 +258,7 @@
     <Compile Include="Utils\ControllersInstaller.cs" />
     <Compile Include="Utils\IoC.cs" />
     <Compile Include="Utils\Logger.cs" />
+    <Compile Include="Utils\ReturnCode.cs" />
     <Compile Include="Utils\WindsorControllerFactory.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -371,6 +372,7 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Home\ReservationDone.cshtml" />
+    <Content Include="Views\Shared\_ReservationTable.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Reservation\" />

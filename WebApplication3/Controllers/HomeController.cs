@@ -7,6 +7,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
+using ReservationSystem.Utils;
 
 namespace ReservationSystem.Controllers
 {
@@ -27,14 +28,13 @@ namespace ReservationSystem.Controllers
             this.reservationManager = reservationManager;
         }
 
-        public ActionResult Index(string message, string date)
+        public ActionResult Index(int? code, string date)
         {
             if(!Request.IsAuthenticated)
                 return View();
 
             try
             {
-                ViewBag.ReservationMessage = message ?? string.Empty;
 
                 ViewBag.Date = date == null ? DateTime.Now : DateTime.Parse(date);
 
@@ -48,11 +48,15 @@ namespace ReservationSystem.Controllers
                     ViewBag.Times = times;
                     ViewBag.ReservationDay = reservationManager.GetReservationsForDate(uow, DateTime.Now, tables, User.Identity.GetUserId());
                 }
-                ViewBag.Message = "OK";
+                if (code != null)
+                    ViewBag.ReturnCode = (ReturnCode)code;
+                else
+                    ViewBag.ReturnCode = ReturnCode.RELOAD_PAGE;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                ViewBag.Message = ex.Message;
+                ViewBag.ReturnCode = ReturnCode.ERROR;
+                ViewBag.ErrorMessage = ex.Message;
             }
 
             return View();

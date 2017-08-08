@@ -1,7 +1,7 @@
 ﻿@using ReservationSystem.Models
 @{ var selDate = ViewBag.Date; }
 <div class="datagrid">
-    <table table width='100%'>
+    <table class="table table-striped table-hover " table width='100%'>
         <thead>
             <tr>
                 <th>Čas</th>
@@ -22,18 +22,18 @@
                         switch (res)
                         {
                             case 1:
-                                <td class="free">
-                                    @Html.ActionLink("VOLNO", "PickedTime", "Reservation", new { table = table.Id, time = time.Id, sdate = selDate }, new { @class = "navbar-brand" })
+                                <td>
+                                    @Html.ActionLink("VOLNO", "PickedTime", "Reservation", new { table = table.Id, time = time.Id, sdate = selDate }, new { @class = "btn btn-warning" })
                                 </td>
                                 break;
                             case 2:
-                                <td class="picked">
-                                    @Html.ActionLink("VYBRÁNO", "PickedTime", "Reservation", new { table = table.Id, time = time.Id, sdate = selDate }, new { @class = "navbar-brand" })
+                                <td>
+                                    @Html.ActionLink("VYBRÁNO", "PickedTime", "Reservation", new { table = table.Id, time = time.Id, sdate = selDate }, new { @class = "btn btn-success" })
                                 </td>
                                 break;
                             case 3:
-                                <td class="reserved">
-                                    REZERVOVÁNO
+                                <td>
+                                    @Html.ActionLink("REZERVOVÁNO", "", "", new { table = table.Id, time = time.Id, sdate = selDate }, new { @class = "btn btn-danger" })
                                 </td>
                                 break;
                         }

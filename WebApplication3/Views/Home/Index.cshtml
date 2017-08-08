@@ -1,6 +1,5 @@
-﻿{
-    ViewBag.Title = "Home Page";
-}
+﻿@using ReservationSystem.Utils;
+
 
 @if (!Request.IsAuthenticated)
 {
@@ -17,22 +16,24 @@
 }
 else
 {
-    if (!ViewBag.Message.Equals("OK"))
+    if (ViewBag.ReturnCode == ReturnCode.ERROR)
     {
-        <p class="lead">SOMETHING WENT TERRIBLY WRONG.='( PROBABLY YOUR FAULT ;-) </p>
-        
-        <p> @ViewBag.Message </p>
+        <div class="alert alert-dismissible alert-danger">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <strong>SOMETHING WENT TERRIBLY WRONG.='(</strong> <a href="#" class="alert-link">PROBABLY YOUR FAULT ;-)</a> @ViewBag.ErrorMessage
+        </div>
     }
 
     <div class="jumbotron">
 
         @{ var selDate = ViewBag.Date; }
         <p align="center">Datum: <input id="mydatepicker"/> </p>
-        @if (ViewBag.ReservationMessage != string.Empty)
+        @if (ViewBag.ReturnCode == ReturnCode.RESERVATION_SUCCESS)
         {
-            <p align="center">
-                @ViewBag.ReservationMessage
-            </p>
+            <div class="alert alert-dismissible alert-success">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <strong>Rezervováno</strong> You successfully read <a href="#" class="alert-link">this important alert message</a>.
+            </div>
         }
 
         <p align="center">
