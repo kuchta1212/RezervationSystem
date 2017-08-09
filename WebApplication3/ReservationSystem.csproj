@@ -375,7 +375,7 @@
     <Content Include="Views\Shared\_ReservationTable.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Views\Reservation\" />
+    <Folder Include="Views\Shared\Reservation\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
