@@ -32,7 +32,7 @@ else
 //            SelectedDays = ViewBag.Date;
         }
 
-        <p align="center">Datum:  <input id="mydatepicker" /> </p>
+        <p align="center">Datum:  <input id="mydatepicker" /> <button id="reloadDate" class="btn btn-default">Reload</button> </p>
 
         @if (ViewBag.ReturnCode == ReturnCode.RESERVATION_SUCCESS)
         {
@@ -43,7 +43,7 @@ else
         }
 
         <p align="center">
-            @Html.ActionLink("Ulozit", "Save", "Reservation", routeValues: new {sdate = }, htmlAttributes: new {id = "registerLink", @class = "btn btn-primary btn-lg"})
+            @Html.ActionLink("Ulozit", "Save", "Reservation", routeValues: new {sdate = @SelectedDays}, htmlAttributes: new {id = "registerLink", @class = "btn btn-primary btn-lg"})
         </p>
     </div>
        
@@ -65,25 +65,43 @@ else
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
     <script type="text/javascript">
-        $(function() {
+        $(function () {
             $("#mydatepicker").datepicker(
                 {
                     beforeShowDay: $.datepicker.noWeekends,
                     dateFormat: "DD d.MM",
-                    dayNames: [ "Neděle", "Pondělí", "Úterý", "Středa", "Čtvrtek", "Pátek", "Sobota"],
-                    monthNames: [ "Leden", "Únor", "Březen", "Duben", "Květen", "Červen", "Červenec", "Srpen", "Září", "Říjen", "Listopad", "Prosinec" ],
+                    dayNames: ["Neděle", "Pondělí", "Úterý", "Středa", "Čtvrtek", "Pátek", "Sobota"],
+                    monthNames: ["Leden", "Únor", "Březen", "Duben", "Květen", "Červen", "Červenec", "Srpen", "Září", "Říjen", "Listopad", "Prosinec"],
                     firstDay: 1,
                     minDate: 0
                 }
             );
+
             var selectedDate = Number(@SelectedDays);
-            $("#mydatepicker").datepicker("setDate", selectedDate);
-            $("#hdn").val($("#mydatepicker").datepicker("getDate"));
+            $("#mydatepicker").datepicker("setDate", selectedDate).datepicker('fill');
+        });
 
-            var text = "@Html.ActionLink( "Datum", "Index", "Home", new { id = "JSVar" })";
-            text = text.replace("JSVar", $("#hdn").val());
+        $(function () {
 
-//            https://stackoverflow.com/questions/11287484/using-javascript-variable-in-mvc3-razor-view-engine
+            $("#reloadDate").click(function () {
+                //var date = $("#mydatepicker").datepicker("getDate");
+                alert(date)
+                var sdate = date.toISOString();
+                alert(JSON.stringify({ foo: sdate }));
+                //$.ajax({
+                //    url: "@Url.Action("DateChange", "Home")",
+                //    type: "POST",
+                //    data: JSON.stringify({ foo: sdate }),
+                //    contentType: "application/json",
+                //    dataType: "json",
+                //    success: function (data) {
+                //        console.log(data)
+                //    }
+                //})
+                //    .done(function () {
+                //        $("#hdn").val();
+                //    });
+            });
         });
     </script>
 }

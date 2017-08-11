@@ -36,7 +36,7 @@ namespace ReservationSystem.Controllers
             try
             {
 
-                ViewBag.Date = dateDiff ?? 1;
+                ViewBag.Date = dateDiff ?? 7;
 
                 using (IUnitOfWork uow = new UnitOfWork(new DbContextWrap()))
                 {
@@ -60,6 +60,16 @@ namespace ReservationSystem.Controllers
             }
 
             return View();
+        }
+
+        [HttpPost]
+        public ActionResult DateChange(string date)
+        {
+            if (date == null)
+                return RedirectToAction("Index", "Home", new { code = (int)ReturnCode.RELOAD_PAGE, dateDiff = 1 });
+ 
+            //var dif = DateUtil.DateDiff((DateTime)date);
+            return RedirectToAction("Index", "Home", new { code = (int)ReturnCode.RELOAD_PAGE, dateDiff = 6 });
         }
     }
 }
