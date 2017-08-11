@@ -28,7 +28,7 @@ namespace ReservationSystem.Controllers
             this.reservationManager = reservationManager;
         }
 
-        public ActionResult Index(int? code, string date)
+        public ActionResult Index(int? code, int? dateDiff)
         {
             if(!Request.IsAuthenticated)
                 return View();
@@ -36,7 +36,7 @@ namespace ReservationSystem.Controllers
             try
             {
 
-                ViewBag.Date = date == null ? DateTime.Now : DateTime.Parse(date);
+                ViewBag.Date = dateDiff ?? 1;
 
                 using (IUnitOfWork uow = new UnitOfWork(new DbContextWrap()))
                 {
