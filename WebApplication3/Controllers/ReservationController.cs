@@ -70,6 +70,9 @@ namespace ReservationSystem.Controllers
 
             using (IUnitOfWork uow = new UnitOfWork(new DbContextWrap()))
             {
+                //is free
+                var isFree =repository.Get<PickedModel, int>(uow, (pick => pick.TableId == table && pick.TimeId == time && pick.UserId != userId), (item => item.Id));
+
                 var userPickeds = repository.Get<PickedModel, int>(uow,
                     (pick => pick.TableId == table && pick.TimeId == time && pick.UserId == userId),
                     (item => item.Id));
