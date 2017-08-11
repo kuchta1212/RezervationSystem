@@ -94,8 +94,8 @@ namespace ReservationSystem.Controllers
                 }
                 uow.SaveChanges();
             }
-           // return PartialView("_ReservationTable");
-            return RedirectToAction("Index", "Home", new {code=ReturnCode.RELOAD_PAGE, date=sdate});
+
+            return RedirectToAction("Index", "Home", new {code=ReturnCode.RELOAD_PAGE, dateDiff=DateUtil.DateDiff(date)});
         }
 
         

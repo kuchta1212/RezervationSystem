@@ -14,8 +14,13 @@
         <tbody>
             @foreach (var time in ViewBag.Times as List<TimeModel>)
             {
+                
                 <tr>
-                    <td>@time.StartTime.Hours : @time.StartTime.Minutes </td>
+                    <td>  @{
+                              var t = time.StartTime.Hours.ToString() + ":" + time.StartTime.Minutes.ToString();
+                          }
+                            @t
+                    </td>
                     @foreach (var table in ViewBag.Tables as List<TableModel>)
                     {
                         int res = ViewBag.ReservationDay.IsReserved(time, table);
@@ -23,7 +28,7 @@
                         {
                             case 1:
                                 <td>
-                                    @Html.ActionLink("VOLNO", "PickedTime", "Reservation", new { table = table.Id, time = time.Id, sdate = selDate }, new { @class = "btn btn-warning" })
+                                    @Html.ActionLink("VOLNO", "PickedTime", "Reservation", new { table = table.Id, time = time.Id, sdate = @selDate }, new { @class = "btn btn-warning" })
                                 </td>
                                 break;
                             case 2:
@@ -33,7 +38,7 @@
                                 break;
                             case 3:
                                 <td>
-                                    @Html.ActionLink("REZERVOVÁNO", "", "", new { table = table.Id, time = time.Id, sdate = selDate }, new { @class = "btn btn-danger" })
+                                    @Html.ActionLink("REZERVOVÁNO", "", "", new { }, new { @class = "btn btn-danger" })
                                 </td>
                                 break;
                         }

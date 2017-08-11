@@ -1,6 +1,8 @@
 ﻿@using ReservationSystem.Utils;
 
 
+
+
 @if (!Request.IsAuthenticated)
 {
     <div class="jumbotron">
@@ -23,11 +25,15 @@ else
             <strong>SOMETHING WENT TERRIBLY WRONG.='(</strong> <a href="#" class="alert-link">PROBABLY YOUR FAULT ;-)</a> @ViewBag.ErrorMessage
         </div>
     }
-
+    <input type="hidden" id="hdn" name="hdn" value=@SelectedDays>
     <div class="jumbotron">
 
-        @{ var selDate = ViewBag.Date; }
-        <p align="center">Datum: <input id="mydatepicker"/> </p>
+        @{
+//            SelectedDays = ViewBag.Date;
+        }
+
+        <p align="center">Datum:  <input id="mydatepicker" /> </p>
+
         @if (ViewBag.ReturnCode == ReturnCode.RESERVATION_SUCCESS)
         {
             <div class="alert alert-dismissible alert-success">
@@ -37,17 +43,26 @@ else
         }
 
         <p align="center">
-            @Html.ActionLink("Ulozit", "Save", "Reservation", routeValues: new {sdate = selDate}, htmlAttributes: new {id = "registerLink", @class = "btn btn-primary btn-lg"})
+            @Html.ActionLink("Ulozit", "Save", "Reservation", routeValues: new {sdate = }, htmlAttributes: new {id = "registerLink", @class = "btn btn-primary btn-lg"})
         </p>
     </div>
        
          @Html.Partial("_ReservationTable")
         }
 
+
+
+@functions {
+    public object SelectedDays {
+        get { return ViewBag.Date; } 
+        set { ViewBag.Date = value; }
+    }
+}
+
 @section scripts
 {
     <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js" ;></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
     <script type="text/javascript">
         $(function() {
@@ -55,13 +70,20 @@ else
                 {
                     beforeShowDay: $.datepicker.noWeekends,
                     dateFormat: "DD d.MM",
-                    dayNames: ["Pondělí", "Úterý", "Středa", "Čtvrtek", "Pátek"],
+                    dayNames: [ "Neděle", "Pondělí", "Úterý", "Středa", "Čtvrtek", "Pátek", "Sobota"],
                     monthNames: [ "Leden", "Únor", "Březen", "Duben", "Květen", "Červen", "Červenec", "Srpen", "Září", "Říjen", "Listopad", "Prosinec" ],
                     firstDay: 1,
                     minDate: 0
                 }
             );
-            $("#mydatepicker").datepicker("setDate", "08/26/2017");
+            var selectedDate = Number(@SelectedDays);
+            $("#mydatepicker").datepicker("setDate", selectedDate);
+            $("#hdn").val($("#mydatepicker").datepicker("getDate"));
+
+            var text = "@Html.ActionLink( "Datum", "Index", "Home", new { id = "JSVar" })";
+            text = text.replace("JSVar", $("#hdn").val());
+
+//            https://stackoverflow.com/questions/11287484/using-javascript-variable-in-mvc3-razor-view-engine
         });
     </script>
 }
