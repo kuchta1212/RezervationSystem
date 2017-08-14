@@ -63,7 +63,7 @@ namespace ReservationSystem.Controllers
         }
 
         [HttpPost]
-        public ActionResult DateChange(string date)
+        public ActionResult DateChange(string date, string other)
         {
             if (date == null)
                 return RedirectToAction("Index", "Home", new { code = (int)ReturnCode.RELOAD_PAGE, dateDiff = 1 });

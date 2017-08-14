@@ -1,8 +1,5 @@
 ﻿@using ReservationSystem.Utils;
 
-
-
-
 @if (!Request.IsAuthenticated)
 {
     <div class="jumbotron">
@@ -32,7 +29,8 @@ else
 //            SelectedDays = ViewBag.Date;
         }
 
-        <p align="center">Datum:  <input id="mydatepicker" /> <button id="reloadDate" class="btn btn-default">Reload</button> </p>
+        <p align="center">Datum: <input id="mydatepicker"/> <button id="reloadDate" class="btn btn-default">Reload</button>
+        </p>
 
         @if (ViewBag.ReturnCode == ReturnCode.RESERVATION_SUCCESS)
         {
@@ -65,7 +63,7 @@ else
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
     <script type="text/javascript">
-        $(function () {
+        $(function() {
             $("#mydatepicker").datepicker(
                 {
                     beforeShowDay: $.datepicker.noWeekends,
@@ -78,30 +76,29 @@ else
             );
 
             var selectedDate = Number(@SelectedDays);
-            $("#mydatepicker").datepicker("setDate", selectedDate).datepicker('fill');
-        });
+            $("#mydatepicker").datepicker("setDate", selectedDate); //.datepicker("fill");
 
-        $(function () {
-
-            $("#reloadDate").click(function () {
-                //var date = $("#mydatepicker").datepicker("getDate");
-                alert(date)
+            $("#reloadDate").click(function() {
+                var date = $("#mydatepicker").datepicker("getDate");
                 var sdate = date.toISOString();
-                alert(JSON.stringify({ foo: sdate }));
-                //$.ajax({
-                //    url: "@Url.Action("DateChange", "Home")",
-                //    type: "POST",
-                //    data: JSON.stringify({ foo: sdate }),
-                //    contentType: "application/json",
-                //    dataType: "json",
-                //    success: function (data) {
-                //        console.log(data)
-                //    }
-                //})
-                //    .done(function () {
-                //        $("#hdn").val();
-                //    });
+                var jsonDate = JSON.stringify({ date: sdate, other: "hovno" });
+                $.ajax({
+                    url: "@Url.Action("DateChange", "Home")",
+                    type: "POST",
+                    data: jsonDate,
+                    contentType: "application/json",
+                    dataType: "json",
+                    success: function(data) {
+                        console.log(data);
+                    }
+                });
             });
+
+            /*
+             $('#FromDateCollected').datepicker({
+      onSelect: function(dateText, inst) {
+           alert(dateText);
+            */
         });
     </script>
 }
