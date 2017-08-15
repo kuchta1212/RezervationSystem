@@ -68,8 +68,9 @@ namespace ReservationSystem.Controllers
             if (date == null)
                 return RedirectToAction("Index", "Home", new { code = (int)ReturnCode.RELOAD_PAGE, dateDiff = 1 });
  
-            //var dif = DateUtil.DateDiff((DateTime)date);
-            return RedirectToAction("Index", "Home", new { code = (int)ReturnCode.RELOAD_PAGE, dateDiff = 6 });
+
+            var dif = DateUtil.DateDiff(DateTime.ParseExact(date, "MM/dd/yyyy", System.Globalization.CultureInfo.InvariantCulture));
+            return RedirectToAction("Index", "Home", new { code = (int)ReturnCode.RELOAD_PAGE, dateDiff = dif});
         }
     }
 }

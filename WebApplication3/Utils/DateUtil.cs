@@ -16,5 +16,10 @@ namespace ReservationSystem.Utils
             else
                 return (int) res;
         }
+
+        public static DateTime DateDiff(int diff)
+        {
+            return DateTime.Now.AddDays(diff);
+        }
     }
 }

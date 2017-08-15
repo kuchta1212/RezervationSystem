@@ -22,15 +22,10 @@ else
             <strong>SOMETHING WENT TERRIBLY WRONG.='(</strong> <a href="#" class="alert-link">PROBABLY YOUR FAULT ;-)</a> @ViewBag.ErrorMessage
         </div>
     }
-    <input type="hidden" id="hdn" name="hdn" value=@SelectedDays>
+    <input type="hidden" id="hdn" name="hdn" value=@ViewBag.Date>
     <div class="jumbotron">
 
-        @{
-//            SelectedDays = ViewBag.Date;
-        }
-
-        <p align="center">Datum: <input id="mydatepicker"/> <button id="reloadDate" class="btn btn-default">Reload</button>
-        </p>
+        <p align="center">Datum: <input id="mydatepicker"/> </p>
 
         @if (ViewBag.ReturnCode == ReturnCode.RESERVATION_SUCCESS)
         {
@@ -41,7 +36,7 @@ else
         }
 
         <p align="center">
-            @Html.ActionLink("Ulozit", "Save", "Reservation", routeValues: new {sdate = @SelectedDays}, htmlAttributes: new {id = "registerLink", @class = "btn btn-primary btn-lg"})
+            @Html.ActionLink("Ulozit", "Save", "Reservation", routeValues: new {sdate = @ViewBag.Date}, htmlAttributes: new {id = "registerLink", @class = "btn btn-primary btn-lg"})
         </p>
     </div>
        
@@ -67,38 +62,30 @@ else
             $("#mydatepicker").datepicker(
                 {
                     beforeShowDay: $.datepicker.noWeekends,
-                    dateFormat: "DD d.MM",
+                    altFormat: "DD d.MM",
+                    altField: "#mydatepicker",
                     dayNames: ["Neděle", "Pondělí", "Úterý", "Středa", "Čtvrtek", "Pátek", "Sobota"],
                     monthNames: ["Leden", "Únor", "Březen", "Duben", "Květen", "Červen", "Červenec", "Srpen", "Září", "Říjen", "Listopad", "Prosinec"],
                     firstDay: 1,
-                    minDate: 0
+                    minDate: 0,
+                    onSelect: function (datetext, inst) {
+                        var jsonDate = JSON.stringify({ date: datetext, other: "hovno" });
+                        $.ajax({
+                            url: "@Url.Action("DateChange", "Home")",
+                            type: "POST",
+                            data: jsonDate,
+                            contentType: "application/json",
+                            dataType: "json",
+                            success: function(data) {
+                                console.log(data);
+                            }
+                        });
+                    }
                 }
             );
 
             var selectedDate = Number(@SelectedDays);
-            $("#mydatepicker").datepicker("setDate", selectedDate); //.datepicker("fill");
-
-            $("#reloadDate").click(function() {
-                var date = $("#mydatepicker").datepicker("getDate");
-                var sdate = date.toISOString();
-                var jsonDate = JSON.stringify({ date: sdate, other: "hovno" });
-                $.ajax({
-                    url: "@Url.Action("DateChange", "Home")",
-                    type: "POST",
-                    data: jsonDate,
-                    contentType: "application/json",
-                    dataType: "json",
-                    success: function(data) {
-                        console.log(data);
-                    }
-                });
-            });
-
-            /*
-             $('#FromDateCollected').datepicker({
-      onSelect: function(dateText, inst) {
-           alert(dateText);
-            */
+            $("#mydatepicker").datepicker("setDate", @ViewBag.Date); 
         });
     </script>
 }
