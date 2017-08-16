@@ -1,18 +1,19 @@
 ﻿@using ReservationSystem.Models
-@{ var selDate = ViewBag.Date; }
+@model ReservationSystem.Reservation.ReservationView
+
 <div class="datagrid">
     <table class="table table-striped table-hover " table width="100">
         <thead>
             <tr>
                 <th>Čas</th>
-                @foreach (var table in ViewBag.Tables as List<TableModel>)
+                @foreach (var table in Model.Tables as List<TableModel>)
                 {
                     <th>Stůl @table.Number</th>
                 }
             </tr>
         </thead>
         <tbody>
-            @foreach (var time in ViewBag.Times as List<TimeModel>)
+            @foreach (var time in Model.Times as List<TimeModel>)
             {
                 
                 <tr>
@@ -21,19 +22,19 @@
                           }
                             @t
                     </td>
-                    @foreach (var table in ViewBag.Tables as List<TableModel>)
+                    @foreach (var table in Model.Tables as List<TableModel>)
                     {
-                        int res = ViewBag.ReservationDay.IsReserved(time, table);
+                        int res = Model.Day.IsReserved(time, table);
                         switch (res)
                         {
                             case 1:
                                 <td>
-                                    @Html.ActionLink("VOLNO", "PickedTime", "Reservation", new { table = table.Id, time = time.Id, sdate = ViewBag.Date }, new { @class = "btn btn-warning" })
+                                    @Html.ActionLink("VOLNO", "PickedTime", "Reservation", new { table = table.Id, time = time.Id, sdate = Model.DateDiff }, new { @class = "btn btn-warning" })
                                 </td>
                                 break;
                             case 2:
                                 <td>
-                                    @Html.ActionLink("VYBRÁNO", "PickedTime", "Reservation", new { table = table.Id, time = time.Id, sdate = ViewBag.Date }, new { @class = "btn btn-success" })
+                                    @Html.ActionLink("VYBRÁNO", "PickedTime", "Reservation", new { table = table.Id, time = time.Id, sdate = Model.DateDiff }, new { @class = "btn btn-success" })
                                 </td>
                                 break;
                             case 3:

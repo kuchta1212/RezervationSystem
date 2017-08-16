@@ -33,33 +33,49 @@ namespace ReservationSystem.Controllers
             if(!Request.IsAuthenticated)
                 return View();
 
+            var model = new ReservationView();
+
             try
             {
 
-                ViewBag.Date = dateDiff ?? 7;
+                model.DateDiff = dateDiff ?? 1;
 
                 using (IUnitOfWork uow = new UnitOfWork(new DbContextWrap()))
                 {
                     if(tables == null)
                         tables = repository.GetAll<TableModel>(uow).ToList();
-                    ViewBag.Tables = tables;
+                    model.Tables = tables;
                     if(times == null)
                         times = repository.GetAll<TimeModel>(uow).ToList();
-                    ViewBag.Times = times;
-                    ViewBag.ReservationDay = reservationManager.GetReservationsForDate(uow, DateTime.Now, tables, User.Identity.GetUserId());
+                    model.Times = times;
+
+                    DateTime date;
+                    if (dateDiff == null)
+                        date = DateTime.Now;
+                    else
+                        date = DateUtil.DateDiff(dateDiff.Value);
+
+                    model.Day = reservationManager.GetReservationsForDate(uow, date, tables, User.Identity.GetUserId());
                 }
-                if (code != null)
-                    ViewBag.ReturnCode = (ReturnCode)code;
+                if (code == (int)ReturnCode.RELOAD_PAGE)
+                {
+                    model.ReturnCode = ReturnCode.RELOAD_PAGE;
+                    ModelState.Clear();
+                } 
+                else if(code != null)
+                    model.ReturnCode = (ReturnCode)code;
                 else
-                    ViewBag.ReturnCode = ReturnCode.RELOAD_PAGE;
+                    model.ReturnCode = ReturnCode.RELOAD_PAGE;
+
+
             }
             catch (Exception ex)
             {
-                ViewBag.ReturnCode = ReturnCode.ERROR;
-                ViewBag.ErrorMessage = ex.Message;
+                model.ReturnCode = ReturnCode.ERROR;
+                model.ErrorMessage = ex.Message;
             }
 
-            return View();
+            return View(model);
         }
 
         [HttpPost]
@@ -67,10 +83,11 @@ namespace ReservationSystem.Controllers
         {
             if (date == null)
                 return RedirectToAction("Index", "Home", new { code = (int)ReturnCode.RELOAD_PAGE, dateDiff = 1 });
- 
 
             var dif = DateUtil.DateDiff(DateTime.ParseExact(date, "MM/dd/yyyy", System.Globalization.CultureInfo.InvariantCulture));
             return RedirectToAction("Index", "Home", new { code = (int)ReturnCode.RELOAD_PAGE, dateDiff = dif});
+            
+
         }
     }
 }

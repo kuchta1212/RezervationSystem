@@ -1,4 +1,5 @@
-﻿@using ReservationSystem.Utils;
+﻿@using ReservationSystem.Utils
+@model ReservationSystem.Reservation.ReservationView
 
 @if (!Request.IsAuthenticated)
 {
@@ -15,19 +16,19 @@
 }
 else
 {
-    if (ViewBag.ReturnCode == ReturnCode.ERROR)
+    if (Model.ReturnCode == ReturnCode.ERROR)
     {
         <div class="alert alert-dismissible alert-danger">
             <button type="button" class="close" data-dismiss="alert">&times;</button>
-            <strong>SOMETHING WENT TERRIBLY WRONG.='(</strong> <a href="#" class="alert-link">PROBABLY YOUR FAULT ;-)</a> @ViewBag.ErrorMessage
+            <strong>SOMETHING WENT TERRIBLY WRONG.='(</strong> <a href="#" class="alert-link">PROBABLY YOUR FAULT ;-)</a> @Model.ErrorMessage
         </div>
     }
-    <input type="hidden" id="hdn" name="hdn" value=@ViewBag.Date>
+    <input type="hidden" id="hdn" name="hdn" value=@Model.DateDiff>
     <div class="jumbotron">
 
         <p align="center">Datum: <input id="mydatepicker"/> </p>
 
-        @if (ViewBag.ReturnCode == ReturnCode.RESERVATION_SUCCESS)
+        @if (Model.ReturnCode == ReturnCode.RESERVATION_SUCCESS)
         {
             <div class="alert alert-dismissible alert-success">
                 <button type="button" class="close" data-dismiss="alert">&times;</button>
@@ -36,21 +37,13 @@ else
         }
 
         <p align="center">
-            @Html.ActionLink("Ulozit", "Save", "Reservation", routeValues: new {sdate = @ViewBag.Date}, htmlAttributes: new {id = "registerLink", @class = "btn btn-primary btn-lg"})
+            @Html.ActionLink("Ulozit", "Save", "Reservation", routeValues: new {sdate = @Model.DateDiff}, htmlAttributes: new {id = "registerLink", @class = "btn btn-primary btn-lg"})
         </p>
     </div>
        
-         @Html.Partial("_ReservationTable")
+         @Html.Partial("_ReservationTable", Model)
         }
 
-
-
-@functions {
-    public object SelectedDays {
-        get { return ViewBag.Date; } 
-        set { ViewBag.Date = value; }
-    }
-}
 
 @section scripts
 {
@@ -76,16 +69,15 @@ else
                             data: jsonDate,
                             contentType: "application/json",
                             dataType: "json",
-                            success: function(data) {
-                                console.log(data);
+                            onSuccess: function (retUrl) {
+                                console.log(retUrl);
                             }
                         });
                     }
                 }
             );
 
-            var selectedDate = Number(@SelectedDays);
-            $("#mydatepicker").datepicker("setDate", @ViewBag.Date); 
+            $("#mydatepicker").datepicker("setDate", @Model.DateDiff); 
         });
     </script>
 }
