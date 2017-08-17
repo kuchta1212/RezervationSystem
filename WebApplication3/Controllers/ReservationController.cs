@@ -63,10 +63,11 @@ namespace ReservationSystem.Controllers
             
         }
 
-        public ActionResult PickedTime(int table, int time, string sdate)
+        public ActionResult PickedTime(int table, int time, DateTime? sdate)
         {
 
-            DateTime date = DateUtil.DateDiff(Int32.Parse(sdate));
+            //DateTime date = DateUtil.DateDiff(Int32.Parse(sdate));
+            DateTime date = DateTime.Now.Date;
             string userId = User.Identity.GetUserId();
 
             using (IUnitOfWork uow = new UnitOfWork(new DbContextWrap()))

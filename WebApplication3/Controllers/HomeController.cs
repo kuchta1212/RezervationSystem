@@ -28,7 +28,7 @@ namespace ReservationSystem.Controllers
             this.reservationManager = reservationManager;
         }
 
-        public ActionResult Index(int? code, int? dateDiff)
+        public ActionResult Index(int? code, DateTime? date)
         {
             if(!Request.IsAuthenticated)
                 return View();
@@ -38,7 +38,8 @@ namespace ReservationSystem.Controllers
             try
             {
 
-                model.DateDiff = dateDiff ?? 1;
+                //model.Date = dateDiff ?? 1;
+                model.Date = date ?? DateTime.Now.Date;
 
                 using (IUnitOfWork uow = new UnitOfWork(new DbContextWrap()))
                 {
@@ -49,13 +50,7 @@ namespace ReservationSystem.Controllers
                         times = repository.GetAll<TimeModel>(uow).ToList();
                     model.Times = times;
 
-                    DateTime date;
-                    if (dateDiff == null)
-                        date = DateTime.Now;
-                    else
-                        date = DateUtil.DateDiff(dateDiff.Value);
-
-                    model.Day = reservationManager.GetReservationsForDate(uow, date, tables, User.Identity.GetUserId());
+                    model.Day = reservationManager.GetReservationsForDate(uow, model.Date, tables, User.Identity.GetUserId());
                 }
                 if (code == (int)ReturnCode.RELOAD_PAGE)
                 {
@@ -79,13 +74,14 @@ namespace ReservationSystem.Controllers
         }
 
         [HttpPost]
-        public ActionResult DateChange(string date, string other)
+        public ActionResult DateChange(string date)
         {
             if (date == null)
                 return RedirectToAction("Index", "Home", new { code = (int)ReturnCode.RELOAD_PAGE, dateDiff = 1 });
 
-            var dif = DateUtil.DateDiff(DateTime.ParseExact(date, "MM/dd/yyyy", System.Globalization.CultureInfo.InvariantCulture));
-            return RedirectToAction("Index", "Home", new { code = (int)ReturnCode.RELOAD_PAGE, dateDiff = dif});
+            var parsedDate = DateTime.ParseExact(date, "dd/MM", System.Globalization.CultureInfo.InvariantCulture);
+            //var dif = DateUtil.DateDiff(DateTime.ParseExact(date, "MM/dd/yyyy", System.Globalization.CultureInfo.InvariantCulture));
+            return RedirectToAction("Index", "Home", new { code = (int)ReturnCode.RELOAD_PAGE, date = parsedDate });
             
 
         }

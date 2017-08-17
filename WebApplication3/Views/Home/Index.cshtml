@@ -24,7 +24,7 @@ else
         </div>
     }
 
-    @if (Model.ReturnCode == ReturnCode.RESERVATION_SUCCESS)
+    if (Model.ReturnCode == ReturnCode.RESERVATION_SUCCESS)
     {
         <div class="alert alert-dismissible alert-success">
             <button type="button" class="close" data-dismiss="alert">&times;</button>
@@ -33,26 +33,26 @@ else
     }
 
 
-    <input type="hidden" id="hdn" name="hdn" value=@Model.DateDiff>
+    <div class="panel panel-primary">
 
-
-    <div class="jumbotron">
-
-        @using (Html.BeginForm())
+        @using (Html.BeginForm("DateChange", "Home", new {id = "mydatepickerform"}))
         {
-            <p align="center">Datum: 
-            @Html.TextBox("date")
-            <input id="mydatepicker"/> 
-            </p>
+            <div class="panel-heading">
+                <h3 class="panel-title">Datum</h3>
+            </div>
+            <div class="panel-body">
+                @Html.TextBox("date", Model.Date.ToString("dd/MM"), new {id = "mydatepicker"})
+            </div>
         }
 
         <p align="center">
-            @Html.ActionLink("Ulozit", "Save", "Reservation", routeValues: new { sdate = @Model.DateDiff }, htmlAttributes: new { id = "registerLink", @class = "btn btn-primary btn-lg" })
+            @Html.ActionLink("Ulozit", "Save", "Reservation", routeValues: new {sdate = @Model.Date}, htmlAttributes: new {id = "registerLink", @class = "btn btn-primary btn-lg"})
         </p>
+
     </div>
-       
+
          @Html.Partial("_ReservationTable", Model)
-        }
+}
 
 
 @section scripts
@@ -65,29 +65,18 @@ else
             $("#mydatepicker").datepicker(
                 {
                     beforeShowDay: $.datepicker.noWeekends,
-                    altFormat: "DD d.MM",
+                    altFormat: "DD d.mm",
                     altField: "#mydatepicker",
+                    dateFormat: "dd/mm/yyyy",
                     dayNames: ["Neděle", "Pondělí", "Úterý", "Středa", "Čtvrtek", "Pátek", "Sobota"],
                     monthNames: ["Leden", "Únor", "Březen", "Duben", "Květen", "Červen", "Červenec", "Srpen", "Září", "Říjen", "Listopad", "Prosinec"],
                     firstDay: 1,
                     minDate: 0,
-                    onSelect: function (datetext, inst) {
-                        var jsonDate = JSON.stringify({ date: datetext, other: "hovno" });
-                        $.ajax({
-                            url: "@Url.Action("DateChange", "Home")",
-                            type: "POST",
-                            data: jsonDate,
-                            contentType: "application/json",
-                            dataType: "json",
-                            onSuccess: function (retUrl) {
-                                console.log(retUrl);
-                            }
-                        });
+                    onSelect: function (dateText, inst) {
+                        $(this).parents("form").submit();
                     }
                 }
             );
-
-            $("#mydatepicker").datepicker("setDate", @Model.DateDiff); 
         });
     </script>
 }
