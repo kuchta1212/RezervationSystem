@@ -18,7 +18,7 @@
                 
                 <tr>
                     <td>  @{
-                              var t = time.StartTime.Hours.ToString() + ":" + time.StartTime.Minutes.ToString();
+                              var t = time.StartTime.Hours.ToString() + ":" + (time.StartTime.Minutes != 0 ? time.StartTime.Minutes.ToString() : "00");
                           }
                             @t
                     </td>

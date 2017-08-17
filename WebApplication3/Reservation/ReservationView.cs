@@ -15,7 +15,7 @@ namespace ReservationSystem.Reservation
 
         public DayReservation Day { get; set; }
 
-        public int DateDiff { get; set; }
+        public DateTime Date { get; set; }
 
         public ReturnCode ReturnCode { get; set; } 
 
