@@ -53,11 +53,11 @@ namespace ReservationSystem.Controllers
                     }
                     uow.SaveChanges();
                 }
-                return RedirectToAction("Index", "Home", new { code = ReturnCode.RESERVATION_SUCCESS });
+                return RedirectToAction("Index", "Home", new { code = (int)ReturnCode.RESERVATION_SUCCESS });
             }
             catch(Exception ex)
             {
-                return RedirectToAction("Index", "Home", new { code = ReturnCode.ERROR });
+                return RedirectToAction("Index", "Home", new { code = (int)ReturnCode.ERROR });
             }
 
             
