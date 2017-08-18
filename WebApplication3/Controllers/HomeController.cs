@@ -50,19 +50,19 @@ namespace ReservationSystem.Controllers
                         times = repository.GetAll<TimeModel>(uow).ToList();
                     model.Times = times;
 
+                    model.IsPicked = reservationManager.GetPickedForDateAndUser(uow, model.Date, User.Identity.GetUserId()).Any();
                     model.Day = reservationManager.GetReservationsForDate(uow, model.Date, tables, User.Identity.GetUserId());
                 }
                 if (code == (int)ReturnCode.RELOAD_PAGE)
                 {
                     model.ReturnCode = ReturnCode.RELOAD_PAGE;
-                    ModelState.Clear();
                 } 
                 else if(code != null)
                     model.ReturnCode = (ReturnCode)code;
                 else
                     model.ReturnCode = ReturnCode.RELOAD_PAGE;
 
-
+                ModelState.Clear();
             }
             catch (Exception ex)
             {

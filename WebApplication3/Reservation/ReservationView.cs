@@ -20,5 +20,7 @@ namespace ReservationSystem.Reservation
         public ReturnCode ReturnCode { get; set; } 
 
         public string ErrorMessage { get; set; }
+
+        public bool IsPicked { get; set; }
     }
 }

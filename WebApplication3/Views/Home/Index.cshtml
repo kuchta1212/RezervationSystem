@@ -24,6 +24,15 @@ else
         </div>
     }
 
+    if (Model.ReturnCode == ReturnCode.RELOAD_PAGE_TABLE_ALREADY_PICKED)
+    {
+        <div class="alert alert-dismissible alert-warning">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <h4>Warning!</h4>
+            <p> Vybraný stůl, je již bohužel rezervován.</p>
+        </div>
+    }
+
     if (Model.ReturnCode == ReturnCode.RESERVATION_SUCCESS)
     {
         <div class="alert alert-dismissible alert-success">
@@ -32,21 +41,22 @@ else
         </div>
     }
 
-
-    <div class="panel panel-primary">
-
-        @using (Html.BeginForm("DateChange", "Home", new {id = "mydatepickerform"}))
-        {
-            <div class="panel-heading">
-                <h3 class="panel-title">Datum</h3>
-            </div>
+    <div class="panel panel-default">
             <div class="panel-body">
-                @Html.TextBox("date", Model.Date.ToString("dd/MM"), new {id = "mydatepicker"})
+                @using (Html.BeginForm("DateChange", "Home", new { @id = "mydatepickerform" }))
+                {
+                    <p align="center">
+                       <h3>Datum:</h3>
+                    </p>
+                    <p align="center">
+                        @Html.TextBox("date", Model.Date.ToString("dd/MM"), new { @id = "mydatepicker" })
+                    </p>
+                }
             </div>
-        }
+        
 
         <p align="center">
-            @Html.ActionLink("Ulozit", "Save", "Reservation", routeValues: new {sdate = @Model.Date}, htmlAttributes: new {id = "registerLink", @class = "btn btn-primary btn-lg"})
+            @Html.ActionLink("Ulozit", "Save", "Reservation", routeValues: new {sdate = @Model.Date}, htmlAttributes: new {@id = "saveBtn", @class = "btn btn-default btn-lg btn-block" })
         </p>
 
     </div>
@@ -77,6 +87,14 @@ else
                     }
                 }
             );
+
+            var disable
+            if (@Model.IsPicked.ToString().ToLower() == true)
+                disable = false;
+            else
+                disable = true;
+
+            $("#saveBtn").attr("disabled", disable);
         });
     </script>
 }

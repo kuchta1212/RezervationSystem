@@ -65,20 +65,26 @@ namespace ReservationSystem.Controllers
 
         public ActionResult PickedTime(int table, int time, DateTime? sdate)
         {
-
-            //DateTime date = DateUtil.DateDiff(Int32.Parse(sdate));
             DateTime date = DateTime.Now.Date;
+            // TODO:
             string userId = User.Identity.GetUserId();
+            ReturnCode returnCode;
 
             using (IUnitOfWork uow = new UnitOfWork(new DbContextWrap()))
             {
                 //is free
                 var isFree =repository.Get<PickedModel, int>(uow, (pick => pick.TableId == table && pick.TimeId == time && pick.UserId != userId), (item => item.Id));
+                if (isFree.Any())
+                {
+                    returnCode = ReturnCode.RELOAD_PAGE_TABLE_ALREADY_PICKED;
+                    return RedirectToAction("Index", "Home", new { code = (int)returnCode, date = date });
+                }
 
                 var userPickeds = repository.Get<PickedModel, int>(uow,
                     (pick => pick.TableId == table && pick.TimeId == time && pick.UserId == userId),
                     (item => item.Id));
                 var pickedModels= userPickeds as IList<PickedModel> ?? userPickeds.Where(pick => pick.PickedDate.Date == date.Date).ToList();
+                int count = pickedModels.Count;
                 if (pickedModels.Any())
                 {
                     //unpicked
@@ -97,15 +103,12 @@ namespace ReservationSystem.Controllers
                     };
                     repository.Add<PickedModel>(uow, picked);
                 }
+
                 uow.SaveChanges();
             }
 
-            return RedirectToAction("Index", "Home", new {code=ReturnCode.RELOAD_PAGE, dateDiff=DateUtil.DateDiff(date)});
+            return RedirectToAction("Index", "Home", new {code=(int)ReturnCode.RELOAD_PAGE, date=date});
         }
-
-        
-
-        
 
      }
 }

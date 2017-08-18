@@ -14,9 +14,10 @@ namespace ReservationSystem.Utils
 
         RESERVATION_ERROR = 2,
 
-        ERROR = 3
+        ERROR = 3,
 
-       
+        RELOAD_PAGE_WITH_PICKED_RESERVATIONS = 4,
 
+        RELOAD_PAGE_TABLE_ALREADY_PICKED = 5
     }
 }
