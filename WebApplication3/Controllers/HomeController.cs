@@ -31,7 +31,7 @@ namespace ReservationSystem.Controllers
         public ActionResult Index(int? code, DateTime? date)
         {
             if(!Request.IsAuthenticated)
-                return View();
+                return View(new ReservationView());
 
             var model = new ReservationView();
 
@@ -79,11 +79,16 @@ namespace ReservationSystem.Controllers
             if (date == null)
                 return RedirectToAction("Index", "Home", new { code = (int)ReturnCode.RELOAD_PAGE, dateDiff = 1 });
 
-            var parsedDate = DateTime.ParseExact(date, "dd/MM", System.Globalization.CultureInfo.InvariantCulture);
+            var parsedDate = DateTime.ParseExact(date, "dd.MM.yyyy", System.Globalization.CultureInfo.InvariantCulture);
             //var dif = DateUtil.DateDiff(DateTime.ParseExact(date, "MM/dd/yyyy", System.Globalization.CultureInfo.InvariantCulture));
             return RedirectToAction("Index", "Home", new { code = (int)ReturnCode.RELOAD_PAGE, date = parsedDate });
             
 
+        }
+
+        public ActionResult Contact()
+        {
+            return View("Contact");
         }
     }
 }

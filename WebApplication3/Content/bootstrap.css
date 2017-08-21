@@ -3886,8 +3886,8 @@ fieldset[disabled] a.btn {
 
 .btn-primary {
     color: #ffffff;
-    background-color: #e95420;
-    border-color: #e95420;
+    background-color: #8b0000;
+    border-color: #8b0000;
 }
 
     .btn-primary:focus,
@@ -5514,8 +5514,8 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 }
 
 .navbar-default {
-    background-color: #e95420;
-    border-color: #d34615;
+    background-color: #8b0000;
+    border-color: #8b0000;
 }
 
     .navbar-default .navbar-brand {

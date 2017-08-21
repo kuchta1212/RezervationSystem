@@ -35,7 +35,7 @@ namespace ReservationSystem.Controllers
         {
             try
             {
-                DateTime date = DateTime.Parse(sdate);
+                var date = DateTime.Parse(sdate);
                 using (IUnitOfWork uow = new UnitOfWork(new DbContextWrap()))
                 {
                     var picked = reservationManager.GetPickedForDateAndUser(uow, date, User.Identity.GetUserId());
@@ -53,7 +53,7 @@ namespace ReservationSystem.Controllers
                     }
                     uow.SaveChanges();
                 }
-                return RedirectToAction("Index", "Home", new { code = (int)ReturnCode.RESERVATION_SUCCESS });
+                return RedirectToAction("Index", "Home", new { code = (int)ReturnCode.RESERVATION_SUCCESS, date = date });
             }
             catch(Exception ex)
             {
@@ -65,8 +65,7 @@ namespace ReservationSystem.Controllers
 
         public ActionResult PickedTime(int table, int time, DateTime? sdate)
         {
-            DateTime date = DateTime.Now.Date;
-            // TODO:
+            DateTime date = sdate.Value;
             string userId = User.Identity.GetUserId();
             ReturnCode returnCode;
 
@@ -84,7 +83,6 @@ namespace ReservationSystem.Controllers
                     (pick => pick.TableId == table && pick.TimeId == time && pick.UserId == userId),
                     (item => item.Id));
                 var pickedModels= userPickeds as IList<PickedModel> ?? userPickeds.Where(pick => pick.PickedDate.Date == date.Date).ToList();
-                int count = pickedModels.Count;
                 if (pickedModels.Any())
                 {
                     //unpicked
@@ -110,5 +108,46 @@ namespace ReservationSystem.Controllers
             return RedirectToAction("Index", "Home", new {code=(int)ReturnCode.RELOAD_PAGE, date=date});
         }
 
-     }
+        public ActionResult GroupReservations(string name, string date, string startTime, string endTime, IEnumerable<string> tables)
+        {
+            if (name == null && date == null && startTime == null)
+            {
+                var view = new ReservationView();
+                using (var uow = new UnitOfWork(new DbContextWrap()))
+                {
+                    view.Tables = repository.GetAll<TableModel>(uow).ToList();
+                    view.Times = repository.GetAll<TimeModel>(uow).ToList();
+                }
+                return View("GroupReservations", view);
+            }
+            else
+            {
+                var timeIds = DateUtil.GetTimeIds(startTime, endTime);
+                var finalDate = DateTime.Parse(date);
+                foreach (var table in tables)
+                {
+                    //pro kazdy stul
+                    foreach (var time in timeIds)
+                    {
+                        var model = new ReservationModel()
+                        {
+                            Date = finalDate.Date,
+                            TableId = Int32.Parse(table),
+                            TimeId = time
+                        };
+                    }
+                }
+            }
+        }
+
+        public ActionResult EditReservations()
+        {
+            List<ReservationModel> reservations;
+            using (IUnitOfWork uow = new UnitOfWork(new DbContextWrap()))
+            {
+                reservations = this.reservationManager.GetReservationsForUser(uow, User.Identity.GetUserId());
+            }
+            return View("EditReservations", reservations);
+        }
+    }
 }

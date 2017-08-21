@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using Castle.Components.DictionaryAdapter;
 
 namespace ReservationSystem.Utils
 {
@@ -20,6 +21,11 @@ namespace ReservationSystem.Utils
         public static DateTime DateDiff(int diff)
         {
             return DateTime.Now.AddDays(diff);
+        }
+
+        public static List<int> GetTimeIds(string start, string end)
+        {
+            return new List<int>();
         }
     }
 }

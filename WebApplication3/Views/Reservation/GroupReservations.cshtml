@@ -1,0 +1,88 @@
+﻿@{
+    ViewBag.Title = "GroupReservations";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@model ReservationSystem.Reservation.ReservationView
+
+<form class="form-horizontal">
+    <fieldset>
+        <legend>Hromadné rezervace</legend>
+        <div class="form-group">
+            <label for="name" class="col-lg-2 control-label">Název</label>
+            <div class="col-lg-10">
+                <input class="form-control" id="name" type="text" name="name">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="groupDateDatePicker" class="col-lg-2 control-label">Datum</label>
+            <div class="col-lg-10">
+                <input class="form-control" id="groupDateDatePicker" name="date">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="startTime" class="col-lg-2 control-label">Počáteční čas</label>
+            <div class="col-lg-10">
+                <select class="form-control" id="startTime" name="startTime">
+                    @foreach (var item in Model.Times)
+                    {
+                        <option>@item.StartTime.ToString()</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="endTime" class="col-lg-2 control-label" name="endTime">Konečný čas</label>
+            <div class="col-lg-10">
+                <select class="form-control" id="endTime" name="endTime">
+                    @foreach (var item in Model.Times)
+                    {
+                        <option>@item.StartTime.ToString()</option>
+                    }
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="tables" class="col-lg-2 control-label">Stoly</label>
+            <div class="col-lg-10">
+                <select multiple="" class="form-control" id="tables" name="tables">
+                    @foreach (var item in Model.Tables)
+                    {
+                        <option>@item.Number.ToString()</option>
+                    }
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-lg-10 col-lg-offset-2">
+                <button type="reset" class="btn btn-default">Cancel</button>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </div>
+    </fieldset>
+</form>
+
+section scripts
+{
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<script type="text/javascript">
+        $(function() {
+            $("#groupDateDatePicker").datepicker(
+                {
+                    beforeShowDay: $.datepicker.noWeekends,
+                    dateFormat: "dd.mm.yy",
+                    dayNamesShort: ["Ne, Po, Út, St, Čt, Pá, So"],
+                    dayNames: ["Neděle", "Pondělí", "Úterý", "Středa", "Čtvrtek", "Pátek", "Sobota"],
+                    monthNames: ["Leden", "Únor", "Březen", "Duben", "Květen", "Červen", "Červenec", "Srpen", "Září", "Říjen", "Listopad", "Prosinec"],
+                    firstDay: 1,
+                    minDate: 0
+                }
+            );
+        });
+</script>
+}
+

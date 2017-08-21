@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using ReservationSystem.Models;
 using ReservationSystem.Repository;
@@ -33,13 +34,24 @@ namespace ReservationSystem.Migrations
             //    );
             //
 
-         //   Logger.Instance.WriteToLog("Configuration migration seed","Configuration",LogType.INFO);
-         /*
+            //   Logger.Instance.WriteToLog("Configuration migration seed","Configuration",LogType.INFO);
+
             ApplicationDbContext appContext = new ApplicationDbContext();
-            appContext.Roles.Add(new IdentityRole("Admin"));
-            appContext.SaveChanges(); */
+            var RoleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(appContext));
 
+            // Create Admin Role
+            string roleName = "Admin";
+            IdentityResult roleResult;
 
+            // Check to see if Role Exists, if not create it
+            if (!RoleManager.RoleExists(roleName))
+            {
+                roleResult = RoleManager.Create(new IdentityRole(roleName));
+            }
+
+            appContext.SaveChanges(); 
+
+            /*
             var tables = new List<TableModel>
             {
                 new TableModel(1) {Id = 1},
@@ -72,7 +84,7 @@ namespace ReservationSystem.Migrations
             context.Times.AddRange(times);
             context.SaveChanges();
 
-
+    */
 
 
         }

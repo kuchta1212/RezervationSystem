@@ -13,5 +13,7 @@ namespace ReservationSystem.Reservation
         DayReservation GetReservationsForDate(IUnitOfWork unitOfWork, DateTime date, List<TableModel> tables, string userId);
 
         List<PickedModel> GetPickedForDateAndUser(IUnitOfWork unitOfWork, DateTime date, string userId);
+
+        List<ReservationModel> GetReservationsForUser(IUnitOfWork unitOfWork, string userId);
     }
 }

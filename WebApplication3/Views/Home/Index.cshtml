@@ -37,7 +37,7 @@ else
     {
         <div class="alert alert-dismissible alert-success">
             <button type="button" class="close" data-dismiss="alert">&times;</button>
-            <strong>Rezervováno</strong> You successfully read <a href="#" class="alert-link">this important alert message</a>.
+            <strong>Rezervováno!</strong>  <a href="#" class="alert-link">Vaše rezervace proběhal úsěšně.</a>.
         </div>
     }
 
@@ -53,7 +53,7 @@ else
         
 
         <p align="center">
-            @Html.ActionLink("Ulozit", "Save", "Reservation", routeValues: new {sdate = @Model.Date}, htmlAttributes: new {@id = "saveBtn", @class = "btn btn-primary btn-lg btn-block" })
+            @Html.ActionLink("Uložit", "Save", "Reservation", routeValues: new {sdate = @Model.Date}, htmlAttributes: new {@id = "saveBtn", @class = "btn btn-primary btn-lg btn-block" })
         </p>
 
     </div>
@@ -75,27 +75,31 @@ else
                     //altFormat: "DD d.mm",
                     //altField: "#mydatepicker",
                     dateFormat: "dd.mm.yy",
+                    dayNamesShort: ["Ne, Po, Út, St, Čt, Pá, So"],
                     dayNames: ["Neděle", "Pondělí", "Úterý", "Středa", "Čtvrtek", "Pátek", "Sobota"],
                     monthNames: ["Leden", "Únor", "Březen", "Duben", "Květen", "Červen", "Červenec", "Srpen", "Září", "Říjen", "Listopad", "Prosinec"],
                     firstDay: 1,
                     minDate: 0,
-                    onSelect: function (dateText, inst) {
+                    onSelect: function(dateText, inst) {
                         $(this).parents("form").submit();
                     }
                 }
             );
 
-            var date =   @Model.Date.Day.ToString() + "." + @Model.Date.Month.ToString() + "." + @Model.Date.Year.ToString();
+            var date = @Model.Date.Day.ToString() + "." + @Model.Date.Month.ToString() + "." + @Model.Date.Year.ToString();
             $("#mydatepicker").datepicker("setDate", date);
 
-
-            var disable
+            var disable;
             if (@Model.IsPicked.ToString().ToLower() == true)
                 disable = false;
             else
                 disable = true;
 
             $("#saveBtn").attr("disabled", disable);
+           
+           
+
+           
         });
     </script>
 }
