@@ -20,14 +20,18 @@
             </button>
             @Html.ActionLink("AC SPARTA PRAHA stolní tenis", "Index", "Home", new {area = ""}, new {@class = "navbar-brand"})
             <ul class="nav navbar-nav">
-                <li>@Html.ActionLink("Správce rezervací", "EditReservations", "Reservation", routeValues: null, htmlAttributes: new { id = "tipsLink" })</li>
-                <li>@Html.ActionLink("Kontakt", "Contact", "Home", routeValues: null, htmlAttributes: new { id = "tipsLink" })</li>
+                @if (Request.IsAuthenticated)
+                {
+                    <li>@Html.ActionLink("Správce rezervací", "EditReservations", "Reservation", routeValues: null, htmlAttributes: new {id = "tipsLink"})</li>
+                }
+                <li>@Html.ActionLink("Kontakt", "Contact", "Home", routeValues: null, htmlAttributes: new {id = "tipsLink"})</li>
                 @if (this.User.IsInRole("Admin"))
                 {
-                    <li>@Html.ActionLink("Hromadné rezervace", "GroupReservations", "Reservation", routeValues: null, htmlAttributes: new { id = "tipsLink" })</li>
-                    <li>@Html.ActionLink("Reporty", "Reports", "Admin", routeValues: null, htmlAttributes: new { id = "rulesLink" })</li>
-                    <li>@Html.ActionLink("Nastavení", "Settings", "Admin", routeValues: null, htmlAttributes: new { id = "settingLink" })</li>
+                    <li>@Html.ActionLink("Hromadné rezervace", "GroupReservations", "Reservation", routeValues: null, htmlAttributes: new {id = "tipsLink"})</li>
+                    <li>@Html.ActionLink("Reporty", "Reports", "Admin", routeValues: null, htmlAttributes: new {id = "rulesLink"})</li>
+                    <li>@Html.ActionLink("Nastavení", "Settings", "Admin", routeValues: null, htmlAttributes: new {id = "settingLink"})</li>
                 }
+                <li><a href="http://www.sparta-stolni-tenis.cz/">Web Sparty</a></li>
             </ul>
         </div>
         <div class="navbar-collapse collapse">

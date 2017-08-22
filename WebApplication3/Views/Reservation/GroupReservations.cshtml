@@ -9,15 +9,10 @@
     <fieldset>
         <legend>Hromadné rezervace</legend>
         <div class="form-group">
-            <label for="name" class="col-lg-2 control-label">Název</label>
-            <div class="col-lg-10">
-                <input class="form-control" id="name" type="text" name="name">
-            </div>
-        </div>
-        <div class="form-group">
             <label for="groupDateDatePicker" class="col-lg-2 control-label">Datum</label>
-            <div class="col-lg-10">
-                <input class="form-control" id="groupDateDatePicker" name="date">
+            <div id="multipleDatePickerDiv" class="col-lg-10">
+                <button type="button" id="addBtn" >Přidat datum</button>
+                <input class="form-control" id="groupDateDatePicker" name="date"><br/>
             </div>
         </div>
         <div class="form-group">
@@ -64,11 +59,12 @@
     </fieldset>
 </form>
 
-section scripts
+@section scripts
 {
 <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<script src="http://multidatespickr.sourceforge.net/jquery-ui.multidatespicker.js"></script>
 <script type="text/javascript">
         $(function() {
             $("#groupDateDatePicker").datepicker(
@@ -80,8 +76,14 @@ section scripts
                     monthNames: ["Leden", "Únor", "Březen", "Duben", "Květen", "Červen", "Červenec", "Srpen", "Září", "Říjen", "Listopad", "Prosinec"],
                     firstDay: 1,
                     minDate: 0
-                }
-            );
+                });
+
+          // var x = 1;
+            $("#addBtn").bind("click", function () {
+                var d = document.getElementById("multipleDatePickerDiv");
+                d.innerHTML += "<input class='form-control' id='groupDateDatePicker' name='date'><br/>";
+            });
+
         });
 </script>
 }

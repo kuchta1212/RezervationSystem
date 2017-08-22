@@ -41,6 +41,8 @@ namespace ReservationSystem.Reservation
 
             var day = new DayReservation();
 
+            
+
             foreach (var table in tables)
             {
                 var tr = new TableReservation(table);
@@ -58,5 +60,11 @@ namespace ReservationSystem.Reservation
 
         }
 
+        public List<string> GetUsersForDate(IUnitOfWork unitOfWork, DateTime date)
+        {
+            var all = repository.GetAll<ReservationModel>(unitOfWork);
+            return all.Where(r => r.Date.Date == date.Date).Select(r => r.UserId).ToList();
+            
+        }
     }
 }

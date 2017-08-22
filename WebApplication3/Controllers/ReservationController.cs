@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using System.Web.Security;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using ReservationSystem.Models;
@@ -108,9 +110,9 @@ namespace ReservationSystem.Controllers
             return RedirectToAction("Index", "Home", new {code=(int)ReturnCode.RELOAD_PAGE, date=date});
         }
 
-        public ActionResult GroupReservations(string name, string date, string startTime, string endTime, IEnumerable<string> tables)
+        public ActionResult GroupReservations(string date, string startTime, string endTime, IEnumerable<string> tables)
         {
-            if (name == null && date == null && startTime == null)
+            if (date == null && startTime == null)
             {
                 var view = new ReservationView();
                 using (var uow = new UnitOfWork(new DbContextWrap()))
@@ -122,32 +124,50 @@ namespace ReservationSystem.Controllers
             }
             else
             {
-                var timeIds = DateUtil.GetTimeIds(startTime, endTime);
-                var finalDate = DateTime.Parse(date);
+                var timeIds = DateUtil.GetTimeIds(repository, startTime, endTime);
+                var finalDate = DateTime.ParseExact(date, "dd.MM.yyyy", CultureInfo.InvariantCulture);
+                var models = new List<ReservationModel>();
                 foreach (var table in tables)
                 {
                     //pro kazdy stul
-                    foreach (var time in timeIds)
+                    models.AddRange(timeIds.Select(time => new ReservationModel()
                     {
-                        var model = new ReservationModel()
-                        {
-                            Date = finalDate.Date,
-                            TableId = Int32.Parse(table),
-                            TimeId = time
-                        };
-                    }
+                        Date = finalDate.Date, TableId = Int32.Parse(table), TimeId = time, UserId = User.Identity.GetUserId()
+                    }));
                 }
+                using (IUnitOfWork uow = new UnitOfWork(new DbContextWrap()))
+                {
+                    foreach (var model in models)
+                    {
+                        this.repository.Add<ReservationModel>(uow, model);
+                    }
+                    uow.SaveChanges();
+                }
+                return RedirectToAction("Index", "Home", new { code = (int)ReturnCode.RESERVATION_SUCCESS, date = date });
             }
         }
 
         public ActionResult EditReservations()
         {
-            List<ReservationModel> reservations;
+            var view = new List<EditReservationView>();
             using (IUnitOfWork uow = new UnitOfWork(new DbContextWrap()))
             {
-                reservations = this.reservationManager.GetReservationsForUser(uow, User.Identity.GetUserId());
+                var reservations = this.reservationManager.GetReservationsForUser(uow, User.Identity.GetUserId());
+                view.AddRange(reservations.Select(res => new EditReservationView() {Id = res.Id, Date = res.Date, Table = res.Table.Number, Time = res.Time.StartTime}));
             }
-            return View("EditReservations", reservations);
+            return View("EditReservations", view);
+        }
+
+        public ActionResult Delete(int? id)
+        {
+            using (var uow = new UnitOfWork(new DbContextWrap()))
+            {
+                var reservationModel = repository.Get<ReservationModel, int>(uow, (r => r.Id == id), (r => r.Id)).FirstOrDefault();
+                repository.Delete<ReservationModel>(uow, reservationModel);
+                uow.SaveChanges();
+            }
+
+            return RedirectToAction("Index", "Home", new { code = (int)ReturnCode.RESERVATION_SUCCESSFULLY_DELETED });
         }
     }
 }

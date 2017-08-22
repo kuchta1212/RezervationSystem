@@ -31,5 +31,11 @@ namespace ReservationSystem.Reservation
             else
                 return 1;
         }
+
+        public string UserFromReservation(TimeModel time, TableModel table)
+        {
+            var tableReservation = reservations[table.Number];
+            return tableReservation.GetUser(time.Id);
+        }
     }
 }

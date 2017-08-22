@@ -41,6 +41,22 @@ else
         </div>
     }
 
+    if (Model.ReturnCode == ReturnCode.GROUP_RESERVATION_SUCCESS)
+    {
+        <div class="alert alert-dismissible alert-success">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <strong>Rezervováno!</strong>  <a href="#" class="alert-link">Vaše hromadná rezervace proběhal úsěšně.</a>.
+        </div>
+    }
+
+    if (Model.ReturnCode == ReturnCode.RESERVATION_SUCCESSFULLY_DELETED)
+    {
+        <div class="alert alert-dismissible alert-success">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <strong>SMAZÁNO!</strong>  <a href="#" class="alert-link">Vaše rezervace byla úsěšně smazána.</a>.
+        </div>
+    }
+
     <div class="panel panel-default">
             <div class="panel-body">
                 @using (Html.BeginForm("DateChange", "Home", new { @id = "mydatepickerform" }))

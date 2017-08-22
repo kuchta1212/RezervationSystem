@@ -8,7 +8,7 @@ namespace ReservationSystem.Utils
     {
         private static Logger instance;
         private static Queue<Log> logQueue;
-        private static readonly string logDir = @"C:\TEMP";
+        private static readonly string logDir = @"C:\TEMP\";
         private static readonly string logFile = "log";
         private static int queueSize = 100;
         private static DateTime LastFlushed = DateTime.Now;

@@ -24,6 +24,8 @@ namespace ReservationSystem.Reservation
 
         public bool IsPicked { get; set; }
 
+        public Dictionary<string, MyUser> Users { get; set; }
+
         public ReservationView()
         {
             //default values
@@ -33,6 +35,7 @@ namespace ReservationSystem.Reservation
             Day = new DayReservation();
             ReturnCode = ReturnCode.RELOAD_PAGE;
             IsPicked = false;
+            Users = new Dictionary<string, MyUser>();
         }
     }
 }

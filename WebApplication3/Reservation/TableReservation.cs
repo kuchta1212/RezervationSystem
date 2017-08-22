@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Security;
 using ReservationSystem.Models;
 
 namespace ReservationSystem.Reservation
@@ -40,5 +41,14 @@ namespace ReservationSystem.Reservation
         }
 
         public int TableNumber => this.table.Number;
+
+        public string GetUser(int timeId)
+        {
+            if (!IsReservation(timeId))
+                return null;
+
+            var reservationModel = reservation[timeId];
+            return reservationModel.UserId;
+        }
     }
 }
