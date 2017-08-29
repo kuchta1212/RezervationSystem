@@ -8,7 +8,7 @@ using ReservationSystem.Utils;
 
 namespace ReservationSystem.Reservation
 {
-    public class ReservationView
+    public class ReservationView : IComparable
     {
         public List<TimeModel> Times { get; set; }
 
@@ -24,7 +24,7 @@ namespace ReservationSystem.Reservation
 
         public bool IsPicked { get; set; }
 
-        public Dictionary<string, MyUser> Users { get; set; }
+       
 
         public ReservationView()
         {
@@ -35,7 +35,14 @@ namespace ReservationSystem.Reservation
             Day = new DayReservation();
             ReturnCode = ReturnCode.RELOAD_PAGE;
             IsPicked = false;
-            Users = new Dictionary<string, MyUser>();
+        }
+
+        public int CompareTo(object o)
+        {
+           var val = (ReservationView)o;
+            if (val.Date <= this.Date)
+                return 1;
+            return -1;
         }
     }
 }

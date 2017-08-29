@@ -26,26 +26,54 @@ namespace ReservationSystem.Controllers
             this._reservationManager = reservationManager;
         }
 
-        public ActionResult Reports(string sdate)
+        public ActionResult Reports(string sdate, bool? weekly, bool? daily)
         {
-            var model = new ReservationView();
+            var model = new ReservationPrintable();
 
-            model.Date = sdate == null ? DateTime.Today : DateTime.ParseExact(sdate, "dd.MM.yyyy", CultureInfo.InvariantCulture);
+            if (daily != null && daily.Value)
+            {
+                model.Daily = true;
+                model.Weekly = false;
+            }
+            else
+            {
+                model.Daily = false;
+                model.Weekly = true;
+            }
 
-            
+            var date = sdate == null ? DateTime.Today : DateTime.ParseExact(sdate, "dd.MM.yyyy", CultureInfo.InvariantCulture);
+            if (model.Weekly)
+            {
+                var diff = date.DayOfWeek - CultureInfo.CurrentCulture.DateTimeFormat.FirstDayOfWeek;
+                if (diff < 0)
+                    diff += 7;
+                date = date.AddDays(-diff);
+            }
+
             using (IUnitOfWork uow = new UnitOfWork(new DbContextWrap()))
             {
-                model.Tables = _repository.GetAll<TableModel>(uow).ToList();
-                model.Times = _repository.GetAll<TimeModel>(uow).ToList();
-                model.Day = _reservationManager.GetReservationsForDate(uow, model.Date, model.Tables, User.Identity.GetUserId());
-                var users = _reservationManager.GetUsersForDate(uow, model.Date);
-                model.Users = HttpContext.GetOwinContext()
-                    .GetUserManager<ApplicationUserManager>()
-                    .Users
-                    .Where(u => users.Contains(u.Id))
-                    .Select(u => new MyUser {Id = u.Id, UserName = u.UserName})
-                    .ToList()
-                    .ToDictionary(u=>u.Id);
+                var days = model.Weekly ? 5 : 1;
+
+                for (var i = 0; i < days; i++)
+                {
+                    var view = new ReservationView
+                    {
+                        Tables = _repository.GetAll<TableModel>(uow).ToList(),
+                        Times = _repository.GetAll<TimeModel>(uow).ToList(),
+                        Date = date.AddDays(i)
+                    };
+                    view.Day = _reservationManager.GetReservationsForDate(uow, view.Date, view.Tables, User.Identity.GetUserId());
+
+                    var users = _reservationManager.GetUsersForDate(uow, view.Date);
+                    model.AddUsers(HttpContext.GetOwinContext()
+                                    .GetUserManager<ApplicationUserManager>()
+                                    .Users
+                                    .Where(u => users.Contains(u.Id))
+                                    .Select(u => new MyUser { Id = u.Id, UserName = u.UserName })
+                                    .ToList()
+                                    .ToDictionary(u => u.Id));
+                    model.AddDay(view);
+                }
             }
             
             return View("Reports", model);

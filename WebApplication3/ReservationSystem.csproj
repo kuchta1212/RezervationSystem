@@ -253,6 +253,7 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Repository\Repository.cs" />
     <Compile Include="Models\PickedModel.cs" />
+    <Compile Include="Reservation\ReservationPrintable.cs" />
     <Compile Include="Reservation\ReservationView.cs" />
     <Compile Include="Reservation\TableReservation.cs" />
     <Compile Include="Models\TableModel.cs" />

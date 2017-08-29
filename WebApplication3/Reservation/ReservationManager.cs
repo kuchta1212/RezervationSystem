@@ -21,7 +21,7 @@ namespace ReservationSystem.Reservation
 
         public List<ReservationModel> GetReservationsForUser(IUnitOfWork unitOfWork, string userId)
         {
-            return repository.Get<ReservationModel, int>(unitOfWork, (item => item.UserId == userId), (item => item.Id)).ToList();
+            return repository.Get<ReservationModel, DateTime>(unitOfWork, (item => item.UserId == userId), (item => item.Date)).ToList();
         }
 
         public List<PickedModel> GetPickedForDateAndUser(IUnitOfWork unitOfWork, DateTime date, string userId)

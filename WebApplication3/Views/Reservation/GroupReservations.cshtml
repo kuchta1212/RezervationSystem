@@ -11,7 +11,7 @@
         <div class="form-group">
             <label for="groupDateDatePicker" class="col-lg-2 control-label">Datum</label>
             <div id="multipleDatePickerDiv" class="col-lg-10">
-                <button type="button" id="addBtn" >Přidat datum</button>
+                <button type="button" id="addBtn" onclick="AppendDatePicker()" >Přidat datum</button>
                 <input class="form-control" id="groupDateDatePicker" name="date"><br/>
             </div>
         </div>
@@ -78,11 +78,11 @@
                     minDate: 0
                 });
 
-          // var x = 1;
-            $("#addBtn").bind("click", function () {
+           var x = 1;
+            function AppendDatePicker() {
                 var d = document.getElementById("multipleDatePickerDiv");
-                d.innerHTML += "<input class='form-control' id='groupDateDatePicker' name='date'><br/>";
-            });
+                d.innerHTML += "<input class='form-control' id='groupDateDatePicker' name='date" + x++ +"'><br/>";
+            };
 
         });
 </script>

@@ -32,7 +32,7 @@
             @item.SDate
         </td>
         <td>
-            @Html.ActionLink("Smazat", "Delete","Reservation", new { id=item.Id })
+            @Html.ActionLink("Smazat", "Delete","Reservation", new { id=item.Id }, new { @id = item.Id})
         </td>
     </tr>
 }
