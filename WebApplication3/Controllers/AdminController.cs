@@ -26,33 +26,27 @@ namespace ReservationSystem.Controllers
             this._reservationManager = reservationManager;
         }
 
-        public ActionResult Reports(string sdate, bool? weekly, bool? daily)
+        public ActionResult Reports(string sdate, string[] IsWeekly)
         {
             var model = new ReservationPrintable();
 
-            if (daily != null && daily.Value)
-            {
-                model.Daily = true;
-                model.Weekly = false;
-            }
-            else
-            {
-                model.Daily = false;
-                model.Weekly = true;
-            }
+            model.IsWeekly = true;
+            if (IsWeekly != null)
+                model.IsWeekly = Boolean.Parse(IsWeekly[0]);
 
             var date = sdate == null ? DateTime.Today : DateTime.ParseExact(sdate, "dd.MM.yyyy", CultureInfo.InvariantCulture);
-            if (model.Weekly)
+            if (model.IsWeekly)
             {
                 var diff = date.DayOfWeek - CultureInfo.CurrentCulture.DateTimeFormat.FirstDayOfWeek;
                 if (diff < 0)
                     diff += 7;
                 date = date.AddDays(-diff);
             }
+            model.Date = date;
 
             using (IUnitOfWork uow = new UnitOfWork(new DbContextWrap()))
             {
-                var days = model.Weekly ? 5 : 1;
+                var days = model.IsWeekly ? 5 : 1;
 
                 for (var i = 0; i < days; i++)
                 {

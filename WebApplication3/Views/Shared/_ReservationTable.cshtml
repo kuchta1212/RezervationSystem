@@ -15,33 +15,44 @@
         <tbody>
             @foreach (var time in Model.Times as List<TimeModel>)
             {
-                
+
                 <tr>
                     <td>  @{
-                              var t = time.StartTime.Hours.ToString() + ":" + (time.StartTime.Minutes != 0 ? time.StartTime.Minutes.ToString() : "00");
+                        var t = time.StartTime.Hours.ToString() + ":" + (time.StartTime.Minutes != 0 ? time.StartTime.Minutes.ToString() : "00");
                           }
                             @t
                     </td>
                     @foreach (var table in Model.Tables as List<TableModel>)
                     {
-                        int res = Model.Day.IsReserved(time, table);
-                        switch (res)
+                        if (Model.Day.IsCancelled)
                         {
-                            case 1:
-                                <td>
-                                    @Html.ActionLink("VOLNO", "PickedTime", "Reservation", new { table = table.Id, time = time.Id, sdate = Model.Date }, new { @class = "btn btn-success" })
-                                </td>
-                                break;
-                            case 2:
-                                <td>
-                                    @Html.ActionLink("VYBRÁNO", "PickedTime", "Reservation", new { table = table.Id, time = time.Id, sdate = Model.Date }, new { @class = "btn btn-warning" })
-                                </td>
-                                break;
-                            case 3:
-                                <td>
-                                   <button class = "btn btn-danger">REZERVOVÁNO</button>
-                                </td>
-                                break;
+                            <td>
+                                <button class="btn btn-default">ZAVŘENO</button>
+                            </td>
+                            
+                        }
+                        else
+                        {
+                            int res = Model.Day.IsReserved(time, table);
+                            switch (res)
+                            {
+                                case 1:
+                                    <td>
+                                        @Html.ActionLink("VOLNO", "PickedTime", "Reservation", new { table = table.Id, time = time.Id, sdate = Model.Date }, new { @class = "btn btn-success" })
+                                    </td>
+                                    break;
+                                case 2:
+                                    <td>
+                                        @Html.ActionLink("VYBRÁNO", "PickedTime", "Reservation", new { table = table.Id, time = time.Id, sdate = Model.Date }, new { @class = "btn btn-warning" })
+                                    </td>
+                                    break;
+                                case 3:
+                                    <td>
+                                        <button class = "btn btn-danger">REZERVOVÁNO</button>
+                                    </td>
+                                    break;
+
+                            }
                         }
 
 

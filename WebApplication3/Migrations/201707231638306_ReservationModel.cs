@@ -7,6 +7,7 @@ namespace ReservationSystem.Migrations
     {
         public override void Up()
         {
+            /*
             CreateTable(
                 "dbo.ReservationModels",
                 c => new
@@ -22,7 +23,7 @@ namespace ReservationSystem.Migrations
                 .ForeignKey("dbo.TableModels", t => t.TableId, cascadeDelete: true)
                 .ForeignKey("dbo.TimeModels", t => t.TimeId, cascadeDelete: true)
                 .Index(t => t.TableId)
-                .Index(t => t.TimeId);
+                .Index(t => t.TimeId);*/
             
 //            CreateTable(
 //                "dbo.TableModels",

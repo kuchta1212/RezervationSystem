@@ -5,6 +5,7 @@
 
 @model ReservationSystem.Reservation.ReservationView
 
+<div class="well">
 <form class="form-horizontal">
     <fieldset>
         <legend>Hromadné rezervace</legend>
@@ -58,33 +59,108 @@
         </div>
     </fieldset>
 </form>
+    </div>
 
-@section scripts
+<div class="well">
+    <form class="form-horizontal">
+        <fieldset>
+            <legend>Zablokování dnů</legend>
+            <div class="form-group">
+                <label for="inputEmail" class="col-lg-2 control-label">Email</label>
+                <div class="col-lg-10">
+                    <input class="form-control" id="inputEmail" placeholder="Email" type="text">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputPassword" class="col-lg-2 control-label">Password</label>
+                <div class="col-lg-10">
+                    <input class="form-control" id="inputPassword" placeholder="Password" type="password">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox"> Checkbox
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="textArea" class="col-lg-2 control-label">Textarea</label>
+                <div class="col-lg-10">
+                    <textarea class="form-control" rows="3" id="textArea"></textarea>
+                    <span class="help-block">A longer block of help text that breaks onto a new line and may extend beyond one line.</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-2 control-label">Radios</label>
+                <div class="col-lg-10">
+                    <div class="radio">
+                        <label>
+                            <input name="optionsRadios" id="optionsRadios1" value="option1" checked="" type="radio">
+                            Option one is this
+                        </label>
+                    </div>
+                    <div class="radio">
+                        <label>
+                            <input name="optionsRadios" id="optionsRadios2" value="option2" type="radio">
+                            Option two can be something else
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="select" class="col-lg-2 control-label">Selects</label>
+                <div class="col-lg-10">
+                    <select class="form-control" id="select">
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                    </select>
+                    <br>
+                    <select multiple="" class="form-control">
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-lg-10 col-lg-offset-2">
+                    <button type="reset" class="btn btn-default">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+        </fieldset>
+    </form>
+ </div>
+    @section scripts
 {
-<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-<script src="http://multidatespickr.sourceforge.net/jquery-ui.multidatespicker.js"></script>
-<script type="text/javascript">
-        $(function() {
-            $("#groupDateDatePicker").datepicker(
-                {
-                    beforeShowDay: $.datepicker.noWeekends,
-                    dateFormat: "dd.mm.yy",
-                    dayNamesShort: ["Ne, Po, Út, St, Čt, Pá, So"],
-                    dayNames: ["Neděle", "Pondělí", "Úterý", "Středa", "Čtvrtek", "Pátek", "Sobota"],
-                    monthNames: ["Leden", "Únor", "Březen", "Duben", "Květen", "Červen", "Červenec", "Srpen", "Září", "Říjen", "Listopad", "Prosinec"],
-                    firstDay: 1,
-                    minDate: 0
-                });
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+        <script src="http://multidatespickr.sourceforge.net/jquery-ui.multidatespicker.js"></script>
+        <script type="text/javascript">
+            $(function () {
+                $("#groupDateDatePicker").datepicker(
+                    {
+                        beforeShowDay: $.datepicker.noWeekends,
+                        dateFormat: "dd.mm.yy",
+                        dayNamesShort: ["Ne, Po, Út, St, Čt, Pá, So"],
+                        dayNames: ["Neděle", "Pondělí", "Úterý", "Středa", "Čtvrtek", "Pátek", "Sobota"],
+                        monthNames: ["Leden", "Únor", "Březen", "Duben", "Květen", "Červen", "Červenec", "Srpen", "Září", "Říjen", "Listopad", "Prosinec"],
+                        firstDay: 1,
+                        minDate: 0
+                    });
 
-           var x = 1;
-            function AppendDatePicker() {
-                var d = document.getElementById("multipleDatePickerDiv");
-                d.innerHTML += "<input class='form-control' id='groupDateDatePicker' name='date" + x++ +"'><br/>";
-            };
+                var x = 1;
+                function AppendDatePicker() {
+                    var d = document.getElementById("multipleDatePickerDiv");
+                    d.innerHTML += "<input class='form-control' id='groupDateDatePicker' name='date" + x++ + "'><br/>";
+                };
 
-        });
-</script>
-}
+            });
+        </script>
+    }
 

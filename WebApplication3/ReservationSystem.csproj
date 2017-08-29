@@ -222,6 +222,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Models\CancelledDayModel.cs" />
     <Compile Include="Models\ReportModel.cs" />
     <Compile Include="Models\ReservationModel.cs" />
     <Compile Include="Reservation\DayReservation.cs" />

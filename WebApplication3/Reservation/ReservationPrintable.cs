@@ -18,9 +18,7 @@ namespace ReservationSystem.Reservation
 
         public DateTime Date { get; set; }
 
-        public bool Weekly { get; set; }
-
-        public bool Daily { get; set; }
+        public bool IsWeekly { get; set; }
 
         public bool Loaded { get; set; }
 

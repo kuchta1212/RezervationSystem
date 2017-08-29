@@ -9,20 +9,21 @@
 
 
 <div class="panel panel-default">
-    <div class="panel-heading">Reporty</div>
-    @using (Html.BeginForm("Reports", "Admin", null, FormMethod.Post, new { @id = "reportForm", @class = "form-horizontal" }))
+    <div class="panel-heading">Nastavení reportu</div>
+    @using (Html.BeginForm("Reports", "Admin", null, FormMethod.Post, new { @id = "reportForm", @class = "form-inline" }))
     {
-        @Html.RadioButton("IsWeekly", Model.Weekly, Model.Weekly) <label>Týdenní</label> <br />
-                @Html.RadioButton("IsWeekly", Model.Daily, Model.Daily) <label>Denní</label> <br />
-                @Html.TextBox("sdate", "", new { @id = "reportDatePicker", @class = "form-control input-default", @style = "text-align:center;" })
-                <button name="printBtn" id="printBtn" type="button" class="btn btn-primary" onclick=" printContent() ">TISK</button>
-
-             <div class="form-group">
-                    <div class="col-lg-10 col-lg-offset-2">
-                        <button type="reset" class="btn btn-default">Cancel</button>
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                    </div>
+        <div class="form-group">
+            <div class="col-lg-10 col-lg-offset-2">
+                @Html.RadioButton("IsWeekly", true, Model.IsWeekly) <label>Týdenní</label> <br />
+                @Html.RadioButton("IsWeekly", false, !Model.IsWeekly) <label>Denní</label> <br />
             </div>
+        </div>
+        @Html.TextBox("sdate", "", new { @id = "reportDatePicker", @class = "form-control input-default", @style = "text-align:center;" })
+        <div class="form-group">
+            <div class="col-lg-10 col-lg-offset-2">
+                <button name="printBtn" id="printBtn" type="button" class="btn btn-primary" onclick=" printContent() ">Vytisknout</button>
+            </div>
+        </div>
     }
     </div>
 
@@ -114,6 +115,13 @@
                     window.print();
                     document.body.innerHTML = restorepage;
                 });
+
+
+                $(document).ready(function() {
+                    $("input[name=IsWeekly]").change(function(){
+                        $("#reportForm").submit();
+                  });
+                 });
             });
         </script>
     }

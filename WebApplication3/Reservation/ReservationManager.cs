@@ -32,6 +32,9 @@ namespace ReservationSystem.Reservation
 
         public DayReservation GetReservationsForDate(IUnitOfWork unitOfWork, DateTime date, List<TableModel> tables, string userId)
         {
+            if (DayIsCancelled(unitOfWork, date))
+                return new DayReservation(true);
+
             // get all reservations for date
             var dayReservationList = repository.GetAll<ReservationModel>(unitOfWork).Where(res => res.Date.Date == date.Date).ToList();
           //  var dayReservationList = rezervations as IList<ReservationModel> ?? rezervations.ToList();
@@ -40,8 +43,6 @@ namespace ReservationSystem.Reservation
             var pickedTableList = GetPickedForDateAndUser(unitOfWork, date, userId);
 
             var day = new DayReservation();
-
-            
 
             foreach (var table in tables)
             {
@@ -65,6 +66,11 @@ namespace ReservationSystem.Reservation
             var all = repository.GetAll<ReservationModel>(unitOfWork);
             return all.Where(r => r.Date.Date == date.Date).Select(r => r.UserId).ToList();
             
+        }
+
+        private bool DayIsCancelled(IUnitOfWork unitOfWork, DateTime date)
+        {
+            return repository.Get<CancelledDayModel, int>(unitOfWork, (i=> i.Date == date), (i=>i.Id)).Any();
         }
     }
 }

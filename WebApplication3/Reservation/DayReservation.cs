@@ -10,11 +10,21 @@ namespace ReservationSystem.Reservation
     {
         private Dictionary<int,TableReservation> reservations;
 
+        private bool _isCancelled;
+
         public DayReservation()
         {
             reservations = new Dictionary<int, TableReservation>();
+            _isCancelled = false;
         }
 
+        public DayReservation(bool isCancelled)
+        {
+            reservations = new Dictionary<int, TableReservation>();
+            _isCancelled = true;
+        }
+
+        public bool IsCancelled { get { return this._isCancelled; } }
 
         public void Add(TableReservation tr)
         {
