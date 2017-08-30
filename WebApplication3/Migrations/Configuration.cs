@@ -36,7 +36,7 @@ namespace ReservationSystem.Migrations
 
             //   Logger.Instance.WriteToLog("Configuration migration seed","Configuration",LogType.INFO);
 
-            ApplicationDbContext appContext = new ApplicationDbContext();
+           /* ApplicationDbContext appContext = new ApplicationDbContext();
             var RoleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(appContext));
 
             // Create Admin Role
@@ -49,7 +49,7 @@ namespace ReservationSystem.Migrations
                 roleResult = RoleManager.Create(new IdentityRole(roleName));
             }
 
-            appContext.SaveChanges(); 
+            appContext.SaveChanges(); */
 
             /*
             var tables = new List<TableModel>

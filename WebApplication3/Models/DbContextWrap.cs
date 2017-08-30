@@ -13,10 +13,17 @@ namespace ReservationSystem.Models
         public DbSet<ReservationModel> Reservations { get; set; }
         public DbSet<TimeModel> Times { get; set; }
         public DbSet<PickedModel> PickedReservations { get; set; }
+        public DbSet<CancelledDayModel> CancelledDays { get; set; }
 
         public DbContextWrap() : base("name=ReservationSystem")
         {
           
+        }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            Database.SetInitializer<DbContextWrap>(null);
+            base.OnModelCreating(modelBuilder);
         }
     }
 }
