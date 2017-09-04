@@ -5,23 +5,32 @@ using System.Web;
 
 namespace ReservationSystem.Utils
 {
-    public enum ReturnCode
+    public class ReturnCode
     {
+        public ReturnCodeLevel ReturnLevel { get; private set; }
 
-        RELOAD_PAGE = 0,
+        public string Message { get; private set; }
 
-        RESERVATION_SUCCESS = 1,
+        public string Reason { get; private set; }
 
-        RESERVATION_ERROR = 2,
+        public ReturnCode(ReturnCodeLevel level, string message, string reason)
+        {
+            this.ReturnLevel = level;
+            this.Message = message;
+            this.Reason = reason;
+        }
 
-        ERROR = 3,
+        public ReturnCode()
+        {
+            this.ReturnLevel = ReturnCodeLevel.RELOAD;
+            this.Message = Resource.ReloadOK;
+            this.Reason = string.Empty;
+        }
 
-        RELOAD_PAGE_WITH_PICKED_RESERVATIONS = 4,
-
-        RELOAD_PAGE_TABLE_ALREADY_PICKED = 5,
-
-        GROUP_RESERVATION_SUCCESS = 6,
-
-        RESERVATION_SUCCESSFULLY_DELETED = 7
+        public void Error(string message)
+        {
+            this.ReturnLevel = ReturnCodeLevel.ERROR;
+            this.Message = message;
+        }
     }
 }

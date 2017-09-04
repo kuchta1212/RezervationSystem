@@ -20,8 +20,6 @@ namespace ReservationSystem.Reservation
 
         public ReturnCode ReturnCode { get; set; } 
 
-        public string ErrorMessage { get; set; }
-
         public bool IsPicked { get; set; }
 
        
@@ -33,7 +31,7 @@ namespace ReservationSystem.Reservation
             Times = new List<TimeModel>();
             Tables = new EditableList<TableModel>();
             Day = new DayReservation();
-            ReturnCode = ReturnCode.RELOAD_PAGE;
+            ReturnCode = new ReturnCode(ReturnCodeLevel.RELOAD, Resource.ReloadOK, null);
             IsPicked = false;
         }
 

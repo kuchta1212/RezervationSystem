@@ -226,6 +226,10 @@
     <Compile Include="Migrations\201708300948548_CancelledDayModel.Designer.cs">
       <DependentUpon>201708300948548_CancelledDayModel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201708310748080_CancelledDay.cs" />
+    <Compile Include="Migrations\201708310748080_CancelledDay.Designer.cs">
+      <DependentUpon>201708310748080_CancelledDay.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\CancelledDayModel.cs" />
     <Compile Include="Models\ReportModel.cs" />
     <Compile Include="Models\ReservationModel.cs" />
@@ -271,7 +275,13 @@
     <Compile Include="Utils\IoC.cs" />
     <Compile Include="Utils\Logger.cs" />
     <Compile Include="Utils\MyUser.cs" />
+    <Compile Include="Utils\Resource.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resource.resx</DependentUpon>
+    </Compile>
     <Compile Include="Utils\ReturnCode.cs" />
+    <Compile Include="Utils\ReturnCodeLevel.cs" />
     <Compile Include="Utils\WindsorControllerFactory.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -408,6 +418,13 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201708300948548_CancelledDayModel.resx">
       <DependentUpon>201708300948548_CancelledDayModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201708310748080_CancelledDay.resx">
+      <DependentUpon>201708310748080_CancelledDay.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Utils\Resource.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resource.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

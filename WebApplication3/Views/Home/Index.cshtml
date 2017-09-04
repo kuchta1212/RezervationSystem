@@ -16,44 +16,27 @@
 }
 else
 {
-    if (Model.ReturnCode == ReturnCode.ERROR)
+    if (Model.ReturnCode.ReturnLevel == ReturnCodeLevel.ERROR)
     {
         <div class="alert alert-dismissible alert-danger">
             <button type="button" class="close" data-dismiss="alert">&times;</button>
-            <strong>SOMETHING WENT TERRIBLY WRONG.='(</strong> <a href="#" class="alert-link">PROBABLY YOUR FAULT ;-)</a> @Model.ErrorMessage
+            <strong>SOMETHING WENT TERRIBLY WRONG.='(</strong> <a href="#" class="alert-link">@Model.ReturnCode.Message </a> @Model.ReturnCode.Reason
         </div>
     }
 
-    if (Model.ReturnCode == ReturnCode.RELOAD_PAGE_TABLE_ALREADY_PICKED)
+    if (Model.ReturnCode.ReturnLevel == ReturnCodeLevel.WARNING)
     {
         <div class="alert alert-dismissible alert-warning">
             <button type="button" class="close" data-dismiss="alert">&times;</button>
-            <h4>Warning!</h4>
-            <p> Vybraný stůl, je již bohužel rezervován.</p>
+            <strong>@Model.ReturnCode.Message</strong>  <a href="#" class="alert-link">@Model.ReturnCode.Reason</a>.
         </div>
     }
 
-    if (Model.ReturnCode == ReturnCode.RESERVATION_SUCCESS)
+    if (Model.ReturnCode.ReturnLevel == ReturnCodeLevel.SUCCESS)
     {
         <div class="alert alert-dismissible alert-success">
             <button type="button" class="close" data-dismiss="alert">&times;</button>
-            <strong>Rezervováno!</strong>  <a href="#" class="alert-link">Vaše rezervace proběhal úsěšně.</a>.
-        </div>
-    }
-
-    if (Model.ReturnCode == ReturnCode.GROUP_RESERVATION_SUCCESS)
-    {
-        <div class="alert alert-dismissible alert-success">
-            <button type="button" class="close" data-dismiss="alert">&times;</button>
-            <strong>Rezervováno!</strong>  <a href="#" class="alert-link">Vaše hromadná rezervace proběhal úsěšně.</a>.
-        </div>
-    }
-
-    if (Model.ReturnCode == ReturnCode.RESERVATION_SUCCESSFULLY_DELETED)
-    {
-        <div class="alert alert-dismissible alert-success">
-            <button type="button" class="close" data-dismiss="alert">&times;</button>
-            <strong>SMAZÁNO!</strong>  <a href="#" class="alert-link">Vaše rezervace byla úsěšně smazána.</a>.
+            <strong>@Model.ReturnCode.Message</strong>  <a href="#" class="alert-link">@Model.ReturnCode.Reason</a>.
         </div>
     }
 

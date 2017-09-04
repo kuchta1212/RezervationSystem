@@ -28,7 +28,7 @@ namespace ReservationSystem.Controllers
             this.reservationManager = reservationManager;
         }
 
-        public ActionResult Index(int? code, DateTime? date)
+        public ActionResult Index(ReturnCode code, DateTime? date)
         {
             if(!Request.IsAuthenticated)
                 return View(new ReservationView());
@@ -53,21 +53,14 @@ namespace ReservationSystem.Controllers
                     model.IsPicked = reservationManager.GetPickedForDateAndUser(uow, model.Date, User.Identity.GetUserId()).Any();
                     model.Day = reservationManager.GetReservationsForDate(uow, model.Date, tables, User.Identity.GetUserId());
                 }
-                if (code == (int)ReturnCode.RELOAD_PAGE)
-                {
-                    model.ReturnCode = ReturnCode.RELOAD_PAGE;
-                } 
-                else if(code != null)
-                    model.ReturnCode = (ReturnCode)code;
-                else
-                    model.ReturnCode = ReturnCode.RELOAD_PAGE;
+
+                model.ReturnCode = code ?? new ReturnCode(ReturnCodeLevel.RELOAD, Resource.ReloadOK, null);
 
                 ModelState.Clear();
             }
             catch (Exception ex)
             {
-                model.ReturnCode = ReturnCode.ERROR;
-                model.ErrorMessage = ex.Message;
+                model.ReturnCode.Error(ex.Message);
             }
 
             return View(model);
@@ -77,11 +70,11 @@ namespace ReservationSystem.Controllers
         public ActionResult DateChange(string date)
         {
             if (date == null)
-                return RedirectToAction("Index", "Home", new { code = (int)ReturnCode.RELOAD_PAGE, dateDiff = 1 });
+                return RedirectToAction("Index", "Home", new { code = new ReturnCode(ReturnCodeLevel.RELOAD, Resource.ReloadOK, null), dateDiff = 1 });
 
             var parsedDate = DateTime.ParseExact(date, "dd.MM.yyyy", System.Globalization.CultureInfo.InvariantCulture);
             //var dif = DateUtil.DateDiff(DateTime.ParseExact(date, "MM/dd/yyyy", System.Globalization.CultureInfo.InvariantCulture));
-            return RedirectToAction("Index", "Home", new { code = (int)ReturnCode.RELOAD_PAGE, date = parsedDate });
+            return RedirectToAction("Index", "Home", new { code = new ReturnCode(ReturnCodeLevel.RELOAD, Resource.ReloadOK, null), date = parsedDate });
             
 
         }
