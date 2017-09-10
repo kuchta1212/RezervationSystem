@@ -123,16 +123,25 @@ namespace ReservationSystem.Controllers
             else
             {
                 var timeIds = DateUtil.GetTimeIds(repository, startTime, endTime);
-                var finalDate = DateTime.ParseExact(date, "dd.MM.yyyy", CultureInfo.InvariantCulture);
                 var models = new List<ReservationModel>();
-                foreach (var table in tables)
+                var dates = date.Split(',');
+
+                foreach (var sdate in dates)
                 {
-                    //pro kazdy stul
-                    models.AddRange(timeIds.Select(time => new ReservationModel()
+                    var finalDate = DateTime.ParseExact(sdate, "dd.MM.yyyy", CultureInfo.InvariantCulture);
+                    foreach (var table in tables)
                     {
-                        Date = finalDate.Date, TableId = Int32.Parse(table), TimeId = time, UserId = User.Identity.GetUserId()
-                    }));
+                        //pro kazdy stul
+                        models.AddRange(timeIds.Select(time => new ReservationModel()
+                        {
+                            Date = finalDate.Date,
+                            TableId = Int32.Parse(table),
+                            TimeId = time,
+                            UserId = User.Identity.GetUserId()
+                        }));
+                    }
                 }
+
                 using (IUnitOfWork uow = new UnitOfWork(new DbContextWrap()))
                 {
                     foreach (var model in models)
@@ -141,6 +150,7 @@ namespace ReservationSystem.Controllers
                     }
                     uow.SaveChanges();
                 }
+               
                 return RedirectToAction("Index", "Home", new { code = new ReturnCode(ReturnCodeLevel.SUCCESS, Resource.ReservationSuccess, Resource.GroupReservationSuccessReason), date = date });
             }
         }
@@ -170,19 +180,21 @@ namespace ReservationSystem.Controllers
 
         public ActionResult CancelledDay(string date, string reason)
         {
-            var realdate = DateTime.ParseExact(date, "dd.MM.yyyy", CultureInfo.InvariantCulture);
+            var dates = date.Split(',');
+
+            var cancellList = dates.Select(sdate => DateTime.ParseExact(sdate, "dd.MM.yyyy", CultureInfo.InvariantCulture)).Select(finalDate => new CancelledDayModel()
+            {
+                Date = finalDate, Reason = reason
+            }).ToList();
+
             using (IUnitOfWork uow = new UnitOfWork(new DbContextWrap()))
             {
-                var cancelled = new CancelledDayModel()
+                foreach (var cancel in cancellList)
                 {
-                    Date = realdate,
-                    Reason = reason
-                };
-                
-                repository.Add<CancelledDayModel>(uow, cancelled);
+                    repository.Add<CancelledDayModel>(uow, cancel);
+                }
                 uow.SaveChanges();
             }
-
             return RedirectToAction("Index", "Home", new { code = new ReturnCode(ReturnCodeLevel.SUCCESS, Resource.CancellationOk, null), date = date });
 
         }
