@@ -11,11 +11,7 @@
         <legend>Hromadné rezervace</legend>
         <div class="form-group">
             <label for="groupDateDatePicker" class="col-lg-2 control-label">Datum</label>
-            <div id="multipleDatePickerDiv" class="col-lg-10">
                 <input class="form-control" id="groupDateDatePicker" name="date">
-                <a class="btn btn-link" id="addBtn" onClick="javascript:AddInput();">Přidat datum...</a>
-                <br />
-            </div>
         </div>
         <div class="form-group">
             <label for="startTime" class="col-lg-2 control-label">Počáteční čas</label>
@@ -91,13 +87,14 @@
  </div>
 
     @section scripts
-{
+    {
         <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+        <script src="~/Scripts/jquery-ui.multidatespicker.js" ></script>
         <script type="text/javascript">
-            $(function () {
-                $("#groupDateDatePicker").datepicker(
+            $(function() {
+                $("#groupDateDatePicker").multiDatesPicker(
                     {
                         beforeShowDay: $.datepicker.noWeekends,
                         dateFormat: "dd.mm.yy",
@@ -106,42 +103,21 @@
                         monthNames: ["Leden", "Únor", "Březen", "Duben", "Květen", "Červen", "Červenec", "Srpen", "Září", "Říjen", "Listopad", "Prosinec"],
                         firstDay: 1,
                         minDate: 0
-                    });
+                    }
+                    );
 
-                $("#groupDateDatePicker2").datepicker(
-                    {
-                        beforeShowDay: $.datepicker.noWeekends,
-                        dateFormat: "dd.mm.yy",
-                        dayNamesShort: ["Ne, Po, Út, St, Čt, Pá, So"],
-                        dayNames: ["Neděle", "Pondělí", "Úterý", "Středa", "Čtvrtek", "Pátek", "Sobota"],
-                        monthNames: ["Leden", "Únor", "Březen", "Duben", "Květen", "Červen", "Červenec", "Srpen", "Září", "Říjen", "Listopad", "Prosinec"],
-                        firstDay: 1,
-                        minDate: 0
-                    });
-
-                var x = 1;
- 
-                /*$("#addBtn").bind("click", function () {
-                    var d = document.getElementById("multipleDatePickerDiv");
-                    d.innerHTML += "<input class='form-control' name='date" + x++ + "'><br/>";
-
-                });*/
-
-                function AddInput() {
-                    var d = document.getElementById("multipleDatePickerDiv");
-                    d.innerHTML += "<input class='form-control' name='date" + x++ + "'><br/>";
-
-                };
-
+                $("#groupDateDatePicker2").multiDatesPicker(
+                {
+                    beforeShowDay: $.datepicker.noWeekends,
+                    dateFormat: "dd.mm.yy",
+                    dayNamesShort: ["Ne, Po, Út, St, Čt, Pá, So"],
+                    dayNames: ["Neděle", "Pondělí", "Úterý", "Středa", "Čtvrtek", "Pátek", "Sobota"],
+                    monthNames: ["Leden", "Únor", "Březen", "Duben", "Květen", "Červen", "Červenec", "Srpen", "Září", "Říjen", "Listopad", "Prosinec"],
+                    firstDay: 1,
+                    minDate: 0
+                });
 
             });
-            var x = 1;
-
-            function AddInput() {
-                var d = document.getElementById("multipleDatePickerDiv");
-                d.innerHTML += "<input class='form-control' name='date" + x++ + "'><br/>";
-
-            };
         </script>
     }
 

@@ -22,8 +22,6 @@ namespace ReservationSystem.Reservation
 
         public bool IsPicked { get; set; }
 
-       
-
         public ReservationView()
         {
             //default values
