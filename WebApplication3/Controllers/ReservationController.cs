@@ -37,7 +37,7 @@ namespace ReservationSystem.Controllers
         {
             try
             {
-                var date = DateTime.Parse(sdate);
+                var date = DateTime.ParseExact(sdate, "MM.dd.yyyy", CultureInfo.InvariantCulture);
                 using (IUnitOfWork uow = new UnitOfWork(new DbContextWrap()))
                 {
                     var picked = reservationManager.GetPickedForDateAndUser(uow, date, User.Identity.GetUserId());
@@ -128,7 +128,7 @@ namespace ReservationSystem.Controllers
 
                 foreach (var sdate in dates)
                 {
-                    var finalDate = DateTime.ParseExact(sdate, "dd.MM.yyyy", CultureInfo.InvariantCulture);
+                    var finalDate = DateTime.ParseExact(sdate.Replace(" ", ""), "dd.MM.yyyy", CultureInfo.InvariantCulture);
                     foreach (var table in tables)
                     {
                         //pro kazdy stul
@@ -182,7 +182,7 @@ namespace ReservationSystem.Controllers
         {
             var dates = date.Split(',');
 
-            var cancellList = dates.Select(sdate => DateTime.ParseExact(sdate, "dd.MM.yyyy", CultureInfo.InvariantCulture)).Select(finalDate => new CancelledDayModel()
+            var cancellList = dates.Select(sdate => DateTime.ParseExact(sdate.Replace(" ", ""), "dd.MM.yyyy", CultureInfo.InvariantCulture)).Select(finalDate => new CancelledDayModel()
             {
                 Date = finalDate, Reason = reason
             }).ToList();

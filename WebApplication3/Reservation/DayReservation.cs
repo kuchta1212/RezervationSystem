@@ -44,8 +44,12 @@ namespace ReservationSystem.Reservation
 
         public string UserFromReservation(TimeModel time, TableModel table)
         {
-            var tableReservation = reservations[table.Number];
-            return tableReservation.GetUser(time.Id);
+            if (reservations.Count > 0)
+            {
+                var tableReservation = reservations[table.Number];
+                return tableReservation.GetUser(time.Id);
+            }
+            return string.Empty;
         }
     }
 }

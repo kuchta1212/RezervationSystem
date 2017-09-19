@@ -66,8 +66,7 @@
             <div class="form-group">
                 <label for="groupDateDatePicker" class="col-lg-2 control-label">Datum</label>
                 <div id="multipleDatePickerDiv2" class="col-lg-10">
-                    <button type="button" id="addBtn2" onclick="AppendDatePicker()">Přidat datum</button>
-                    <input class="form-control" id="cancellGroupDateDatePicker2" name="cancellDay"><br />
+                    <input class="form-control" id="canncelledGroupDateDatePicker" name="date"><br />
                 </div>
             </div>
 
@@ -106,7 +105,7 @@
                     }
                     );
 
-                $("#groupDateDatePicker2").multiDatesPicker(
+                $("#canncelledGroupDateDatePicker").multiDatesPicker(
                 {
                     beforeShowDay: $.datepicker.noWeekends,
                     dateFormat: "dd.mm.yy",
