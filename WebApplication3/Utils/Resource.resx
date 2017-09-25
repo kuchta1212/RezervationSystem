@@ -138,4 +138,7 @@
   <data name="TableAlreadyPickedWarning" xml:space="preserve">
     <value>Vybraný stůl, je již bohužel rezervován.</value>
   </data>
+  <data name="WriteAnAdministrator" xml:space="preserve">
+    <value>Prosím napište administrátorovi chybu a co jste dělali.</value>
+  </data>
 </root>

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Globalization;
 using System.Linq;
+using System.Runtime.Versioning;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
@@ -37,7 +38,7 @@ namespace ReservationSystem.Controllers
         {
             try
             {
-                var date = DateTime.ParseExact(sdate, "MM.dd.yyyy", CultureInfo.InvariantCulture);
+                var date = DateTime.Parse(sdate);
                 using (IUnitOfWork uow = new UnitOfWork(new DbContextWrap()))
                 {
                     var picked = reservationManager.GetPickedForDateAndUser(uow, date, User.Identity.GetUserId());
@@ -55,14 +56,13 @@ namespace ReservationSystem.Controllers
                     }
                     uow.SaveChanges();
                 }
-                return RedirectToAction("Index", "Home", new { code = new ReturnCode(ReturnCodeLevel.SUCCESS, Resource.ReservationSuccess, Resource.ReservationSuccessReason), date = date });
+                return RedirectToAction("Index", "Home", new { code = new ReturnCode(ReturnCodeLevel.SUCCESS, Resource.ReservationSuccess, Resource.ReservationSuccessReason).ToString(), date = date });
             }
             catch(Exception ex)
             {
-                return RedirectToAction("Index", "Home", new { code = new ReturnCode(ReturnCodeLevel.ERROR, ex.Message, null)});
+                Logger.Instance.WriteToLog(ex.Message + Environment.NewLine + ex.StackTrace, this.ToString(), LogType.ERROR);
+                return RedirectToAction("Index", "Home", new { code = new ReturnCode(ReturnCodeLevel.ERROR, Resource.WriteAnAdministrator, ex.Message).ToString()});
             }
-
-            
         }
 
         public ActionResult PickedTime(int table, int time, DateTime? sdate)
@@ -76,7 +76,7 @@ namespace ReservationSystem.Controllers
                 var isFree =repository.Get<PickedModel, int>(uow, (pick => pick.TableId == table && pick.TimeId == time && pick.UserId != userId), (item => item.Id));
                 if (isFree.Any())
                 {
-                    return RedirectToAction("Index", "Home", new { code = new ReturnCode(ReturnCodeLevel.WARNING, Resource.TableAlreadyPickedWarning, null), date = date });
+                    return RedirectToAction("Index", "Home", new { code = new ReturnCode(ReturnCodeLevel.WARNING, Resource.TableAlreadyPickedWarning, null).ToString(), date = date });
                 }
 
                 var userPickeds = repository.Get<PickedModel, int>(uow,
@@ -105,7 +105,7 @@ namespace ReservationSystem.Controllers
                 uow.SaveChanges();
             }
 
-            return RedirectToAction("Index", "Home", new {code= new ReturnCode(ReturnCodeLevel.RELOAD, Resource.ReloadOK, null), date =date});
+            return RedirectToAction("Index", "Home", new {code= new ReturnCode(ReturnCodeLevel.RELOAD, Resource.ReloadOK, null).ToString(), date =date});
         }
 
         public ActionResult GroupReservations(string date, string startTime, string endTime, IEnumerable<string> tables)
@@ -151,7 +151,7 @@ namespace ReservationSystem.Controllers
                     uow.SaveChanges();
                 }
                
-                return RedirectToAction("Index", "Home", new { code = new ReturnCode(ReturnCodeLevel.SUCCESS, Resource.ReservationSuccess, Resource.GroupReservationSuccessReason), date = date });
+                return RedirectToAction("Index", "Home", new { code = new ReturnCode(ReturnCodeLevel.SUCCESS, Resource.ReservationSuccess, Resource.GroupReservationSuccessReason).ToString(), date = date });
             }
         }
 
@@ -175,7 +175,7 @@ namespace ReservationSystem.Controllers
                 uow.SaveChanges();
             }
 
-            return RedirectToAction("Index", "Home", new { code = new ReturnCode(ReturnCodeLevel.SUCCESS, Resource.ReservationDeleteSucess, null)});
+            return RedirectToAction("Index", "Home", new { code = new ReturnCode(ReturnCodeLevel.SUCCESS, Resource.ReservationDeleteSucess, null).ToString()});
         }
 
         public ActionResult CancelledDay(string date, string reason)
@@ -195,7 +195,7 @@ namespace ReservationSystem.Controllers
                 }
                 uow.SaveChanges();
             }
-            return RedirectToAction("Index", "Home", new { code = new ReturnCode(ReturnCodeLevel.SUCCESS, Resource.CancellationOk, null), date = date });
+            return RedirectToAction("Index", "Home", new { code = new ReturnCode(ReturnCodeLevel.SUCCESS, Resource.CancellationOk, null).ToString(), date = date });
 
         }
     }

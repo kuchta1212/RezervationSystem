@@ -28,7 +28,7 @@ namespace ReservationSystem.Controllers
             this.reservationManager = reservationManager;
         }
 
-        public ActionResult Index(ReturnCode code, DateTime? date)
+        public ActionResult Index(string code, DateTime? date)
         {
             if(!Request.IsAuthenticated)
                 return View(new ReservationView());
@@ -54,13 +54,14 @@ namespace ReservationSystem.Controllers
                     model.Day = reservationManager.GetReservationsForDate(uow, model.Date, tables, User.Identity.GetUserId());
                 }
 
-                model.ReturnCode = code ?? new ReturnCode(ReturnCodeLevel.RELOAD, Resource.ReloadOK, null);
+                model.ReturnCode = ReturnCode.FromString(code) ?? new ReturnCode(ReturnCodeLevel.RELOAD, Resource.ReloadOK, null);
 
                 ModelState.Clear();
             }
             catch (Exception ex)
             {
                 model.ReturnCode.Error(ex.Message);
+                Logger.Instance.WriteToLog(ex.Message, this.ToString(), LogType.ERROR);
             }
 
             return View(model);
@@ -70,11 +71,10 @@ namespace ReservationSystem.Controllers
         public ActionResult DateChange(string date)
         {
             if (date == null)
-                return RedirectToAction("Index", "Home", new { code = new ReturnCode(ReturnCodeLevel.RELOAD, Resource.ReloadOK, null), dateDiff = 1 });
+                return RedirectToAction("Index", "Home", new { code = new ReturnCode(ReturnCodeLevel.RELOAD, Resource.ReloadOK, null).ToString(), dateDiff = 1 });
 
             var parsedDate = DateTime.ParseExact(date, "dd.MM.yyyy", System.Globalization.CultureInfo.InvariantCulture);
-            //var dif = DateUtil.DateDiff(DateTime.ParseExact(date, "MM/dd/yyyy", System.Globalization.CultureInfo.InvariantCulture));
-            return RedirectToAction("Index", "Home", new { code = new ReturnCode(ReturnCodeLevel.RELOAD, Resource.ReloadOK, null), date = parsedDate });
+            return RedirectToAction("Index", "Home", new { code = new ReturnCode(ReturnCodeLevel.RELOAD, Resource.ReloadOK, null).ToString(), date = parsedDate });
             
 
         }

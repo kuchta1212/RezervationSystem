@@ -122,5 +122,14 @@ namespace ReservationSystem.Utils {
                 return ResourceManager.GetString("TableAlreadyPickedWarning", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Prosím napište administrátorovi chybu a co jste dělali..
+        /// </summary>
+        internal static string WriteAnAdministrator {
+            get {
+                return ResourceManager.GetString("WriteAnAdministrator", resourceCulture);
+            }
+        }
     }
 }
