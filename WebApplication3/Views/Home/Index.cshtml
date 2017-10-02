@@ -52,7 +52,7 @@ else
         
 
         <p align="center">
-            @Html.ActionLink("Uložit", "Save", "Reservation", routeValues: new {sdate = @Model.Date.ToString("MM/dd/yyyy")}, htmlAttributes: new {@id = "saveBtn", @class = "btn btn-primary btn-lg btn-block" })
+            @Html.ActionLink("Uložit", "Save", "Reservation", routeValues: new {sdate = Model.Date}, htmlAttributes: new {@id = "saveBtn", @class = "btn btn-primary btn-lg btn-block" })
         </p>
 
     </div>

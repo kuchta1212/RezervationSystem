@@ -34,11 +34,11 @@ namespace ReservationSystem.Controllers
             return View();
         }
 
-        public ActionResult Save(string sdate)
+        public ActionResult Save(DateTime? sdate)
         {
             try
             {
-                var date = DateTime.Parse(sdate);
+                var date = sdate.Value;
                 using (IUnitOfWork uow = new UnitOfWork(new DbContextWrap()))
                 {
                     var picked = reservationManager.GetPickedForDateAndUser(uow, date, User.Identity.GetUserId());
