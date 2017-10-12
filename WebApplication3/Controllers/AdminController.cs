@@ -112,9 +112,17 @@ namespace ReservationSystem.Controllers
         }
 
         [HttpPost] // this action takes the viewModel from the modal
-        public ActionResult Edit(SettingModel setting)
+        public ActionResult Edit(SettingModel model, string svalue)
         {
-            return RedirectToAction("Setting");
+            using (IUnitOfWork uow = new UnitOfWork(new DbContextWrap()))
+            {
+                var m = _repository.GetByKey<SettingModel>(uow, model.Id);
+                m.Value = svalue;
+                _repository.Update(uow,m);
+                uow.SaveChanges();
+            }
+
+            return RedirectToAction("Settings");
         }
     }
 }
