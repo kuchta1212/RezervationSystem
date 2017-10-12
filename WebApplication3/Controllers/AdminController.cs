@@ -6,6 +6,7 @@ using System.Data.Entity;
 using System.Globalization;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
@@ -85,17 +86,18 @@ namespace ReservationSystem.Controllers
                 model.Setting = settingModels;
             }
 
-            ApplicationDbContext appContext = new ApplicationDbContext();
-            var userStore = new UserStore<ApplicationUser>(appContext);
-            var userManager = new UserManager<ApplicationUser>(userStore);
-            model.Users = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>().Users.
-                Select(u => new MyUser {Id = u.Id, Email = u.Email, UserName = u.UserName}).ToList();
+            using (var appContext = new ApplicationDbContext())
+            { 
+                var userStore = new UserStore<ApplicationUser>(appContext);
+                var userManager = new UserManager<ApplicationUser>(userStore);
+                model.Users = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>().Users.
+                    Select(u => new MyUser {Id = u.Id, Email = u.Email, UserName = u.UserName}).ToList();
 
-            foreach (var user in model.Users)
-            {
-                user.IsAdmin = userManager.IsInRole(user.Id, "Admin");
+                foreach (var user in model.Users)
+                {
+                    user.IsAdmin = userManager.IsInRole(user.Id, "Admin");
+                }
             }
-            appContext.Dispose();
 
             return View("Settings", model);
         }
@@ -122,6 +124,22 @@ namespace ReservationSystem.Controllers
                 uow.SaveChanges();
             }
 
+            return RedirectToAction("Settings");
+        }
+
+        public ActionResult ChangeAdmin(string id, bool? WasAdmin)
+        {
+            using (var appContext = new ApplicationDbContext())
+            {
+                var userStore = new UserStore<ApplicationUser>(appContext);
+                var userManager = new UserManager<ApplicationUser>(userStore);
+                if (WasAdmin.Value)
+                    userManager.RemoveFromRole(id, "Admin");
+                else
+                    userManager.AddToRole(id, "Admin");
+
+                appContext.SaveChanges();
+            }
             return RedirectToAction("Settings");
         }
     }

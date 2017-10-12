@@ -39,7 +39,7 @@
                 {<td>ANO</td>}
                 else
                 {<td>NE</td>}
-                <td>@Html.ActionLink("Změnit", "ChangeAdmin", "Admin", new {id = item.Id}, new {@id = item.Id})</td>
+                <td>@Html.ActionLink("Změnit", "ChangeAdmin", "Admin", new {id = @item.Id, WasAdmin = @item.IsAdmin}, new {@id = item.Id})</td>
             </tr>
         }
     </table>
