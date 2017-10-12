@@ -83,5 +83,10 @@ namespace ReservationSystem.Controllers
         {
             return View("Contact");
         }
+
+        public ActionResult ViewModal()
+        {
+            return PartialView("_ModalPartial");
+        }
     }
 }

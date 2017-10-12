@@ -230,9 +230,14 @@
     <Compile Include="Migrations\201708310748080_CancelledDay.Designer.cs">
       <DependentUpon>201708310748080_CancelledDay.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201710051624084_Setting.cs" />
+    <Compile Include="Migrations\201710051624084_Setting.Designer.cs">
+      <DependentUpon>201710051624084_Setting.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\CancelledDayModel.cs" />
     <Compile Include="Models\ReportModel.cs" />
     <Compile Include="Models\ReservationModel.cs" />
+    <Compile Include="Models\SettingModel.cs" />
     <Compile Include="Reservation\DayReservation.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -282,6 +287,7 @@
     </Compile>
     <Compile Include="Utils\ReturnCode.cs" />
     <Compile Include="Utils\ReturnCodeLevel.cs" />
+    <Compile Include="Utils\SettingModelView.cs" />
     <Compile Include="Utils\WindsorControllerFactory.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -405,6 +411,9 @@
     <Content Include="Views\Admin\Settings.cshtml" />
     <Content Include="Views\Reservation\GroupReservations.cshtml" />
     <Content Include="Views\Reservation\EditReservations.cshtml" />
+    <Content Include="Views\Admin\_EditSetting.cshtml" />
+    <Content Include="Views\Admin\_EditPartialView.cshtml" />
+    <Content Include="Views\Home\_ModalPartial.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
@@ -426,6 +435,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201708310748080_CancelledDay.resx">
       <DependentUpon>201708310748080_CancelledDay.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710051624084_Setting.resx">
+      <DependentUpon>201710051624084_Setting.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Utils\Resource.resx">
       <Generator>ResXFileCodeGenerator</Generator>

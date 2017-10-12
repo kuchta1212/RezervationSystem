@@ -21,6 +21,14 @@ namespace ReservationSystem.Migrations
 
         protected override void Seed(ReservationSystem.Models.DbContextWrap context)
         {
+            var setting = new List<SettingModel>
+            {
+                new SettingModel() { Name = "Deadline", Value = "16:00:00"}
+            };
+
+            context.Setting.AddRange(setting);
+            context.SaveChanges();
+
             //  This method will be called after migrating to the latest version.
 
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
@@ -36,20 +44,20 @@ namespace ReservationSystem.Migrations
 
             //   Logger.Instance.WriteToLog("Configuration migration seed","Configuration",LogType.INFO);
 
-           /* ApplicationDbContext appContext = new ApplicationDbContext();
-            var RoleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(appContext));
+            /* ApplicationDbContext appContext = new ApplicationDbContext();
+             var RoleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(appContext));
 
-            // Create Admin Role
-            string roleName = "Admin";
-            IdentityResult roleResult;
+             // Create Admin Role
+             string roleName = "Admin";
+             IdentityResult roleResult;
 
-            // Check to see if Role Exists, if not create it
-            if (!RoleManager.RoleExists(roleName))
-            {
-                roleResult = RoleManager.Create(new IdentityRole(roleName));
-            }
+             // Check to see if Role Exists, if not create it
+             if (!RoleManager.RoleExists(roleName))
+             {
+                 roleResult = RoleManager.Create(new IdentityRole(roleName));
+             }
 
-            appContext.SaveChanges(); */
+             appContext.SaveChanges(); */
 
             /*
             var tables = new List<TableModel>

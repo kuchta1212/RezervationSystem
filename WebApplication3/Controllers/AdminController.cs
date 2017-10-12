@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Data.Entity;
 using System.Globalization;
@@ -8,6 +9,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using ReservationSystem.Models;
 using ReservationSystem.Repository;
@@ -75,7 +77,44 @@ namespace ReservationSystem.Controllers
 
         public ActionResult Settings()
         {
-            return View("Settings");
+            var model = new SettingModelView();
+
+            using (IUnitOfWork uow = new UnitOfWork(new DbContextWrap()))
+            {
+                var settingModels = _repository.GetAll<SettingModel>(uow).ToList();
+                model.Setting = settingModels;
+            }
+
+            ApplicationDbContext appContext = new ApplicationDbContext();
+            var userStore = new UserStore<ApplicationUser>(appContext);
+            var userManager = new UserManager<ApplicationUser>(userStore);
+            model.Users = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>().Users.
+                Select(u => new MyUser {Id = u.Id, Email = u.Email, UserName = u.UserName}).ToList();
+
+            foreach (var user in model.Users)
+            {
+                user.IsAdmin = userManager.IsInRole(user.Id, "Admin");
+            }
+            appContext.Dispose();
+
+            return View("Settings", model);
+        }
+
+        [HttpGet]
+        public ActionResult Edit(int? id)
+        {
+            SettingModel model = null;
+            using (IUnitOfWork uow = new UnitOfWork(new DbContextWrap()))
+            {
+                model = _repository.GetByKey<SettingModel>(uow, id);
+            }
+            return PartialView("_EditPartialView", model);
+        }
+
+        [HttpPost] // this action takes the viewModel from the modal
+        public ActionResult Edit(SettingModel setting)
+        {
+            return RedirectToAction("Setting");
         }
     }
 }
