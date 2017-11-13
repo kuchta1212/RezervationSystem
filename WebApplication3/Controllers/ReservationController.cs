@@ -74,9 +74,16 @@ namespace ReservationSystem.Controllers
             {
                 //is free
                 var isFree =repository.Get<PickedModel, int>(uow, (pick => pick.TableId == table && pick.TimeId == time && pick.UserId != userId), (item => item.Id));
+
                 if (isFree.Any())
                 {
                     return RedirectToAction("Index", "Home", new { code = new ReturnCode(ReturnCodeLevel.WARNING, Resource.TableAlreadyPickedWarning, null).ToString(), date = date });
+                }
+
+                //is not after deadline
+                if (reservationManager.IsAfterDeadline(uow,sdate.Value))
+                {
+                    return RedirectToAction("Index", "Home", new { code = new ReturnCode(ReturnCodeLevel.WARNING, Resource.AfterDeadlineWarning, null).ToString(), date = date });
                 }
 
                 var userPickeds = repository.Get<PickedModel, int>(uow,
@@ -170,7 +177,14 @@ namespace ReservationSystem.Controllers
         {
             using (var uow = new UnitOfWork(new DbContextWrap()))
             {
+
+
                 var reservationModel = repository.Get<ReservationModel, int>(uow, (r => r.Id == id), (r => r.Id)).FirstOrDefault();
+                //is not after deadline
+                if (reservationManager.IsAfterDeadline(uow, reservationModel.Date))
+                {
+                    return RedirectToAction("Index", "Home", new { code = new ReturnCode(ReturnCodeLevel.WARNING, Resource.AfterDeadlineWarning, null).ToString(), date = reservationModel.Date });
+                }
                 repository.Delete<ReservationModel>(uow, reservationModel);
                 uow.SaveChanges();
             }

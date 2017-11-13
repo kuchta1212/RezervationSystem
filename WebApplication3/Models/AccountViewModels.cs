@@ -65,6 +65,10 @@ namespace ReservationSystem.Models
     public class RegisterViewModel
     {
         [Required]
+        [Display(Name = "Jméno")]
+        public string Name { get; set; }
+
+        [Required]
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }

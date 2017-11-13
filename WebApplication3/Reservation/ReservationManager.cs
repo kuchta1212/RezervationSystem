@@ -3,10 +3,12 @@ using ReservationSystem.Repository;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Globalization;
 using System.Linq;
 using Microsoft.AspNet.Identity;
 using System.Web;
 using System.Web.UI;
+using ReservationSystem.Utils;
 
 namespace ReservationSystem.Reservation
 {
@@ -66,6 +68,13 @@ namespace ReservationSystem.Reservation
             var all = repository.GetAll<ReservationModel>(unitOfWork);
             return all.Where(r => r.Date.Date == date.Date).Select(r => r.UserId).ToList();
             
+        }
+
+        public bool IsAfterDeadline(IUnitOfWork uow, DateTime date)
+        {
+            var deadline =
+                repository.Get<SettingModel, int>(uow, (sett => sett.Name == "Deadline"), (item => item.Id)).FirstOrDefault();
+            return date == DateTime.Now.Date && TimeSpan.ParseExact(deadline.Value, "hh\\:mm\\:ss", CultureInfo.InvariantCulture) <= DateTime.Now.TimeOfDay;
         }
 
         private bool DayIsCancelled(IUnitOfWork unitOfWork, DateTime date)

@@ -84,6 +84,11 @@ namespace ReservationSystem.Controllers
             return View("Contact");
         }
 
+        public ActionResult ReservationRules()
+        {
+            return View("ReservationRules");
+        }
+
         public ActionResult ViewModal()
         {
             return PartialView("_ModalPartial");

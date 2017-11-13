@@ -19,7 +19,7 @@ namespace ReservationSystem.Utils {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resource {
@@ -57,6 +57,15 @@ namespace ReservationSystem.Utils {
             }
             set {
                 resourceCulture = value;
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bohužel je již po skončení rezervací na tento den. V případě zájmu o rezervaci nám prosím zavolejte. Děkujeme.
+        /// </summary>
+        internal static string AfterDeadlineWarning {
+            get {
+                return ResourceManager.GetString("AfterDeadlineWarning", resourceCulture);
             }
         }
         
@@ -124,7 +133,7 @@ namespace ReservationSystem.Utils {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Prosím napište administrátorovi chybu a co jste dělali..
+        ///   Looks up a localized string similar to Prosím napište administrátorovi chybu a popis toho co jste dělali. Děkuji.
         /// </summary>
         internal static string WriteAnAdministrator {
             get {

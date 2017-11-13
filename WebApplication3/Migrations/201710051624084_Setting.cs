@@ -1,4 +1,4 @@
-namespace ReservationSystem.Migrations
+namespace ReservationSystem.MyMigrations
 {
     using System;
     using System.Data.Entity.Migrations;

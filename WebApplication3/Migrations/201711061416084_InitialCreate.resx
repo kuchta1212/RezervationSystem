@@ -117,31 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AfterDeadlineWarning" xml:space="preserve">
-    <value>Bohužel je již po skončení rezervací na tento den. V případě zájmu o rezervaci nám prosím zavolejte. Děkujeme</value>
+  <data name="Target" xml:space="preserve">
+    <value>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</value>
   </data>
-  <data name="CancellationOk" xml:space="preserve">
-    <value>Den byl označen jako nehrající</value>
-  </data>
-  <data name="GroupReservationSuccessReason" xml:space="preserve">
-    <value>Vaše hromadná rezervace proběhal úsěšně.</value>
-  </data>
-  <data name="ReloadOK" xml:space="preserve">
-    <value>OK</value>
-  </data>
-  <data name="ReservationDeleteSucess" xml:space="preserve">
-    <value>Vaše rezervace byla úsěšně smazána.</value>
-  </data>
-  <data name="ReservationSuccess" xml:space="preserve">
-    <value>Rezervováno!</value>
-  </data>
-  <data name="ReservationSuccessReason" xml:space="preserve">
-    <value>Vaše rezervace proběhal úsěšně.</value>
-  </data>
-  <data name="TableAlreadyPickedWarning" xml:space="preserve">
-    <value>Vybraný stůl, je již bohužel rezervován.</value>
-  </data>
-  <data name="WriteAnAdministrator" xml:space="preserve">
-    <value>Prosím napište administrátorovi chybu a popis toho co jste dělali. Děkuji</value>
+  <data name="DefaultSchema" xml:space="preserve">
+    <value>dbo</value>
   </data>
 </root>

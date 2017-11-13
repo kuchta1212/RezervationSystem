@@ -154,7 +154,7 @@ namespace ReservationSystem.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser { Name = model.Name, UserName = model.Email, Email = model.Email };
                 model.ConfirmPassword = model.ConfirmPassword + _passwordPostfix;
                 var result = await UserManager.CreateAsync(user, model.Password+ _passwordPostfix);
                 if (result.Succeeded)

@@ -66,7 +66,7 @@ namespace ReservationSystem.Controllers
                                     .GetUserManager<ApplicationUserManager>()
                                     .Users
                                     .Where(u => users.Contains(u.Id))
-                                    .Select(u => new MyUser { Id = u.Id, UserName = u.UserName })
+                                    .Select(u => new MyUser { Id = u.Id, UserName = u.UserName, Name = u.Name})
                                     .ToList()
                                     .ToDictionary(u => u.Id));
                     model.AddDay(view);
@@ -91,7 +91,7 @@ namespace ReservationSystem.Controllers
                 var userStore = new UserStore<ApplicationUser>(appContext);
                 var userManager = new UserManager<ApplicationUser>(userStore);
                 model.Users = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>().Users.
-                    Select(u => new MyUser {Id = u.Id, Email = u.Email, UserName = u.UserName}).ToList();
+                    Select(u => new MyUser {Id = u.Id, Email = u.Email, UserName = u.UserName, Name = u.Name}).ToList();
 
                 foreach (var user in model.Users)
                 {
