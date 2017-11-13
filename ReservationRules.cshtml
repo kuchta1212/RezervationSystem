@@ -1,0 +1,17 @@
+﻿
+@{
+    ViewBag.Title = "ReservationRules";
+}
+
+<h2>Rezervační řád</h2>
+<ul>
+  <li> Stůl lze revervovat pouze do 16:00 daný den. </li>
+  <li> Zrušení rezervace lze taktéž pouze 16:00 daný den. 
+    <ul>
+      <li>V případě nevyzvednutí rezervace, vám bude příští rezervace počítána plná cena i za nevyzvednutou rezervaci</li>
+      <li>V případě , že je již po 16:00 a víte, že se nemůžete dostavit můžete nás @Html.ActionLink("kontaktovat", "Contact", "Home", routeValues: null, htmlAttributes: new { id = "tipsLink" }). Při příští návštěvě Vám bude účtováno 50% z částky</li>
+    </ul>
+  </li>
+  <li> V případě jakéhokoli dotazu nás můžete @Html.ActionLink("kontaktovat", "Contact", "Home", routeValues: null, htmlAttributes: new { id = "tipsLink" }). </li>
+</ul>
+
