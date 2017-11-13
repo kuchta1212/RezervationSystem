@@ -19,5 +19,7 @@ namespace ReservationSystem.Reservation
         List<string> GetUsersForDate(IUnitOfWork unitOfWork, DateTime date);
 
         bool IsAfterDeadline(IUnitOfWork uow, DateTime date);
+
+        void ReleaseAllPickedReservations(string userId);
     }
 }
