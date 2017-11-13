@@ -77,6 +77,19 @@ namespace ReservationSystem.Reservation
             return date == DateTime.Now.Date && TimeSpan.ParseExact(deadline.Value, "hh\\:mm\\:ss", CultureInfo.InvariantCulture) <= DateTime.Now.TimeOfDay;
         }
 
+        public void ReleaseAllPickedReservations(string userId)
+        {
+            using (IUnitOfWork uow = new UnitOfWork(new DbContextWrap()))
+            {
+                var pickedModels = repository.Get<PickedModel, int>(uow, (picked => picked.UserId.Equals(userId)), (picked => picked.Id));
+                foreach (var model in pickedModels)
+                {
+                    repository.Delete(uow,model);
+                }
+                uow.SaveChanges();
+            }
+        }
+
         private bool DayIsCancelled(IUnitOfWork unitOfWork, DateTime date)
         {
             return repository.Get<CancelledDayModel, int>(unitOfWork, (i=> i.Date == date), (i=>i.Id)).Any();

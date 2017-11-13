@@ -5134,10 +5134,6 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 
 .navbar {
     position: relative;
-    top: 0;
-    right: 0;
-    width: 150%;
-    left: 0;
     min-height: 50px;
     margin-bottom: 20px;
     border: 1px solid transparent;

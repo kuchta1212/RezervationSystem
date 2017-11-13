@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using ReservationSystem.Models;
+using ReservationSystem.Reservation;
 
 namespace ReservationSystem.Controllers
 {
@@ -17,17 +18,20 @@ namespace ReservationSystem.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private IReservationManager _reservationManager;
 
         private const string _passwordPostfix = "Tt1.";
 
-        public AccountController()
+        public AccountController(IReservationManager reservationManager)
         {
+            _reservationManager = reservationManager;
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager, IReservationManager reservationManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
+            _reservationManager = reservationManager;
         }
 
         public ApplicationSignInManager SignInManager
@@ -317,6 +321,7 @@ namespace ReservationSystem.Controllers
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            _reservationManager.ReleaseAllPickedReservations(User.Identity.GetUserId());
             return RedirectToAction("Index", "Home");
         }
 
