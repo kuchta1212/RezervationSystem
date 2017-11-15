@@ -1,0 +1,67 @@
+﻿@using ReservationSystem.Models
+@model ReservationSystem.Reservation.ReservationView
+
+    <div class="table-responsive">
+      <table class="table table-striped table-hover">
+        <thead>
+        <tr>
+          <th>Čas</th>
+          @foreach (var table in Model.Tables as List<TableModel>)
+          {
+            <th>Stůl @table.Number</th>
+          }
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var time in Model.Times as List<TimeModel>)
+        {
+
+          <tr>
+            <td>
+              @{
+                var t = time.StartTime.Hours.ToString() + ":" + (time.StartTime.Minutes != 0 ? time.StartTime.Minutes.ToString() : "00");
+              }
+              @t
+            </td>
+            @foreach (var table in Model.Tables as List<TableModel>)
+            {
+              if (Model.Day.IsCancelled)
+              {
+                <td>
+                  <button class="btn btn-default">ZAVŘENO</button>
+                </td>
+
+              }
+              else
+              {
+                int res = Model.Day.IsReserved(time, table);
+                switch (res)
+                {
+                  case 1:
+                    <td>
+                      @Html.ActionLink("VOLNO", "PickedTime", "Reservation", new { table = table.Id, time = time.Id, sdate = Model.Date }, new { @class = "btn btn-success btn-sm" })
+                    </td>
+                    break;
+                  case 2:
+                    <td>
+                      @Html.ActionLink("VYBRÁNO", "PickedTime", "Reservation", new { table = table.Id, time = time.Id, sdate = Model.Date }, new { @class = "btn btn-warning btn-sm" })
+                    </td>
+                    break;
+                  case 3:
+                    <td>
+                      <button class="btn btn-danger btn-sm">REZERVOVÁNO</button>
+                    </td>
+                    break;
+
+                }
+              }
+
+
+            }
+          </tr>
+        }
+        </tbody>
+      </table>
+    </div>
+
+
