@@ -20,17 +20,12 @@ html {
 
 body {
     margin: 0;
-}
-
-#background {
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
     background-image: url(../Resources/logo.png);
     background-repeat: no-repeat;
-    opacity: .2;
+    background-position: top;
+    background-size: 50%;
 }
+
 
 article,
 aside,
@@ -245,6 +240,10 @@ th {
     padding: 0;
 }
 /*! Source: https://github.com/h5bp/html5-boilerplate/blob/master/src/css/main.css */
+@page { 
+    size:landscape
+}
+
 @media print {
     *,
     *:before,

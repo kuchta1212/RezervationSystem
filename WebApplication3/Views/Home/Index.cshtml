@@ -39,24 +39,20 @@ else
         </div>
     }
 
-    <div class="panel panel-default">
-            <div class="panel-body">
-                @using (Html.BeginForm("DateChange", "Home", new { @id = "mydatepickerform" }))
-                {
-                    <p align="center">
-                        @Html.TextBox("date", "", new { @id = "mydatepicker", @class = "form-control input-lg", @style="text-align:center; font-weight:bold; font-size:30px"})
-                    </p>
-                }
-            </div>
-        
-
-        <p align="center">
-            @Html.ActionLink("Uložit", "Save", "Reservation", routeValues: new {sdate = Model.Date}, htmlAttributes: new {@id = "saveBtn", @class = "btn btn-primary btn-lg btn-block" })
-        </p>
-
+    <div class="panel-body">
+        @using (Html.BeginForm("DateChange", "Home", new { @id = "mydatepickerform" }))
+        {
+            <p align="center">
+                @Html.TextBox("date", "", new { @id = "mydatepicker", @class = "form-control input-lg", @style="text-align:center; font-weight:bold; font-size:30px"})
+            </p>
+        }
     </div>
 
-         @Html.Partial("_ReservationTable", Model)
+    <p align="center">
+        @Html.ActionLink("Rezervovat", "Save", "Reservation", routeValues: new {sdate = Model.Date}, htmlAttributes: new {@id = "saveBtn", @class = "btn btn-primary btn-lg btn-block" })
+    </p>
+
+      @Html.Partial("_ReservationTable", Model)
 }
 
 

@@ -27,57 +27,54 @@
     }
     </div>
 
-    <div id="printable" class="well">
+    <div id="printable">
 
         @foreach (var view in Model.Days)
         {
-            <div class="panel panel-default">
                 <div class="panel-heading">@view.Key.Date.DayOfWeek.ToString() - @view.Key.Date.ToShortDateString()</div>
-                <div class="panel-body">
-                    <table class="table table-striped table-hover " table width="100">
-                        <thead>
-                            <tr>
-                                <th>Čas</th>
-                                @foreach (var table in view.Key.Tables as List<TableModel>)
-                                {
-                                    <th>Stůl @table.Number</th>
-                                }
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var time in view.Key.Times as List<TimeModel>)
-                            {
+                  <table class="table table-striped table-hover " table width="100">
+                    <thead>
+                    <tr>
+                      <th>Čas</th>
+                      @foreach (var table in view.Key.Tables as List<TableModel>)
+                      {
+                        <th>Stůl @table.Number</th>
+                      }
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var time in view.Key.Times as List<TimeModel>)
+                    {
 
-                                <tr>
-                                    <td>
-                                        @{
-                                            var t = time.StartTime.Hours.ToString() + ":" + (time.StartTime.Minutes != 0 ? time.StartTime.Minutes.ToString() : "00");
-                                        }
-                                        @t
-                                    </td>
-                                    @foreach (var table in view.Key.Tables as List<TableModel>)
-                                    {
-                                        var user = view.Key.Day.UserFromReservation(time, table);
-                                        if (user == null)
-                                        {
-                                            <td>
-                                                <button class="btn btn-success">VOLNO</button>
-                                            </td>
-                                        }
-                                        else
-                                        {
-                                            <td>
-                                                <button class="btn btn-danger">@Model.Users[user].Name</button>
-                                            </td>
-                                        }
-                                    }
-                                </tr>
-                                            }
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-                                            }
+                      <tr>
+                        <td>
+                          @{
+                            var t = time.StartTime.Hours.ToString() + ":" + (time.StartTime.Minutes != 0 ? time.StartTime.Minutes.ToString() : "00");
+                          }
+                          @t
+                        </td>
+                        @foreach (var table in view.Key.Tables as List<TableModel>)
+                        {
+                          var user = view.Key.Day.UserFromReservation(time, table);
+                          if (user == null)
+                          {
+                            <td>
+                              <button class="btn btn-success btn-sm">VOLNO</button>
+                            </td>
+                          }
+                          else
+                          {
+                            <td>
+                              <button class="btn btn-danger btn-sm">@Model.Users[user].Name</button>
+                            </td>
+                          }
+                        }
+                      </tr>
+                    }
+                    </tbody>
+                  </table>
+
+         }
     </div>
 
 
