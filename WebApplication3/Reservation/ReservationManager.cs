@@ -15,6 +15,7 @@ namespace ReservationSystem.Reservation
     public class ReservationManager : IReservationManager
     {
         private readonly IRepository repository;
+       
 
         public ReservationManager(IRepository repository)
         {

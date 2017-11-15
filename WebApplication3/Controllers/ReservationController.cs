@@ -21,11 +21,13 @@ namespace ReservationSystem.Controllers
     {
         private IRepository repository;
         private IReservationManager reservationManager;
+        private EmailController emailController;
 
-        public ReservationController(IReservationManager reservationManager, IRepository repository)
+        public ReservationController(IReservationManager reservationManager, IRepository repository, EmailController emailController)
         {
             this.repository = repository;
             this.reservationManager = reservationManager;
+            this.emailController = emailController;
         }
 
         // GET: Reservation
@@ -56,6 +58,7 @@ namespace ReservationSystem.Controllers
                     }
                     uow.SaveChanges();
                 }
+                emailController.SendReservationConfirmation(User.Identity.GetUserName());
                 return RedirectToAction("Index", "Home", new { code = new ReturnCode(ReturnCodeLevel.SUCCESS, Resource.ReservationSuccess, Resource.ReservationSuccessReason).ToString(), date = date });
             }
             catch(Exception ex)

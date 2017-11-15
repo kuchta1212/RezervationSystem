@@ -287,6 +287,7 @@
     <Compile Include="Startup.cs" />
     <Compile Include="Utils\ControllersInstaller.cs" />
     <Compile Include="Utils\DateUtil.cs" />
+    <Compile Include="Utils\EmailController.cs" />
     <Compile Include="Utils\IoC.cs" />
     <Compile Include="Utils\Logger.cs" />
     <Compile Include="Utils\MyUser.cs" />

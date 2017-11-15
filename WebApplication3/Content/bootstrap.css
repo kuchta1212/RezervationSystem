@@ -6087,7 +6087,7 @@ a.badge:focus {
     margin-bottom: 30px;
     color: inherit;
     background-image: url(../Resources/backround.jpg);
-    background-position: 0% 25%;
+    background-position: 0% 50%;
     background-size: cover;
 }
 
@@ -6099,12 +6099,13 @@ a.badge:focus {
     .jumbotron h2,
     .jumbotron .h2 {
         color: #8b0000;
+        font-weight: bold;
     }
 
     .jumbotron p {
         margin-bottom: 15px;
         font-size: 21px;
-        font-weight: 200;
+        font-weight: bold;
         color: #8b0000;
     }
 

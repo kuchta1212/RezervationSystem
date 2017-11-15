@@ -14,6 +14,8 @@ namespace ReservationSystem.Utils
         {
             container.Register(Component.For<Repo.IRepository>().ImplementedBy<Repo.Repository>());
 
+            container.Register(Component.For<EmailController>());
+
             container.Register(Component.For<IReservationManager>().ImplementedBy<ReservationManager>());
 
             container.Register(Component.For<RezervationCleaner>());
