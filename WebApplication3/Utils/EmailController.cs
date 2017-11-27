@@ -19,7 +19,7 @@ namespace ReservationSystem.Utils
             var body = "<p>Potrvzujeme vaši rezervaci</p>";
             var subject = "Potvrzení rezervace";
 
-            var task = SendEmail("kuchar_jan@live.com", body, subject);
+            var task = SendEmail(emailTo, body, subject);
             task.ContinueWith(t =>
             {  
                if(!t.Result)
@@ -31,28 +31,45 @@ namespace ReservationSystem.Utils
 
         private async Task<bool> SendEmail(string mailTo, string body, string subject)
         {
-            var message = new MailMessage();
-            message.To.Add(new MailAddress(mailTo));
-            message.From = new MailAddress("jku@prodata.cz");
-            message.Subject = subject;
-            message.Body = body;
-            message.IsBodyHtml = true;
+            MailMessage mail = new MailMessage("sparta.rezervace@gmail.com", mailTo);
+            SmtpClient client = new SmtpClient();
+            client.Port = 587;
+            client.EnableSsl = true;
+            client.Timeout = 10000;
+            client.DeliveryMethod = SmtpDeliveryMethod.Network;
+            client.UseDefaultCredentials = false;
+            client.Credentials = new System.Net.NetworkCredential("sparta.rezervace@gmail.com", "acsparta1234");
+            client.Host = "smtp.gmail.com";
+            mail.Subject = "this is a test of reservation number #.";
+            mail.Body = "this is my test email body";
+            await client.SendMailAsync(mail);
+            return true;
 
-            using (var smtp = new SmtpClient())
-            {
-                var credential = new NetworkCredential
-                {
-                    UserName = "jku@prodata.cz",
-                    Password = "Kuchta12"
-                };
+            //var message = new MailMessage("jan.kuchar.89@gmail.com", mailTo)
+            //{
+            //    Subject = subject,
+            //    Body = body,
+            //    IsBodyHtml = true
+            //};
 
-                smtp.Credentials = credential;
-                smtp.Host = "smtp.prodata.cz";
-                smtp.Port = 25;
-                smtp.EnableSsl = false;
-                await smtp.SendMailAsync(message);
-                return true;
-            }
+            //using (var smtp = new SmtpClient())
+            //{
+            //    var credential = new NetworkCredential
+            //    {
+            //        UserName = "jan.kuchar.89@gmail.com",
+            //        Password = "Kuchta12"
+            //    };
+
+            //    smtp.Credentials = credential;
+            //    smtp.Host = "smtp.gmail.com";
+            //    smtp.Port = 587;
+            //    smtp.EnableSsl = true;
+            //    smtp.Timeout = 1000;
+            //    smtp.UseDefaultCredentials = false;
+            //    smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
+            //    await smtp.SendMailAsync(message);
+            //    return true;
+            //}
         }
     }
 }

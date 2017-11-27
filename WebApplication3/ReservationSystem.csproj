@@ -304,7 +304,6 @@
   <ItemGroup>
     <Content Include="App_Data\TableInserts.txt" />
     <Content Include="App_Data\TimeInert.txt" />
-    <Content Include="Content\Angular\App.js" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\themes\base\accordion.css" />
@@ -359,8 +358,6 @@
     <Content Include="Resources\logo.png" />
     <Content Include="Scripts\ai.0.15.0-build58334.js" />
     <Content Include="Scripts\ai.0.15.0-build58334.min.js" />
-    <Content Include="Scripts\angular-route.min.js" />
-    <Content Include="Scripts\angular.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">

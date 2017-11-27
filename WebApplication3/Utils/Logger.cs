@@ -10,7 +10,7 @@ namespace ReservationSystem.Utils
         private static Queue<Log> logQueue;
         private static readonly string logDir = @"C:\TEMP\ReservationSystemLog";
         private static readonly string logFile = "log.txt";
-        private static int queueSize = 50;
+        private static int queueSize = 5;
         private static DateTime LastFlushed = DateTime.Now;
 
         /// <summary>

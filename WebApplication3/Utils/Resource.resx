@@ -136,7 +136,7 @@
     <value>Rezervováno!</value>
   </data>
   <data name="ReservationSuccessReason" xml:space="preserve">
-    <value>Vaše rezervace proběhal úsěšně.</value>
+    <value>Vaše rezervace proběhal úsěšně. </value>
   </data>
   <data name="TableAlreadyPickedWarning" xml:space="preserve">
     <value>Vybraný stůl, je již bohužel rezervován.</value>
