@@ -14,6 +14,7 @@ using ReservationSystem.Models;
 using ReservationSystem.Repository;
 using ReservationSystem.Reservation;
 using ReservationSystem.Utils;
+using log4net;
 
 namespace ReservationSystem.Controllers
 {
@@ -22,6 +23,7 @@ namespace ReservationSystem.Controllers
         private IRepository repository;
         private IReservationManager reservationManager;
         private EmailController emailController;
+        readonly ILog logger = LogManager.GetLogger(typeof(ReservationController));
 
         public ReservationController(IReservationManager reservationManager, IRepository repository, EmailController emailController)
         {
@@ -63,7 +65,7 @@ namespace ReservationSystem.Controllers
             }
             catch(Exception ex)
             {
-                Logger.Instance.WriteToLog(ex.Message + Environment.NewLine + ex.StackTrace, this.ToString(), LogType.ERROR);
+                logger.Error(ex.Message + Environment.NewLine + ex.StackTrace);
                 return RedirectToAction("Index", "Home", new { code = new ReturnCode(ReturnCodeLevel.ERROR, Resource.WriteAnAdministrator, ex.Message).ToString()});
             }
         }

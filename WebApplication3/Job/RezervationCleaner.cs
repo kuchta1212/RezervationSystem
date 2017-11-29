@@ -4,12 +4,14 @@ using Quartz;
 using ReservationSystem.Models;
 using ReservationSystem.Repository;
 using ReservationSystem.Utils;
+using log4net;
 
 namespace ReservationSystem.Job
 {
     public class RezervationCleaner : IJob
     {
         private IRepository repository;
+        readonly ILog logger = LogManager.GetLogger(typeof(RezervationCleaner));
 
         public RezervationCleaner(IRepository repository)
         {
@@ -18,7 +20,7 @@ namespace ReservationSystem.Job
 
         public void Execute(IJobExecutionContext context)
         {
-            Logger.Instance.WriteToLog("Reservation cleaner job started", "ReservationCleaner", LogType.INFO);
+            logger.Info("Reservation cleaner job started");
 
             var date = DateTime.Now.Date;
 

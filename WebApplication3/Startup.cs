@@ -7,14 +7,13 @@ using ReservationSystem.Job;
 using ReservationSystem.Utils;
 
 [assembly: OwinStartupAttribute(typeof(ReservationSystem.Startup))]
+[assembly: log4net.Config.XmlConfigurator(ConfigFile = "Web.config", Watch = true)]
 namespace ReservationSystem
 {
     public partial class Startup
     {
         public void Configuration(IAppBuilder app)
         {
-            Logger.Instance.WriteToLog("Starting app...","Startup",LogType.INFO);
-
             ConfigureAuth(app);
 
             ISchedulerFactory schedulerFactory = new StdSchedulerFactory();

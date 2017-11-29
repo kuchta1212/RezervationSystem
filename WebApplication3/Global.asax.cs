@@ -3,6 +3,7 @@ using Castle.Windsor.Installer;
 using ReservationSystem.Utils;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -32,7 +33,8 @@ namespace ReservationSystem
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
             MvcApplication.BootstrapContainer();
-            
+            log4net.Config.XmlConfigurator.Configure(new FileInfo(Server.MapPath("~/Web.config")));
+
         }
 
         protected void Application_End()

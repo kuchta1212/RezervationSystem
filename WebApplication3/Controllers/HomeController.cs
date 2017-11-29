@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using ReservationSystem.Utils;
+using log4net;
 
 namespace ReservationSystem.Controllers
 {
@@ -18,6 +19,8 @@ namespace ReservationSystem.Controllers
 
         private List<TimeModel> times;
         private List<TableModel> tables;
+
+        readonly ILog logger = LogManager.GetLogger(typeof (HomeController));
 
         public HomeController()
         { }
@@ -61,7 +64,7 @@ namespace ReservationSystem.Controllers
             catch (Exception ex)
             {
                 model.ReturnCode.Error(ex.Message);
-                Logger.Instance.WriteToLog(ex.Message, this.ToString(), LogType.ERROR);
+                logger.Error(ex.Message);
             }
 
             return View(model);

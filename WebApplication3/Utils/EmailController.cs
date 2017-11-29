@@ -5,6 +5,7 @@ using System.Net;
 using System.Web;
 using System.Net.Mail;
 using System.Threading.Tasks;
+using log4net;
 
 namespace ReservationSystem.Utils
 {
@@ -13,6 +14,8 @@ namespace ReservationSystem.Utils
         public EmailController()
         {
         }
+
+        readonly ILog logger = LogManager.GetLogger(typeof(EmailController));
 
         public void SendReservationConfirmation(string emailTo)
         {
@@ -23,7 +26,7 @@ namespace ReservationSystem.Utils
             task.ContinueWith(t =>
             {  
                if(!t.Result)
-                Logger.Instance.WriteToLog("Email was not send due to error", "EmailController", LogType.ERROR);
+                    logger.Error("Email was not send due to error");
             })
             ;
                

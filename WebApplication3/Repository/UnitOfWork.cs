@@ -2,12 +2,14 @@
 using System.Data.Entity.Infrastructure;
 using ReservationSystem.Models;
 using ReservationSystem.Utils;
+using log4net;
 
 namespace ReservationSystem.Repository
 {
     public class UnitOfWork : IUnitOfWork
     {
         private readonly DbContextWrap _dbContext;
+        readonly ILog logger = LogManager.GetLogger(typeof(IUnitOfWork));
 
         public UnitOfWork(DbContextWrap dbContext)
         {
@@ -26,7 +28,7 @@ namespace ReservationSystem.Repository
 
         public void SaveChanges()
         {
-            Logger.Instance.WriteToLog("Saving Db changes", "UnitOfWork",LogType.INFO);
+            logger.Info("Saving Db changes");
             ((IObjectContextAdapter)_dbContext).ObjectContext.SaveChanges();
         }
 
