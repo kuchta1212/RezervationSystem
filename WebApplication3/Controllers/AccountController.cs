@@ -10,6 +10,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using ReservationSystem.Models;
 using ReservationSystem.Reservation;
+using log4net;
 
 namespace ReservationSystem.Controllers
 {
@@ -19,6 +20,7 @@ namespace ReservationSystem.Controllers
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
         private IReservationManager _reservationManager;
+        private ILog logger = LogManager.GetLogger(typeof(AccountController));
 
         private const string _passwordPostfix = "Tt1.";
 
@@ -82,7 +84,9 @@ namespace ReservationSystem.Controllers
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
             var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password + _passwordPostfix, model.RememberMe, shouldLockout: false);
-            
+
+            logger.Info("Logging user:" + model.Email);
+
             switch (result)
             {
                 case SignInStatus.Success:
@@ -170,6 +174,8 @@ namespace ReservationSystem.Controllers
                     string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     await UserManager.SendEmailAsync(user.Id, "Potvrzení vašeho účtu. AC SPARTA PRAHA - stolní tenis", "Prosím potvrďte vaši registraci kliknutím na tento <a href=\"" + callbackUrl + "\">odkaz</a>");
+
+                    logger.Info("Register user" + model.Email);
 
                     return RedirectToAction("Index", "Home");
                 }
@@ -320,6 +326,7 @@ namespace ReservationSystem.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
+            logger.Info("Logging off"+ User.Identity.GetUserName());
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
             _reservationManager.ReleaseAllPickedReservations(User.Identity.GetUserId());
             return RedirectToAction("Index", "Home");

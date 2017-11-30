@@ -7,7 +7,6 @@ using ReservationSystem.Job;
 using ReservationSystem.Utils;
 
 [assembly: OwinStartupAttribute(typeof(ReservationSystem.Startup))]
-[assembly: log4net.Config.XmlConfigurator(ConfigFile = "Web.config", Watch = true)]
 namespace ReservationSystem
 {
     public partial class Startup

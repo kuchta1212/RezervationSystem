@@ -33,7 +33,7 @@ namespace ReservationSystem
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
             MvcApplication.BootstrapContainer();
-            log4net.Config.XmlConfigurator.Configure(new FileInfo(Server.MapPath("~/Web.config")));
+            log4net.Config.XmlConfigurator.Configure();
 
         }
 
