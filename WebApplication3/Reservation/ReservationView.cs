@@ -10,6 +10,9 @@ namespace ReservationSystem.Reservation
 {
     public class ReservationView : IComparable
     {
+        //used only for GroupReservations
+        public string Name { get; set; }
+
         public List<TimeModel> Times { get; set; }
 
         public List<TableModel> Tables { get; set; }

@@ -251,6 +251,10 @@
     <Compile Include="Migrations\201711292014500_SomeMigration.Designer.cs">
       <DependentUpon>201711292014500_SomeMigration.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201712021654512_AddReservationName.cs" />
+    <Compile Include="Migrations\201712021654512_AddReservationName.Designer.cs">
+      <DependentUpon>201712021654512_AddReservationName.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\AppConfiguration.cs" />
     <Compile Include="Models\CancelledDayModel.cs" />
     <Compile Include="Models\ReportModel.cs" />
@@ -473,6 +477,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201711292014500_SomeMigration.resx">
       <DependentUpon>201711292014500_SomeMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712021654512_AddReservationName.resx">
+      <DependentUpon>201712021654512_AddReservationName.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Utils\Resource.resx">
       <Generator>ResXFileCodeGenerator</Generator>

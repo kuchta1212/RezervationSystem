@@ -65,8 +65,19 @@
                           else
                           {
                             <td>
-                              <button class="btn btn-danger btn-sm">@Model.Users[user].Name</button>
-                            </td>
+                                <button class="btn btn-danger btn-sm">
+                                    @if (Model.Users.ContainsKey(user))
+                                    {
+                                        @Model.Users[user].Name
+                                        
+                                    }
+                                    else
+                                    {
+                                        @user
+                                    }
+                                </button>
+
+</td>
                           }
                         }
                       </tr>

@@ -48,7 +48,9 @@ namespace ReservationSystem.Reservation
                 return null;
 
             var reservationModel = reservation[timeId];
-            return reservationModel.UserId;
+            if(reservationModel.Name == null)
+                return reservationModel.UserId;
+            return reservationModel.Name;
         }
     }
 }

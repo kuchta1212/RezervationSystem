@@ -120,7 +120,7 @@ namespace ReservationSystem.Controllers
             return RedirectToAction("Index", "Home", new {code= new ReturnCode(ReturnCodeLevel.RELOAD, Resource.ReloadOK, null).ToString(), date =date});
         }
 
-        public ActionResult GroupReservations(string date, string startTime, string endTime, IEnumerable<string> tables)
+        public ActionResult GroupReservations(string date, string reservationName, string startTime, string endTime, IEnumerable<string> tables)
         {
             if (date == null && startTime == null)
             {
@@ -146,6 +146,7 @@ namespace ReservationSystem.Controllers
                         //pro kazdy stul
                         models.AddRange(timeIds.Select(time => new ReservationModel()
                         {
+                            Name = reservationName,
                             Date = finalDate.Date,
                             TableId = Int32.Parse(table),
                             TimeId = time,
