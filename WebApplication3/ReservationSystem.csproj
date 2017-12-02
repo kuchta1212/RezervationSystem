@@ -247,6 +247,10 @@
     <Compile Include="Migrations\201711101330026_AddName.Designer.cs">
       <DependentUpon>201711101330026_AddName.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201711292014500_SomeMigration.cs" />
+    <Compile Include="Migrations\201711292014500_SomeMigration.Designer.cs">
+      <DependentUpon>201711292014500_SomeMigration.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\AppConfiguration.cs" />
     <Compile Include="Models\CancelledDayModel.cs" />
     <Compile Include="Models\ReportModel.cs" />
@@ -357,6 +361,9 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="log4net.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Resources\backround.jpg" />
     <Content Include="Resources\logo.png" />
     <Content Include="Scripts\ai.0.15.0-build58334.js" />
@@ -390,7 +397,9 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -430,6 +439,7 @@
     <Content Include="Views\Admin\_EditSetting.cshtml" />
     <Content Include="Views\Admin\_EditPartialView.cshtml" />
     <Content Include="Views\Home\_ModalPartial.cshtml" />
+    <Content Include="Views\Admin\CancellReservations.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
@@ -460,6 +470,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201711101330026_AddName.resx">
       <DependentUpon>201711101330026_AddName.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711292014500_SomeMigration.resx">
+      <DependentUpon>201711292014500_SomeMigration.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Utils\Resource.resx">
       <Generator>ResXFileCodeGenerator</Generator>

@@ -86,7 +86,7 @@ namespace ReservationSystem.Controllers
                 }
 
                 //is not after deadline
-                if (reservationManager.IsAfterDeadline(uow,sdate.Value))
+                if (reservationManager.IsAfterDeadline(uow,sdate.Value) && !User.IsInRole("Admin"))
                 {
                     return RedirectToAction("Index", "Home", new { code = new ReturnCode(ReturnCodeLevel.WARNING, Resource.AfterDeadlineWarning, null).ToString(), date = date });
                 }

@@ -12,6 +12,7 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
+using Quartz.Util;
 using ReservationSystem.Models;
 using ReservationSystem.Repository;
 using ReservationSystem.Reservation;
@@ -19,6 +20,7 @@ using ReservationSystem.Utils;
 
 namespace ReservationSystem.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
         private IRepository _repository;
@@ -141,6 +143,37 @@ namespace ReservationSystem.Controllers
                 appContext.SaveChanges();
             }
             return RedirectToAction("Settings");
+        }
+
+        public ActionResult CancelReservation()
+        {
+            var view = new List<EditReservationView>();
+            using (IUnitOfWork uow = new UnitOfWork(new DbContextWrap()))
+            {
+                var reservations = this._reservationManager.GetReservations(uow);
+                Dictionary<string, string> users = null;
+                using (var appContext = new ApplicationDbContext())
+                {
+                    users = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>().Users
+                        .Select(u => new { u.Id, u.Name })
+                        .ToDictionary(t => t.Id, t => t.Name);
+                }
+                view.AddRange(reservations.Select(res => new EditReservationView() { Id = res.Id, Name = users[res.UserId]  ,Date = res.Date, Table = res.Table.Number, Time = res.Time.StartTime }));
+            }
+            return View("CancellReservations", view);
+        }
+
+        public ActionResult Delete(int? id)
+        {
+            using (var uow = new UnitOfWork(new DbContextWrap()))
+            {
+                var reservationModel = _repository.Get<ReservationModel, int>(uow, (r => r.Id == id), (r => r.Id)).FirstOrDefault();
+
+                _repository.Delete<ReservationModel>(uow, reservationModel);
+                uow.SaveChanges();
+            }
+
+            return RedirectToAction("CancelReservation", "Admin");
         }
     }
 }

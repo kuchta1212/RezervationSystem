@@ -1,38 +1,47 @@
 ﻿@model IEnumerable<ReservationSystem.Reservation.EditReservationView>
 
 @{
+    ViewBag.Title = "View";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Moje rezervace</h2>
+<h2>View</h2>
+
 
 <table class="table table-striped table-hover ">
     <tr>
         <th>
-            Stůl
+            Datum
         </th>
         <th>
             Čas
         </th>
         <th>
-            Datum
+            Stůl
         </th>
+        <th>
+            Jméno
+        </th>
+
         <th></th>
     </tr>
 
 @foreach (var item in Model) {
     <tr>
         <td>
-            @item.Table
+            @item.SDate
         </td>
         <td>
             @item.Time
         </td>
         <td>
-            @item.SDate
+            @item.Table
         </td>
         <td>
-            @Html.ActionLink("Smazat", "Delete","Reservation", new { id=item.Id }, new { @id = item.Id})
+            @item.Name
+        </td>
+        <td>
+            @Html.ActionLink("Smazat", "Delete","Admin", new { id=item.Id }, new { id = item.Id })
         </td>
     </tr>
 }

@@ -9,6 +9,8 @@ namespace ReservationSystem.Reservation
     {
         public int Id { get; set; }
 
+        public string Name { get; set; }
+
         public int Table { get; set; }
 
         public TimeSpan Time { get; set; }

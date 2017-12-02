@@ -95,5 +95,11 @@ namespace ReservationSystem.Reservation
         {
             return repository.Get<CancelledDayModel, int>(unitOfWork, (i=> i.Date == date), (i=>i.Id)).Any();
         }
+
+
+        public List<ReservationModel> GetReservations(IUnitOfWork unitOfWork)
+        {
+            return repository.GetAll<ReservationModel>(unitOfWork).ToList();
+        }
     }
 }

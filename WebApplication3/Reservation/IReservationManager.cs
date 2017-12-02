@@ -16,6 +16,8 @@ namespace ReservationSystem.Reservation
 
         List<ReservationModel> GetReservationsForUser(IUnitOfWork unitOfWork, string userId);
 
+        List<ReservationModel> GetReservations(IUnitOfWork unitOfWork);
+            
         List<string> GetUsersForDate(IUnitOfWork unitOfWork, DateTime date);
 
         bool IsAfterDeadline(IUnitOfWork uow, DateTime date);
