@@ -84,8 +84,8 @@ namespace ReservationSystem.Controllers
 
             using (IUnitOfWork uow = new UnitOfWork(new DbContextWrap()))
             {
-                var settingModels = _repository.GetAll<SettingModel>(uow).ToList();
-                model.Setting = settingModels;
+                model.Setting = _repository.GetAll<SettingModel>(uow).ToList();
+                model.NumOfTables = _repository.GetAll<TableModel>(uow).OrderByDescending(item => item.Number).First().Number;
             }
 
             using (var appContext = new ApplicationDbContext())
@@ -174,6 +174,38 @@ namespace ReservationSystem.Controllers
             }
 
             return RedirectToAction("CancelReservation", "Admin");
+        }
+
+        public ActionResult DeleteTable()
+        {
+            using (var uow = new UnitOfWork(new DbContextWrap()))
+            {
+                var model = _repository.GetAll<TableModel>(uow).OrderByDescending(item => item.Number).First();
+                _repository.Delete(uow, model);
+                uow.SaveChanges();
+            }
+
+
+            return RedirectToAction("Settings", "Admin");
+        }
+
+        public ActionResult CreateTable()
+        {
+            using (var uow = new UnitOfWork(new DbContextWrap()))
+            {
+                var number = _repository.GetAll<TableModel>(uow).OrderByDescending(item => item.Number).First().Number;
+                number++;
+                var model = new TableModel(number);
+
+               
+                _repository.Add<TableModel>(uow, model);
+
+                uow.SaveChanges();
+            }
+
+
+            return RedirectToAction("Settings", "Admin");
+
         }
     }
 }

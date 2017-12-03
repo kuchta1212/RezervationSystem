@@ -45,6 +45,17 @@
     </table>
 </div>
 
+
+<h2>Nastavení počtu stolů</h2>
+<div class="panel panel-default">
+    <div class="panel-heading">Momentální počet stolů: @Model.NumOfTables</div>
+    <p>
+        @Html.ActionLink("Vytvoř stůl", "CreateTable", "Admin", null, new {@class = "btn btn-default" })
+
+        @Html.ActionLink("Smazat stůl", "DeleteTable", "Admin", null, new { @class = "btn btn-danger" })
+    </p>
+</div>
+
 <div id="modal-container" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-content">
     </div>

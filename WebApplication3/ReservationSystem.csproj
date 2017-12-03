@@ -255,6 +255,10 @@
     <Compile Include="Migrations\201712021654512_AddReservationName.Designer.cs">
       <DependentUpon>201712021654512_AddReservationName.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201712031530541_TableModelIdentity.cs" />
+    <Compile Include="Migrations\201712031530541_TableModelIdentity.Designer.cs">
+      <DependentUpon>201712031530541_TableModelIdentity.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\AppConfiguration.cs" />
     <Compile Include="Models\CancelledDayModel.cs" />
     <Compile Include="Models\ReportModel.cs" />
@@ -444,6 +448,7 @@
     <Content Include="Views\Admin\_EditPartialView.cshtml" />
     <Content Include="Views\Home\_ModalPartial.cshtml" />
     <Content Include="Views\Admin\CancellReservations.cshtml" />
+    <Content Include="Views\Admin\View.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
@@ -480,6 +485,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201712021654512_AddReservationName.resx">
       <DependentUpon>201712021654512_AddReservationName.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712031530541_TableModelIdentity.resx">
+      <DependentUpon>201712031530541_TableModelIdentity.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Utils\Resource.resx">
       <Generator>ResXFileCodeGenerator</Generator>

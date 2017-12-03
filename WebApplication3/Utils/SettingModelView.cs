@@ -11,6 +11,8 @@ namespace ReservationSystem.Utils
     {
         public IEnumerable<SettingModel> Setting { get; set; }
 
-        public IEnumerable<MyUser> Users { get; set; } 
+        public IEnumerable<MyUser> Users { get; set; }
+
+        public int NumOfTables { get; set; }
     }
 }
