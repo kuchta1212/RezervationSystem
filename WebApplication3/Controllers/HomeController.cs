@@ -16,6 +16,7 @@ namespace ReservationSystem.Controllers
     {
         private IRepository repository;
         private IReservationManager reservationManager;
+        private ITimeManager timeManager;
 
         private List<TimeModel> times;
         private List<TableModel> tables;
@@ -25,10 +26,11 @@ namespace ReservationSystem.Controllers
         public HomeController()
         { }
 
-        public HomeController(IRepository repository, IReservationManager reservationManager)
+        public HomeController(IRepository repository, IReservationManager reservationManager, ITimeManager timeManager)
         {
             this.repository = repository;
             this.reservationManager = reservationManager;
+            this.timeManager = timeManager;
         }
 
         public ActionResult Index(string code, DateTime? date)
@@ -40,8 +42,6 @@ namespace ReservationSystem.Controllers
 
             try
             {
-
-                //model.Date = dateDiff ?? 1;
                 model.Date = date ?? DateTime.Now.Date;
 
                 using (IUnitOfWork uow = new UnitOfWork(new DbContextWrap()))
@@ -49,12 +49,20 @@ namespace ReservationSystem.Controllers
                     if(tables == null)
                         tables = repository.GetAll<TableModel>(uow).ToList();
                     model.Tables = tables;
-                    if(times == null)
-                        times = repository.GetAll<TimeModel>(uow).ToList();
+                    if (times == null)
+                    {
+                        times = timeManager.GetTimesForDayOfTheWeek(uow, model.Date.DayOfWeek.ToString());
+                        if (!times.Any())
+                        {
+                            times = repository.GetAll<TimeModel>(uow).ToList();
+                            model.Day = new DayReservation(true);
+                        }
+                    }
                     model.Times = times;
 
                     model.IsPicked = reservationManager.GetPickedForDateAndUser(uow, model.Date, User.Identity.GetUserId()).Any();
-                    model.Day = reservationManager.GetReservationsForDate(uow, model.Date, tables, User.Identity.GetUserId());
+                    if(!model.Day.IsCancelled)
+                        model.Day = reservationManager.GetReservationsForDate(uow, model.Date, tables, User.Identity.GetUserId());
                 }
 
                 model.ReturnCode = ReturnCode.FromString(code) ?? new ReturnCode(ReturnCodeLevel.RELOAD, Resource.ReloadOK, null);
@@ -77,6 +85,7 @@ namespace ReservationSystem.Controllers
                 return RedirectToAction("Index", "Home", new { code = new ReturnCode(ReturnCodeLevel.RELOAD, Resource.ReloadOK, null).ToString(), dateDiff = 1 });
 
             var parsedDate = DateTime.ParseExact(date, "dd.MM.yyyy", System.Globalization.CultureInfo.InvariantCulture);
+
             return RedirectToAction("Index", "Home", new { code = new ReturnCode(ReturnCodeLevel.RELOAD, Resource.ReloadOK, null).ToString(), date = parsedDate });
             
 

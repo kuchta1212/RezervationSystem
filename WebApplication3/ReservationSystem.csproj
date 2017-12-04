@@ -259,11 +259,16 @@
     <Compile Include="Migrations\201712031530541_TableModelIdentity.Designer.cs">
       <DependentUpon>201712031530541_TableModelIdentity.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201712041935450_AddWeekDay.cs" />
+    <Compile Include="Migrations\201712041935450_AddWeekDay.Designer.cs">
+      <DependentUpon>201712041935450_AddWeekDay.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\AppConfiguration.cs" />
     <Compile Include="Models\CancelledDayModel.cs" />
     <Compile Include="Models\ReportModel.cs" />
     <Compile Include="Models\ReservationModel.cs" />
     <Compile Include="Models\SettingModel.cs" />
+    <Compile Include="Models\WeekDayModel.cs" />
     <Compile Include="Reservation\DayReservation.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -305,6 +310,7 @@
     <Compile Include="Utils\DateUtil.cs" />
     <Compile Include="Utils\EmailController.cs" />
     <Compile Include="Utils\IoC.cs" />
+    <Compile Include="Utils\ITimeManager.cs" />
     <Compile Include="Utils\MyUser.cs" />
     <Compile Include="Utils\Resource.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -314,6 +320,7 @@
     <Compile Include="Utils\ReturnCode.cs" />
     <Compile Include="Utils\ReturnCodeLevel.cs" />
     <Compile Include="Utils\SettingModelView.cs" />
+    <Compile Include="Utils\TimeManager.cs" />
     <Compile Include="Utils\WindsorControllerFactory.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -488,6 +495,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201712031530541_TableModelIdentity.resx">
       <DependentUpon>201712031530541_TableModelIdentity.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712041935450_AddWeekDay.resx">
+      <DependentUpon>201712041935450_AddWeekDay.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Utils\Resource.resx">
       <Generator>ResXFileCodeGenerator</Generator>

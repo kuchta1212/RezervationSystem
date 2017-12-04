@@ -15,6 +15,7 @@ namespace ReservationSystem.Models
         public DbSet<PickedModel> PickedReservations { get; set; }
         public DbSet<CancelledDayModel> CancelledDays { get; set; }
         public DbSet<SettingModel> Setting { get; set; }
+        public DbSet<WeekDayModel> WeekDays { get; set; }
 
         public DbContextWrap() : base("name=ReservationSystem")
         {
