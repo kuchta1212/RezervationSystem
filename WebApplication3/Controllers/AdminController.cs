@@ -81,12 +81,31 @@ namespace ReservationSystem.Controllers
         public ActionResult Settings()
         {
             var model = new SettingModelView();
+            List<WeekDayModel> week = null;
+            List<TimeModel> times = null;
 
             using (IUnitOfWork uow = new UnitOfWork(new DbContextWrap()))
             {
                 model.Setting = _repository.GetAll<SettingModel>(uow).ToList();
                 model.NumOfTables = _repository.GetAll<TableModel>(uow).OrderByDescending(item => item.Number).First().Number;
+                week = _repository.GetAll<WeekDayModel>(uow).OrderBy(item => item.Id).ToList();
+                times = _repository.GetAll<TimeModel>(uow).ToList();
             }
+
+            model.WeekDays = new List<WeekDaysView>();
+            foreach (var dayView in week.Select(day => new WeekDaysView(day.Id, day.Name)
+            {
+                Times = times,
+                StartTimeId = day.StartTime,
+                StartTimeValue = times.Where(time => time.Id == day.StartTime).First().StartTime,
+                EndTimeId = day.EndTime,
+                EndTimeValue = times.Where(time => time.Id == day.EndTime).First().StartTime,
+                IsCancelled = day.IsCancelled
+            }))
+            {
+                model.WeekDays.Add(dayView);
+            }
+
 
             using (var appContext = new ApplicationDbContext())
             { 
@@ -128,6 +147,32 @@ namespace ReservationSystem.Controllers
 
             return RedirectToAction("Settings");
         }
+
+        [HttpGet]
+        public ActionResult EditWeekDay(int? id)
+        {
+            WeekDayModel model = null;
+            using (IUnitOfWork uow = new UnitOfWork(new DbContextWrap()))
+            {
+                model = _repository.GetByKey<WeekDayModel>(uow, id);
+            }
+            return PartialView("_EditWeekDayPartialView", model);
+        }
+
+        [HttpPost] // this action takes the viewModel from the modal
+        public ActionResult EditWeekDay(WeekDayModel model, string svalue)
+        {
+            using (IUnitOfWork uow = new UnitOfWork(new DbContextWrap()))
+            {
+                //var m = _repository.GetByKey<WeekDayModel>(uow, model.Id);
+                //m.Value = svalue;
+                //_repository.Update(uow, m);
+                //uow.SaveChanges();
+            }
+
+            return RedirectToAction("Settings");
+        }
+
 
         public ActionResult ChangeAdmin(string id, bool? WasAdmin)
         {

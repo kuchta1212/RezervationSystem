@@ -321,6 +321,7 @@
     <Compile Include="Utils\ReturnCodeLevel.cs" />
     <Compile Include="Utils\SettingModelView.cs" />
     <Compile Include="Utils\TimeManager.cs" />
+    <Compile Include="Utils\WeekDaysView.cs" />
     <Compile Include="Utils\WindsorControllerFactory.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -455,7 +456,7 @@
     <Content Include="Views\Admin\_EditPartialView.cshtml" />
     <Content Include="Views\Home\_ModalPartial.cshtml" />
     <Content Include="Views\Admin\CancellReservations.cshtml" />
-    <Content Include="Views\Admin\View.cshtml" />
+    <Content Include="Views\Admin\_EditWeekDayPartialView.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

@@ -14,5 +14,7 @@ namespace ReservationSystem.Utils
         public IEnumerable<MyUser> Users { get; set; }
 
         public int NumOfTables { get; set; }
+
+        public List<WeekDaysView> WeekDays { get; set; }
     }
 }
