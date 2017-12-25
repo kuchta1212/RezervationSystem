@@ -12,6 +12,7 @@ using log4net;
 
 namespace ReservationSystem.Controllers
 {
+
     public class HomeController : Controller
     {
         private IRepository repository;
@@ -33,11 +34,16 @@ namespace ReservationSystem.Controllers
             this.timeManager = timeManager;
         }
 
-        public ActionResult Index(string code, DateTime? date)
+        public ActionResult Index()
         {
             if(!Request.IsAuthenticated)
                 return View(new ReservationView());
 
+            return RedirectToAction("MainTable");
+        }
+
+        public ActionResult MainTable(string code, DateTime? date)
+        {
             var model = new ReservationView();
 
             try
@@ -46,7 +52,7 @@ namespace ReservationSystem.Controllers
 
                 using (IUnitOfWork uow = new UnitOfWork(new DbContextWrap()))
                 {
-                    if(tables == null)
+                    if (tables == null)
                         tables = repository.GetAll<TableModel>(uow).ToList();
                     model.Tables = tables;
                     if (times == null)
@@ -61,7 +67,7 @@ namespace ReservationSystem.Controllers
                     model.Times = times;
 
                     model.IsPicked = reservationManager.GetPickedForDateAndUser(uow, model.Date, User.Identity.GetUserId()).Any();
-                    if(!model.Day.IsCancelled)
+                    if (!model.Day.IsCancelled)
                         model.Day = reservationManager.GetReservationsForDate(uow, model.Date, tables, User.Identity.GetUserId());
                 }
 
@@ -82,15 +88,16 @@ namespace ReservationSystem.Controllers
         public ActionResult DateChange(string date)
         {
             if (date == null)
-                return RedirectToAction("Index", "Home", new { code = new ReturnCode(ReturnCodeLevel.RELOAD, Resource.ReloadOK, null).ToString(), dateDiff = 1 });
+                return RedirectToAction("MainTable", "Home", new { code = new ReturnCode(ReturnCodeLevel.RELOAD, Resource.ReloadOK, null).ToString(), dateDiff = 1 });
 
             var parsedDate = DateTime.ParseExact(date, "dd.MM.yyyy", System.Globalization.CultureInfo.InvariantCulture);
 
-            return RedirectToAction("Index", "Home", new { code = new ReturnCode(ReturnCodeLevel.RELOAD, Resource.ReloadOK, null).ToString(), date = parsedDate });
+            return RedirectToAction("MainTable", "Home", new { code = new ReturnCode(ReturnCodeLevel.RELOAD, Resource.ReloadOK, null).ToString(), date = parsedDate });
             
 
         }
 
+       
         public ActionResult Contact()
         {
             return View("Contact");
@@ -99,6 +106,11 @@ namespace ReservationSystem.Controllers
         public ActionResult ReservationRules()
         {
             return View("ReservationRules");
+        }
+
+        public ActionResult UnregistredView()
+        {
+            return RedirectToAction("MainTable");
         }
 
         public ActionResult ViewModal()

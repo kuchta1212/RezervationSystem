@@ -141,6 +141,9 @@
   <data name="TableAlreadyPickedWarning" xml:space="preserve">
     <value>Vybraný stůl, je již bohužel rezervován.</value>
   </data>
+  <data name="TablesOneFour" xml:space="preserve">
+    <value>Rezervujete si stoly 1-4. Nezapomeňte, že jde o stoly pro hráče AC Sparta a Vaše rezervace může být stornována. Více info. v Rezervačním řádu.</value>
+  </data>
   <data name="WriteAnAdministrator" xml:space="preserve">
     <value>Prosím napište administrátorovi chybu a popis toho co jste dělali. Děkuji</value>
   </data>

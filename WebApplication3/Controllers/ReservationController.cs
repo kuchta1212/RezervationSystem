@@ -18,6 +18,7 @@ using log4net;
 
 namespace ReservationSystem.Controllers
 {
+    [Authorize]
     public class ReservationController : Controller
     {
         private IRepository repository;
@@ -61,12 +62,12 @@ namespace ReservationSystem.Controllers
                     uow.SaveChanges();
                 }
                 emailController.SendReservationConfirmation(User.Identity.GetUserName());
-                return RedirectToAction("Index", "Home", new { code = new ReturnCode(ReturnCodeLevel.SUCCESS, Resource.ReservationSuccess, Resource.ReservationSuccessReason).ToString(), date = date });
+                return RedirectToAction("MainTable", "Home", new { code = new ReturnCode(ReturnCodeLevel.SUCCESS, Resource.ReservationSuccess, Resource.ReservationSuccessReason).ToString(), date = date });
             }
             catch(Exception ex)
             {
                 logger.Error(ex.Message + Environment.NewLine + ex.StackTrace);
-                return RedirectToAction("Index", "Home", new { code = new ReturnCode(ReturnCodeLevel.ERROR, Resource.WriteAnAdministrator, ex.Message).ToString()});
+                return RedirectToAction("MainTable", "Home", new { code = new ReturnCode(ReturnCodeLevel.ERROR, Resource.WriteAnAdministrator, ex.Message).ToString()});
             }
         }
 
@@ -82,13 +83,13 @@ namespace ReservationSystem.Controllers
 
                 if (isFree.Any())
                 {
-                    return RedirectToAction("Index", "Home", new { code = new ReturnCode(ReturnCodeLevel.WARNING, Resource.TableAlreadyPickedWarning, null).ToString(), date = date });
+                    return RedirectToAction("MainTable", "Home", new { code = new ReturnCode(ReturnCodeLevel.WARNING, Resource.TableAlreadyPickedWarning, null).ToString(), date = date });
                 }
 
                 //is not after deadline
                 if (reservationManager.IsAfterDeadline(uow,sdate.Value) && !User.IsInRole("Admin"))
                 {
-                    return RedirectToAction("Index", "Home", new { code = new ReturnCode(ReturnCodeLevel.WARNING, Resource.AfterDeadlineWarning, null).ToString(), date = date });
+                    return RedirectToAction("MainTable", "Home", new { code = new ReturnCode(ReturnCodeLevel.WARNING, Resource.AfterDeadlineWarning, null).ToString(), date = date });
                 }
 
                 var userPickeds = repository.Get<PickedModel, int>(uow,
@@ -117,7 +118,10 @@ namespace ReservationSystem.Controllers
                 uow.SaveChanges();
             }
 
-            return RedirectToAction("Index", "Home", new {code= new ReturnCode(ReturnCodeLevel.RELOAD, Resource.ReloadOK, null).ToString(), date =date});
+            if (table == 1 || table == 2 || table == 3 || table == 4)
+                return RedirectToAction("MainTable", "Home", new { code = new ReturnCode(ReturnCodeLevel.WARNING, Resource.TablesOneFour, null).ToString(), date = date });
+            
+            return RedirectToAction("MainTable", "Home", new {code= new ReturnCode(ReturnCodeLevel.RELOAD, Resource.ReloadOK, null).ToString(), date =date});
         }
 
         public ActionResult GroupReservations(string date, string reservationName, string startTime, string endTime, IEnumerable<string> tables)
@@ -164,7 +168,7 @@ namespace ReservationSystem.Controllers
                     uow.SaveChanges();
                 }
                
-                return RedirectToAction("Index", "Home", new { code = new ReturnCode(ReturnCodeLevel.SUCCESS, Resource.ReservationSuccess, Resource.GroupReservationSuccessReason).ToString(), date = date });
+                return RedirectToAction("MainTable", "Home", new { code = new ReturnCode(ReturnCodeLevel.SUCCESS, Resource.ReservationSuccess, Resource.GroupReservationSuccessReason).ToString(), date = date });
             }
         }
 
@@ -189,13 +193,13 @@ namespace ReservationSystem.Controllers
                 //is not after deadline
                 if (reservationManager.IsAfterDeadline(uow, reservationModel.Date))
                 {
-                    return RedirectToAction("Index", "Home", new { code = new ReturnCode(ReturnCodeLevel.WARNING, Resource.AfterDeadlineWarning, null).ToString(), date = reservationModel.Date });
+                    return RedirectToAction("MainTable", "Home", new { code = new ReturnCode(ReturnCodeLevel.WARNING, Resource.AfterDeadlineWarning, null).ToString(), date = reservationModel.Date });
                 }
                 repository.Delete<ReservationModel>(uow, reservationModel);
                 uow.SaveChanges();
             }
 
-            return RedirectToAction("Index", "Home", new { code = new ReturnCode(ReturnCodeLevel.SUCCESS, Resource.ReservationDeleteSucess, null).ToString()});
+            return RedirectToAction("MainTable", "Home", new { code = new ReturnCode(ReturnCodeLevel.SUCCESS, Resource.ReservationDeleteSucess, null).ToString()});
         }
 
         public ActionResult CancelledDay(string date, string reason)
@@ -215,7 +219,7 @@ namespace ReservationSystem.Controllers
                 }
                 uow.SaveChanges();
             }
-            return RedirectToAction("Index", "Home", new { code = new ReturnCode(ReturnCodeLevel.SUCCESS, Resource.CancellationOk, null).ToString(), date = date });
+            return RedirectToAction("MainTable", "Home", new { code = new ReturnCode(ReturnCodeLevel.SUCCESS, Resource.CancellationOk, null).ToString(), date = date });
 
         }
     }

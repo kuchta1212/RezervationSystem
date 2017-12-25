@@ -133,6 +133,15 @@ namespace ReservationSystem.Utils {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Rezervujete si stoly 1-4. Nezapomeňte, že jde o stoly pro hráče AC Sparta a Vaše rezervace může být stornována. Více info. v Rezervačním řádu..
+        /// </summary>
+        internal static string TablesOneFour {
+            get {
+                return ResourceManager.GetString("TablesOneFour", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Prosím napište administrátorovi chybu a popis toho co jste dělali. Děkuji.
         /// </summary>
         internal static string WriteAnAdministrator {

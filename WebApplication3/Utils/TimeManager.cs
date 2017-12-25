@@ -19,7 +19,8 @@ namespace ReservationSystem.Utils
 
         public List<TimeModel> GetTimesForDayOfTheWeek(IUnitOfWork unitOfWork, string dayOfWeek)
         {
-            var dayModel = repository.Get<WeekDayModel, int>(unitOfWork, item => item.Name.Equals(dayOfWeek), item => item.Id).First();
+            var dayModel = repository.Get<WeekDayModel, int>(unitOfWork, item => item.Name.Equals(dayOfWeek), item => item.Id).FirstOrDefault() ??
+                           new WeekDayModel() {IsCancelled = true};
             if(dayModel.IsCancelled)
                 return new List<TimeModel>();
             var startTime = repository.GetByKey<TimeModel>(unitOfWork, dayModel.StartTime);

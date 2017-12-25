@@ -458,6 +458,7 @@
     <Content Include="Views\Home\_ModalPartial.cshtml" />
     <Content Include="Views\Admin\CancellReservations.cshtml" />
     <Content Include="Views\Admin\_EditWeekDayPartialView.cshtml" />
+    <Content Include="Views\Home\MainTable.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
