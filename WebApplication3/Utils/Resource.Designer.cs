@@ -88,6 +88,24 @@ namespace ReservationSystem.Utils {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Prosím potvrďte vaši registraci kliknutím na tento &lt;a href={0}&gt;odkaz&lt;/a&gt;.
+        /// </summary>
+        internal static string RegistrationEmail {
+            get {
+                return ResourceManager.GetString("RegistrationEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Potvrzení vašeho účtu. AC SPARTA PRAHA - stolní tenis.
+        /// </summary>
+        internal static string RegistrationEmailSubject {
+            get {
+                return ResourceManager.GetString("RegistrationEmailSubject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to OK.
         /// </summary>
         internal static string ReloadOK {
@@ -102,6 +120,24 @@ namespace ReservationSystem.Utils {
         internal static string ReservationDeleteSucess {
             get {
                 return ResourceManager.GetString("ReservationDeleteSucess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;h1&gt;Potrvzujeme vaši rezervaci&lt;/h1&gt;&lt;table&gt;&lt;tr&gt;&lt;td&gt;DATUM&lt;/td&gt;&lt;td&gt;ČAS&lt;/td&gt;&lt;td&gt;STŮL&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;{0}&lt;/td&gt;&lt;td&gt;{1}&lt;/td&gt;&lt;td&gt;{2}&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;p&gt;Těšíme se na Vás v herně SPARTA PRAHA&lt;/p&gt;.
+        /// </summary>
+        internal static string ReservationEmailConfirmation {
+            get {
+                return ResourceManager.GetString("ReservationEmailConfirmation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Potvrzení rezervace SPARTA PRAHA STOLNÍ TENIS.
+        /// </summary>
+        internal static string ReservationEmailConfirmationSubject {
+            get {
+                return ResourceManager.GetString("ReservationEmailConfirmationSubject", resourceCulture);
             }
         }
         

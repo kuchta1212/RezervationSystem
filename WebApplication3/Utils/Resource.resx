@@ -126,11 +126,23 @@
   <data name="GroupReservationSuccessReason" xml:space="preserve">
     <value>Vaše hromadná rezervace proběhal úsěšně.</value>
   </data>
+  <data name="RegistrationEmail" xml:space="preserve">
+    <value>Prosím potvrďte vaši registraci kliknutím na tento &lt;a href={0}&gt;odkaz&lt;/a&gt;</value>
+  </data>
+  <data name="RegistrationEmailSubject" xml:space="preserve">
+    <value>Potvrzení vašeho účtu. AC SPARTA PRAHA - stolní tenis</value>
+  </data>
   <data name="ReloadOK" xml:space="preserve">
     <value>OK</value>
   </data>
   <data name="ReservationDeleteSucess" xml:space="preserve">
     <value>Vaše rezervace byla úsěšně smazána.</value>
+  </data>
+  <data name="ReservationEmailConfirmation" xml:space="preserve">
+    <value>&lt;h1&gt;Potrvzujeme vaši rezervaci&lt;/h1&gt;&lt;table&gt;&lt;tr&gt;&lt;td&gt;DATUM&lt;/td&gt;&lt;td&gt;ČAS&lt;/td&gt;&lt;td&gt;STŮL&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;{0}&lt;/td&gt;&lt;td&gt;{1}&lt;/td&gt;&lt;td&gt;{2}&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;p&gt;Těšíme se na Vás v herně SPARTA PRAHA&lt;/p&gt;</value>
+  </data>
+  <data name="ReservationEmailConfirmationSubject" xml:space="preserve">
+    <value>Potvrzení rezervace SPARTA PRAHA STOLNÍ TENIS</value>
   </data>
   <data name="ReservationSuccess" xml:space="preserve">
     <value>Rezervováno!</value>

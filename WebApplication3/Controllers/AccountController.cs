@@ -11,6 +11,7 @@ using Microsoft.Owin.Security;
 using ReservationSystem.Models;
 using ReservationSystem.Reservation;
 using log4net;
+using ReservationSystem.Utils;
 
 namespace ReservationSystem.Controllers
 {
@@ -20,20 +21,23 @@ namespace ReservationSystem.Controllers
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
         private IReservationManager _reservationManager;
+        private EmailController _emailController;
         private ILog logger = LogManager.GetLogger(typeof(AccountController));
 
         private const string _passwordPostfix = "Tt1.";
 
-        public AccountController(IReservationManager reservationManager)
+        public AccountController(IReservationManager reservationManager, EmailController emailController)
         {
             _reservationManager = reservationManager;
+            _emailController = emailController;
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager, IReservationManager reservationManager)
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager, IReservationManager reservationManager, EmailController emailController)
         {
             UserManager = userManager;
             SignInManager = signInManager;
             _reservationManager = reservationManager;
+            _emailController = emailController;
         }
 
         public ApplicationSignInManager SignInManager
@@ -173,11 +177,12 @@ namespace ReservationSystem.Controllers
                     // Send an email with this link
                     string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    await UserManager.SendEmailAsync(user.Id, "Potvrzení vašeho účtu. AC SPARTA PRAHA - stolní tenis", "Prosím potvrďte vaši registraci kliknutím na tento <a href=\"" + callbackUrl + "\">odkaz</a>");
+
+                    _emailController.SendRegisterEmail(callbackUrl, model.Email);
 
                     logger.Info("Register user" + model.Email);
 
-                    return RedirectToAction("Index", "Home");
+                    return View("ConfirmEmailSend");
                 }
                 AddErrors(result);
             }

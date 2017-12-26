@@ -459,6 +459,7 @@
     <Content Include="Views\Admin\CancellReservations.cshtml" />
     <Content Include="Views\Admin\_EditWeekDayPartialView.cshtml" />
     <Content Include="Views\Home\MainTable.cshtml" />
+    <Content Include="Views\Account\ConfirmEmailSend.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

@@ -58,10 +58,16 @@ namespace ReservationSystem.Controllers
                         };
                         repository.Delete<PickedModel>(uow, pick);
                         repository.Add<ReservationModel>(uow, model);
+                        var table =
+                            repository.Get<TableModel, int>(uow, item => item.Id == pick.TableId, item => item.Id)
+                                .First().Number.ToString();
+                        var time = repository.Get<TimeModel, int>(uow, item => item.Id == pick.TimeId, item => item.Id)
+                                .First().StartTime.ToString();
+                        emailController.SendReservationConfirmation(User.Identity.GetUserName(), table, time, sdate.Value.ToString("MM/dd/yyyy"));
                     }
                     uow.SaveChanges();
                 }
-                emailController.SendReservationConfirmation(User.Identity.GetUserName());
+                
                 return RedirectToAction("MainTable", "Home", new { code = new ReturnCode(ReturnCodeLevel.SUCCESS, Resource.ReservationSuccess, Resource.ReservationSuccessReason).ToString(), date = date });
             }
             catch(Exception ex)
