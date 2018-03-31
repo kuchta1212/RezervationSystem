@@ -47,6 +47,7 @@ namespace ReservationSystem.Controllers
                 using (IUnitOfWork uow = new UnitOfWork(new DbContextWrap()))
                 {
                     var picked = reservationManager.GetPickedForDateAndUser(uow, date, User.Identity.GetUserId());
+                    var emailsData = new List<KeyValuePair<string, TimeSpan>>();
                     foreach (var pick in picked)
                     {
                         var model = new ReservationModel()
@@ -58,13 +59,17 @@ namespace ReservationSystem.Controllers
                         };
                         repository.Delete<PickedModel>(uow, pick);
                         repository.Add<ReservationModel>(uow, model);
+                        
                         var table =
                             repository.Get<TableModel, int>(uow, item => item.Id == pick.TableId, item => item.Id)
                                 .First().Number.ToString();
                         var time = repository.Get<TimeModel, int>(uow, item => item.Id == pick.TimeId, item => item.Id)
-                                .First().StartTime.ToString();
-                        emailController.SendReservationConfirmation(User.Identity.GetUserName(), table, time, sdate.Value.ToString("MM/dd/yyyy"));
+                                .First().StartTime;
+                        var data = new KeyValuePair<string, TimeSpan>(table, time);
+                        emailsData.Add(data);
+
                     }
+                    emailController.SendReservationConfirmation(User.Identity.GetUserName(), emailsData, sdate.Value.ToString("MM/dd/yyyy"));
                     uow.SaveChanges();
                 }
                 

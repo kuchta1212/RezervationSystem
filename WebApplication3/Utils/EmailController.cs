@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Net.Mail;
+using System.Text;
 using System.Threading.Tasks;
 using log4net;
 
@@ -17,9 +18,37 @@ namespace ReservationSystem.Utils
 
         readonly ILog logger = LogManager.GetLogger(typeof(EmailController));
 
-        public void SendReservationConfirmation(string emailTo, string table, string time, string date)
+        public void SendReservationConfirmation(string emailTo, List<KeyValuePair<string, TimeSpan>> data, string date)
         {
-            var body = string.Format(Resource.ReservationEmailConfirmation, date, time, table);
+            var tables = new Dictionary<string,KeyValuePair<TimeSpan, TimeSpan>>();
+            foreach (var d in data)
+            {
+                if(!tables.ContainsKey(d.Key))
+                    tables.Add(d.Key, new KeyValuePair<TimeSpan, TimeSpan>(d.Value, new TimeSpan(0,0,0,0)));
+                else
+                {
+                    var times = tables[d.Key];
+                    if (times.Key > d.Value)
+                    {
+                        var finishTime = times.Key < times.Value ? times.Value : times.Key;
+
+                        tables[d.Key] = new KeyValuePair<TimeSpan, TimeSpan>(d.Value, finishTime);
+                    }
+                    else if(times.Value < d.Value)
+                    {
+                        tables[d.Key] = new KeyValuePair<TimeSpan, TimeSpan>(times.Key, d.Value);
+                    }
+                }
+               
+            }
+
+            var sb = new StringBuilder();
+            foreach (var table in tables)
+            {
+              sb.Append(string.Format(Resource.ReservationEmailConfirmation, date, table.Value.Key.ToString() + "-" + table.Value.Value.Add(new TimeSpan(0,0,30,0)).ToString(), table.Key));
+            }
+
+            var body = sb.ToString();
             var subject = Resource.ReservationEmailConfirmationSubject;
 
             SendEmail(emailTo, body, subject);
