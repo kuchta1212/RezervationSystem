@@ -203,7 +203,11 @@ namespace ReservationSystem.Controllers
                         .Select(u => new { u.Id, u.Name })
                         .ToDictionary(t => t.Id, t => t.Name);
                 }
-                view.AddRange(reservations.Select(res => new EditReservationView() { Id = res.Id, Name = users[res.UserId]  ,Date = res.Date, Table = res.Table.Number, Time = res.Time.StartTime }));
+                view.AddRange(reservations.Select(res => new EditReservationView()
+                { Id = res.Id, Name = users[res.UserId]  ,Date = res.Date, Table = res.Table.Number, Time = res.Time.StartTime })
+                .OrderBy(x => x.Date)
+                .ThenBy(x => x.Table)
+                .ThenBy(x => x.Time));
             }
             return View("CancellReservations", view);
         }

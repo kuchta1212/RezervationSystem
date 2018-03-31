@@ -17,6 +17,6 @@ namespace ReservationSystem.Reservation
 
         public string SDate => this.Date.Date.ToString("dd.MM.yyyy");
 
-        public DateTime Date { private get; set; }
+        public DateTime Date { get; set; }
     }
 }
