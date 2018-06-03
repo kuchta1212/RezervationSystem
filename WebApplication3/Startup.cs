@@ -14,17 +14,6 @@ namespace ReservationSystem
         public void Configuration(IAppBuilder app)
         {
             ConfigureAuth(app);
-
-            ISchedulerFactory schedulerFactory = new StdSchedulerFactory();
-
-            var sched = schedulerFactory.GetScheduler();
-            sched.Start();
-
-            var jobDetail = JobBuilder.Create<RezervationCleaner>().Build();
-            var trigger =
-                TriggerBuilder.Create().WithDailyTimeIntervalSchedule(builder => builder.StartingDailyAt(new TimeOfDay(23,55))).Build();
-
-            sched.ScheduleJob(jobDetail, trigger);
         }
     }
 }
