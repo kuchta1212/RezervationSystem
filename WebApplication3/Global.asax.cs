@@ -9,12 +9,16 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using log4net;
+using log4net.Config;
 
 namespace ReservationSystem
 {
     public class MvcApplication : System.Web.HttpApplication
     {
         private static IWindsorContainer container;
+        private static readonly ILog log = LogManager.GetLogger(typeof(Startup));
+
 
         private static void BootstrapContainer()
         {
@@ -33,7 +37,8 @@ namespace ReservationSystem
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
             MvcApplication.BootstrapContainer();
-            //log4net.Config.XmlConfigurator.Configure(new FileInfo(Server.MapPath("~/log4net.xml")));
+            XmlConfigurator.Configure();
+            log.Info("Application running....");
 
         }
 
