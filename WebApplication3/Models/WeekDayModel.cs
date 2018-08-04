@@ -23,6 +23,10 @@ namespace ReservationSystem.Models
         public int EndTime { get; set; }
         public virtual TimeModel EndTimeKey { get; set; }
 
+        [ForeignKey("DateRangeKey")]
+        public int DateRange { get; set; }
+        public virtual DateRangeModel DateRangeKey { get; set; }
+
         public bool IsCancelled { get; set; }
 
     }

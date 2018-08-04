@@ -264,8 +264,13 @@
     <Compile Include="Migrations\201712041935450_AddWeekDay.Designer.cs">
       <DependentUpon>201712041935450_AddWeekDay.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201808041338519_DateRange.cs" />
+    <Compile Include="Migrations\201808041338519_DateRange.Designer.cs">
+      <DependentUpon>201808041338519_DateRange.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\AppConfiguration.cs" />
     <Compile Include="Models\CancelledDayModel.cs" />
+    <Compile Include="Models\DateRangeModel.cs" />
     <Compile Include="Models\ReportModel.cs" />
     <Compile Include="Models\ReservationModel.cs" />
     <Compile Include="Models\SettingModel.cs" />
@@ -500,6 +505,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201712041935450_AddWeekDay.resx">
       <DependentUpon>201712041935450_AddWeekDay.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808041338519_DateRange.resx">
+      <DependentUpon>201808041338519_DateRange.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Utils\Resource.resx">
       <Generator>ResXFileCodeGenerator</Generator>

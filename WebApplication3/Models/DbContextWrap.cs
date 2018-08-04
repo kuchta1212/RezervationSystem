@@ -16,6 +16,7 @@ namespace ReservationSystem.Models
         public DbSet<CancelledDayModel> CancelledDays { get; set; }
         public DbSet<SettingModel> Setting { get; set; }
         public DbSet<WeekDayModel> WeekDays { get; set; }
+        public DbSet<DateRangeModel> DateRanges { get; set; }
 
         public DbContextWrap() : base("name=ReservationSystem")
         {
