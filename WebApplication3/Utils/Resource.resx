@@ -159,4 +159,7 @@
   <data name="WriteAnAdministrator" xml:space="preserve">
     <value>Prosím napište administrátorovi chybu a popis toho co jste dělali. Děkuji</value>
   </data>
+  <data name="WrongDateFormat" xml:space="preserve">
+    <value>Formát pro zadávání data je DD.MM (např. 01.05 nebo 18.11)</value>
+  </data>
 </root>

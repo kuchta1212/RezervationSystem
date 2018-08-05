@@ -11,13 +11,22 @@
             {
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="valueTextbox">@Model.Name</label>
+                        <p>
+                            @Html.Label("Začátek")
+                            @Html.DropDownList("startTime", new SelectList(Model.Times.Select(time => time.StartTime)), Model.StartTimeValue.ToString(), new { @class = "form-control" })
+                            @Html.Label("Konec")
+                            @Html.DropDownList("endTime", new SelectList(Model.Times.Select(time => time.StartTime)), Model.EndTimeValue.ToString(), new { @class = "form-control" })
+                            <label>
+                                @Html.CheckBox("cancelledDay", Model.IsCancelled) Zrušit hraní v tento den
+                            </label>
+
+                        </p>
                     </div>
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Save changes</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Zavřít</button>
+                    <button type="submit" class="btn btn-primary">Uložit</button>
                 </div>
             }
         </div>

@@ -10,16 +10,82 @@
 <div class="panel panel-default">
     <table class="table table-striped table-hover ">
         <tr>
-            <th>Název</th><th>Hodnota</th><th>Změnit</th>
+            <th>Název</th>
+            <th>Hodnota</th>
+            <th>Změnit</th>
         </tr>
         @foreach (var item in Model.Setting)
         {
             <tr>
-                <td>@item.Name</td><td>@item.Value</td><td>@Html.ActionLink("Změnit ", "Edit", "Admin", new { id = @item.Id}, new { @class = "modal-link" })</td>
+                <td>@item.Name</td>
+                <td>@item.Value</td>
+                <td>@Html.ActionLink("Změnit ", "Edit", "Admin", new { id = @item.Id }, new { @class = "modal-link" })</td>
             </tr>
-        }   
+        }
     </table>
 </div>
+
+<h2>Nastavení počtu stolů</h2>
+<div class="panel panel-default">
+    <div class="panel-heading">Momentální počet stolů: @Model.NumOfTables</div>
+    <p>
+        @Html.ActionLink("Vytvoř stůl", "CreateTable", "Admin", null, new { @class = "btn btn-default" })
+
+        @Html.ActionLink("Smazat stůl", "DeleteTable", "Admin", null, new { @class = "btn btn-danger" })
+    </p>
+</div>
+
+<h2>Nastavení hracích časů</h2>
+@foreach (var dateRange in Model.DateRanges)
+{
+
+<div class="@((dateRange.IsActive) ? "panel panel-success" : "panel panel-default")">
+        <div class="panel panel-heading">
+            @dateRange.Name   @dateRange.StartDate.Day.@dateRange.StartDate.Month - @dateRange.EndTime.Day.@dateRange.EndTime.Month
+        </div>
+        <div class="panel panel-body">
+            <table class="table table-striped table-hover ">
+                <tr>
+                    <th>Den v týdnu</th>
+                    <th>Začátek</th>
+                    <th>Konec</th>
+                    <th>Den zrušen</th>
+                    <th>Změnit</th>
+                </tr>
+                @foreach (var item in Model.WeekDays.Where(x => x.DateRangeId == dateRange.Id).OrderBy(x => x.Id))
+                {
+                    <tr>
+                        <td>@item.Name</td>
+                        <td>@item.StartTimeValue.ToString()</td>
+                        <td>@item.EndTimeValue.ToString()</td>
+                        @if (item.IsCancelled)
+                        {
+                            <td>ANO</td>
+                        }
+                        else
+                        {
+                            <td>NE</td>
+                        }
+
+                        <td>@Html.ActionLink("Změnit ", "EditWeekDay", "Admin", new {id = @item.Id}, new {@class = "modal-link"})</td>
+                    </tr>
+                }
+            </table>
+            @if (!dateRange.IsActive)
+            {
+                <p>
+                    @Html.ActionLink("Zvolit", "SelectDateRange", "Admin", new { id = @dateRange.Id}, new { @class = "btn btn-default" })
+
+                    @Html.ActionLink("Smazat", "DeleteDateRange", "Admin", new { id = @dateRange.Id }, new { @class = "btn btn-default" })
+                </p>
+            }
+        </div>
+    </div>
+}
+<p>
+    @Html.ActionLink("Vytvoř časové období", "CreateDateRange", "Admin", null, new { @class = "modal-link" })
+</p>
+
 
 <h2>Nastavit administrátora</h2>
 <div class="panel panel-default">
@@ -33,54 +99,14 @@
         {
             <tr>
                 <td>@item.UserName</td>
-                
+
                 @if (item.IsAdmin)
-                {<td>ANO</td>}
-                else
-                {<td>NE</td>}
-                <td>@Html.ActionLink("Změnit", "ChangeAdmin", "Admin", new {id = @item.Id, WasAdmin = @item.IsAdmin}, new {@id = item.Id})</td>
-            </tr>
-        }
-    </table>
-</div>
-
-
-<h2>Nastavení počtu stolů</h2>
-<div class="panel panel-default">
-    <div class="panel-heading">Momentální počet stolů: @Model.NumOfTables</div>
-    <p>
-        @Html.ActionLink("Vytvoř stůl", "CreateTable", "Admin", null, new {@class = "btn btn-default"})
-
-        @Html.ActionLink("Smazat stůl", "DeleteTable", "Admin", null, new {@class = "btn btn-danger"})
-    </p>
-</div>
-
-<h2>Nastavení hracích času pro dny v týdnu</h2>
-<div class="panel panel-default">
-    <table class="table table-striped table-hover ">
-        <tr>
-            <th>Den v týdnu</th>
-            <th>Začátek</th>
-            <th>Konec</th>
-            <th>Den zrušen</th>
-            <th>Změnit</th>
-        </tr>
-        @foreach (var item in Model.WeekDays)
-        {
-            <tr>
-                <td>@item.Name</td>
-                <td>@item.StartTimeValue.ToString()</td>
-                <td>@item.EndTimeValue.ToString()</td>
-                @if (item.IsCancelled)
                 {
-                    <td>ANO</td>
-                }
+                    <td>ANO</td>}
                 else
                 {
-                    <td>NE</td>
-                }
-
-                <td>@Html.ActionLink("Změnit ", "EditWeekDay", "Admin", new { id = @item.Id }, new { @class = "modal-link" })</td>
+                    <td>NE</td>}
+                <td>@Html.ActionLink("Změnit", "ChangeAdmin", "Admin", new { id = @item.Id, WasAdmin = @item.IsAdmin }, new { @id = item.Id })</td>
             </tr>
         }
     </table>
@@ -92,6 +118,11 @@
 </div>
 
 <div id="modal-container-weekday" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-content">
+    </div>
+</div>
+
+<div id="modal-container-createdaterange" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-content">
     </div>
 </div>

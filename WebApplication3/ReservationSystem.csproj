@@ -463,6 +463,7 @@
     <Content Include="Views\Admin\_EditWeekDayPartialView.cshtml" />
     <Content Include="Views\Home\MainTable.cshtml" />
     <Content Include="Views\Account\ConfirmEmailSend.cshtml" />
+    <Content Include="Views\Admin\_CreateDateRangePartialView.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

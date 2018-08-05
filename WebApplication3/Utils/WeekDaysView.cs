@@ -29,5 +29,7 @@ namespace ReservationSystem.Utils
         public bool IsCancelled { get; set; }
 
         public List<TimeModel> Times { get; set; }
+
+        public int DateRangeId { get; set; }
     }
 }

@@ -6,6 +6,7 @@ using System.Data.Entity;
 using System.Globalization;
 using System.Linq;
 using System.Net;
+using System.Runtime.Versioning;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -90,6 +91,7 @@ namespace ReservationSystem.Controllers
                 model.NumOfTables = _repository.GetAll<TableModel>(uow).OrderByDescending(item => item.Number).First().Number;
                 week = _repository.GetAll<WeekDayModel>(uow).OrderBy(item => item.Id).ToList();
                 times = _repository.GetAll<TimeModel>(uow).ToList();
+                model.DateRanges = _repository.GetAll<DateRangeModel>(uow).ToList();
             }
 
             model.WeekDays = new List<WeekDaysView>();
@@ -100,12 +102,12 @@ namespace ReservationSystem.Controllers
                 StartTimeValue = times.Where(time => time.Id == day.StartTime).First().StartTime,
                 EndTimeId = day.EndTime,
                 EndTimeValue = times.Where(time => time.Id == day.EndTime).First().StartTime,
-                IsCancelled = day.IsCancelled
+                IsCancelled = day.IsCancelled,
+                DateRangeId = day.DateRange
             }))
             {
                 model.WeekDays.Add(dayView);
             }
-
 
             using (var appContext = new ApplicationDbContext())
             { 
@@ -152,22 +154,46 @@ namespace ReservationSystem.Controllers
         public ActionResult EditWeekDay(int? id)
         {
             WeekDayModel model = null;
+            List<TimeModel> times = null;
+
             using (IUnitOfWork uow = new UnitOfWork(new DbContextWrap()))
             {
                 model = _repository.GetByKey<WeekDayModel>(uow, id);
+                times = _repository.GetAll<TimeModel>(uow).ToList();
             }
-            return PartialView("_EditWeekDayPartialView", model);
+
+            var view = new WeekDaysView(model.Id, model.Name)
+            {
+                StartTimeValue = times.Where(x => x.Id == model.StartTime).First().StartTime,
+                EndTimeValue = times.Where(x => x.Id == model.EndTime).First().StartTime,
+                IsCancelled = model.IsCancelled,
+                Times = times
+            };
+
+            return PartialView("_EditWeekDayPartialView", view);
         }
 
         [HttpPost] // this action takes the viewModel from the modal
-        public ActionResult EditWeekDay(WeekDayModel model, string svalue)
+        public ActionResult EditWeekDay(WeekDayModel model, string startTime, string endTime, bool cancelledDay)
         {
             using (IUnitOfWork uow = new UnitOfWork(new DbContextWrap()))
             {
-                //var m = _repository.GetByKey<WeekDayModel>(uow, model.Id);
-                //m.Value = svalue;
-                //_repository.Update(uow, m);
-                //uow.SaveChanges();
+                var m = _repository.GetByKey<WeekDayModel>(uow, model.Id);
+                var times = _repository.GetAll<TimeModel>(uow);
+
+                if (!string.IsNullOrEmpty(startTime))
+                {
+                    m.StartTime = times.Where(x => x.StartTime.ToString().Equals(startTime)).First().Id;
+                }
+
+                if (!string.IsNullOrEmpty(endTime))
+                {
+                    m.EndTime = times.Where(x => x.StartTime.ToString().Equals(startTime)).First().Id;
+                }
+
+                m.IsCancelled = cancelledDay;
+                _repository.Update(uow, m);
+                uow.SaveChanges();
             }
 
             return RedirectToAction("Settings");
@@ -255,6 +281,150 @@ namespace ReservationSystem.Controllers
 
             return RedirectToAction("Settings", "Admin");
 
+        }
+
+        public ActionResult SelectDateRange(int id)
+        {
+            using (var uow = new UnitOfWork(new DbContextWrap()))
+            {
+                var currentActive = _repository.GetAll<DateRangeModel>(uow).First(dr => dr.IsActive);
+                currentActive.IsActive = false;
+
+                var model = _repository.GetByKey<DateRangeModel>(uow, id);
+                model.IsActive = true;
+                
+                uow.SaveChanges();
+            }
+
+            return RedirectToAction("Settings");
+        }
+
+        public ActionResult DeleteDateRange(int id)
+        {
+            using (var uow = new UnitOfWork(new DbContextWrap()))
+            {
+                var days = _repository.GetAll<WeekDayModel>(uow).Where(d => d.DateRange == id);
+                foreach (var day in days)
+                {
+                    _repository.Delete(uow, day);
+                }
+
+
+                var model = _repository.GetByKey<DateRangeModel>(uow, id);
+                _repository.Delete(uow, model);
+                uow.SaveChanges();
+            }
+
+            return RedirectToAction("Settings", "Admin");
+        }
+
+        [HttpGet]
+        public ActionResult CreateDateRange()
+        {
+            return PartialView("_CreateDateRangePartialView");
+        }
+
+        [HttpPost]
+        public ActionResult CreateDateRange(string name, string startDate, string endDate)
+        {
+            DateRangeModel dateRange = null;
+            try
+            {
+                dateRange = new DateRangeModel()
+                {
+                    Name = name,
+                    StartDate = DateTime.ParseExact(startDate, "dd.MM", CultureInfo.InvariantCulture),
+                    EndTime = DateTime.ParseExact(endDate, "dd.MM", CultureInfo.InvariantCulture),
+                    IsActive = false
+                };
+            }
+            catch (Exception e)
+            {
+                return RedirectToAction("MainTable", "Home", new { code = new ReturnCode(ReturnCodeLevel.ERROR, Resource.WrongDateFormat, "").ToString() });
+            }
+
+            using (IUnitOfWork uow = new UnitOfWork(new DbContextWrap()))
+            {
+                _repository.Add(uow, dateRange);
+                uow.SaveChanges();
+
+                var dateRangeId = _repository.GetAll<DateRangeModel>(uow).First(dr => dr.Name.Equals(name)).Id;
+                var t1800 = _repository.GetAll<TimeModel>(uow).First(item => item.StartTime == new TimeSpan(18, 0, 0));
+                var t2100 = _repository.GetAll<TimeModel>(uow).First(item => item.StartTime == new TimeSpan(21, 0, 0));
+                var t2000 = _repository.GetAll<TimeModel>(uow).First(item => item.StartTime == new TimeSpan(20, 0, 0));
+                var t1830 = _repository.GetAll<TimeModel>(uow).First(item => item.StartTime == new TimeSpan(18, 30, 0));
+                var t2130 = _repository.GetAll<TimeModel>(uow).First(item => item.StartTime == new TimeSpan(21, 30, 0));
+
+                MakeDaysOfWeekForDateRange(uow, dateRangeId, t1800, t2100, t2000, t1830, t2130);
+
+                uow.SaveChanges();
+            }
+
+            return RedirectToAction("Settings");
+        }
+
+        private void MakeDaysOfWeekForDateRange(IUnitOfWork uow, int dateRangeId, TimeModel t1800, TimeModel t2100, TimeModel t2000, TimeModel t1830, TimeModel t2130)
+        {
+            var monday = new WeekDayModel()
+            {
+                Name = DayOfWeek.Monday.ToString(),
+                StartTimeKey = t1800,
+                StartTime = t1800.Id,
+                EndTimeKey = t2100,
+                EndTime = t2100.Id,
+                IsCancelled = false,
+                DateRange = dateRangeId
+            };
+
+            var tuesday = new WeekDayModel()
+            {
+                Name = DayOfWeek.Tuesday.ToString(),
+                StartTimeKey = t1800,
+                StartTime = t1800.Id,
+                EndTimeKey = t2100,
+                EndTime = t2100.Id,
+                IsCancelled = false,
+                DateRange = dateRangeId
+            };
+
+            var wednesday = new WeekDayModel()
+            {
+                Name = DayOfWeek.Wednesday.ToString(),
+                StartTimeKey = t1800,
+                StartTime = t1800.Id,
+                EndTimeKey = t2000,
+                EndTime = t2000.Id,
+                IsCancelled = false,
+                DateRange = dateRangeId
+            };
+
+            var thursday = new WeekDayModel()
+            {
+                Name = DayOfWeek.Thursday.ToString(),
+                StartTimeKey = t1830,
+                StartTime = t1830.Id,
+                EndTimeKey = t2130,
+                EndTime = t2130.Id,
+                IsCancelled = false,
+                DateRange = dateRangeId
+            };
+
+            var friday = new WeekDayModel()
+            {
+                Name = DayOfWeek.Friday.ToString(),
+                StartTimeKey = t1800,
+                StartTime = t1800.Id,
+                EndTimeKey = t2100,
+                EndTime = t2100.Id,
+                IsCancelled = true,
+                DateRange = dateRangeId
+            };
+
+            _repository.Add(uow, monday);
+            _repository.Add(uow, tuesday);
+            _repository.Add(uow, wednesday);
+            _repository.Add(uow, thursday);
+            _repository.Add(uow, friday);
         }
     }
 }

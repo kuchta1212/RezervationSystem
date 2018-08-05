@@ -16,5 +16,7 @@ namespace ReservationSystem.Utils
         public int NumOfTables { get; set; }
 
         public List<WeekDaysView> WeekDays { get; set; }
+
+        public List<DateRangeModel> DateRanges { get; set; }
     }
 }
