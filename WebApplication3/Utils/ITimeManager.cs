@@ -10,6 +10,6 @@ namespace ReservationSystem.Utils
 {
     public interface ITimeManager
     {
-        List<TimeModel> GetTimesForDayOfTheWeek(IUnitOfWork unitOfWork, string dayOfWeek);
+        List<TimeModel> GetTimesForDayOfTheWeek(IUnitOfWork unitOfWork, DateTime day);
     }
 }

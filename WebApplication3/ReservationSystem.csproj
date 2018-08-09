@@ -315,6 +315,7 @@
     <Compile Include="Utils\ControllersInstaller.cs" />
     <Compile Include="Utils\DateUtil.cs" />
     <Compile Include="Utils\EmailController.cs" />
+    <Compile Include="Utils\Extensions.cs" />
     <Compile Include="Utils\IoC.cs" />
     <Compile Include="Utils\ITimeManager.cs" />
     <Compile Include="Utils\MyUser.cs" />

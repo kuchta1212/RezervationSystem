@@ -17,9 +17,11 @@ namespace ReservationSystem.Utils
             this.repository = repository;
         }
 
-        public List<TimeModel> GetTimesForDayOfTheWeek(IUnitOfWork unitOfWork, string dayOfWeek)
+        public List<TimeModel> GetTimesForDayOfTheWeek(IUnitOfWork unitOfWork, DateTime day)
         {
-            var dayModel = repository.Get<WeekDayModel, int>(unitOfWork, item => item.Name.Equals(dayOfWeek), item => item.Id).FirstOrDefault() ??
+            var dateRangeId = this.GetDateRangeId(unitOfWork, day);
+            var dayOfWeek = day.DayOfWeek.ToString();
+            var dayModel = repository.Get<WeekDayModel, int>(unitOfWork, item => item.Name.Equals(dayOfWeek) && item.DateRange == dateRangeId, item => item.Id).FirstOrDefault() ??
                            new WeekDayModel() {IsCancelled = true};
             if(dayModel.IsCancelled)
                 return new List<TimeModel>();
@@ -29,5 +31,19 @@ namespace ReservationSystem.Utils
             return repository.Get<TimeModel, TimeSpan>(unitOfWork,
                 time => time.StartTime >= startTime.StartTime && time.StartTime <= endTime.StartTime, time => time.StartTime).ToList();
         }
+
+        private int GetDateRangeId(IUnitOfWork uow, DateTime day)
+        {
+            var ranges = repository.GetAll<DateRangeModel>(uow);
+            var selectedRanges = ranges.Where(dr => dr.IsIn(day));
+            if (!selectedRanges.Any() || selectedRanges.Count() >= 2)
+            {
+                return ranges.First().Id;
+            }
+
+            return selectedRanges.First().Id;
+        }
+
+        
     }
 }

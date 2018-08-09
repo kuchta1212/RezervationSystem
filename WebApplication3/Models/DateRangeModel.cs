@@ -7,7 +7,7 @@ using System.Web;
 
 namespace ReservationSystem.Models
 {
-    public class DateRangeModel
+    public partial class DateRangeModel
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

@@ -283,22 +283,6 @@ namespace ReservationSystem.Controllers
 
         }
 
-        public ActionResult SelectDateRange(int id)
-        {
-            using (var uow = new UnitOfWork(new DbContextWrap()))
-            {
-                var currentActive = _repository.GetAll<DateRangeModel>(uow).First(dr => dr.IsActive);
-                currentActive.IsActive = false;
-
-                var model = _repository.GetByKey<DateRangeModel>(uow, id);
-                model.IsActive = true;
-                
-                uow.SaveChanges();
-            }
-
-            return RedirectToAction("Settings");
-        }
-
         public ActionResult DeleteDateRange(int id)
         {
             using (var uow = new UnitOfWork(new DbContextWrap()))
@@ -345,6 +329,11 @@ namespace ReservationSystem.Controllers
 
             using (IUnitOfWork uow = new UnitOfWork(new DbContextWrap()))
             {
+                var ranges = _repository.GetAll<DateRangeModel>(uow);
+                
+                if(ranges.Any(dr => dr.IsIn(dateRange.StartDate) || dr.IsIn(dateRange.EndTime)))
+                    return RedirectToAction("MainTable", "Home", new { code = new ReturnCode(ReturnCodeLevel.WARNING, Resource.RangesCollision, "").ToString() });
+
                 _repository.Add(uow, dateRange);
                 uow.SaveChanges();
 

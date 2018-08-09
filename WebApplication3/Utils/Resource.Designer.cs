@@ -88,6 +88,15 @@ namespace ReservationSystem.Utils {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Rozsahy dat se překrývají..
+        /// </summary>
+        internal static string RangesCollision {
+            get {
+                return ResourceManager.GetString("RangesCollision", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Prosím potvrďte vaši registraci kliknutím na tento &lt;a href={0}&gt;odkaz&lt;/a&gt;.
         /// </summary>
         internal static string RegistrationEmail {

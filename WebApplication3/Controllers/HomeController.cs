@@ -57,7 +57,7 @@ namespace ReservationSystem.Controllers
                     model.Tables = tables;
                     if (times == null)
                     {
-                        times = timeManager.GetTimesForDayOfTheWeek(uow, model.Date.DayOfWeek.ToString());
+                        times = timeManager.GetTimesForDayOfTheWeek(uow, model.Date);
                         if (!times.Any())
                         {
                             times = repository.GetAll<TimeModel>(uow).ToList();

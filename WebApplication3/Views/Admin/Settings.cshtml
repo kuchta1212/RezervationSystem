@@ -39,7 +39,7 @@
 @foreach (var dateRange in Model.DateRanges)
 {
 
-<div class="@((dateRange.IsActive) ? "panel panel-success" : "panel panel-default")">
+<div class="panel panel-default">
         <div class="panel panel-heading">
             @dateRange.Name   @dateRange.StartDate.Day.@dateRange.StartDate.Month - @dateRange.EndTime.Day.@dateRange.EndTime.Month
         </div>
@@ -71,14 +71,7 @@
                     </tr>
                 }
             </table>
-            @if (!dateRange.IsActive)
-            {
-                <p>
-                    @Html.ActionLink("Zvolit", "SelectDateRange", "Admin", new { id = @dateRange.Id}, new { @class = "btn btn-default" })
-
-                    @Html.ActionLink("Smazat", "DeleteDateRange", "Admin", new { id = @dateRange.Id }, new { @class = "btn btn-default" })
-                </p>
-            }
+            @Html.ActionLink("Smazat", "DeleteDateRange", "Admin", new { id = @dateRange.Id }, new { @class = "btn btn-danger" })
         </div>
     </div>
 }

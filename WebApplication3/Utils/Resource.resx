@@ -126,6 +126,9 @@
   <data name="GroupReservationSuccessReason" xml:space="preserve">
     <value>Vaše hromadná rezervace proběhal úsěšně.</value>
   </data>
+  <data name="RangesCollision" xml:space="preserve">
+    <value>Rozsahy dat se překrývají.</value>
+  </data>
   <data name="RegistrationEmail" xml:space="preserve">
     <value>Prosím potvrďte vaši registraci kliknutím na tento &lt;a href={0}&gt;odkaz&lt;/a&gt;</value>
   </data>
