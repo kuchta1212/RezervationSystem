@@ -183,12 +183,12 @@ namespace ReservationSystem.Controllers
 
                 if (!string.IsNullOrEmpty(startTime))
                 {
-                    m.StartTime = times.Where(x => x.StartTime.ToString().Equals(startTime)).First().Id;
+                    m.StartTime = times.First(x => x.StartTime.ToString().Equals(startTime)).Id;
                 }
 
                 if (!string.IsNullOrEmpty(endTime))
                 {
-                    m.EndTime = times.Where(x => x.StartTime.ToString().Equals(startTime)).First().Id;
+                    m.EndTime = times.First(x => x.StartTime.ToString().Equals(endTime)).Id;
                 }
 
                 m.IsCancelled = cancelledDay;

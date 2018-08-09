@@ -13,9 +13,9 @@
                     <div class="form-group">
                         <p>
                             @Html.Label("Začátek")
-                            @Html.DropDownList("startTime", new SelectList(Model.Times.Select(time => time.StartTime)), Model.StartTimeValue.ToString(), new { @class = "form-control" })
+                            @Html.DropDownList("startTime", new SelectList(Model.Times.Select(time => time.StartTime)), "", new { @class = "form-control" })
                             @Html.Label("Konec")
-                            @Html.DropDownList("endTime", new SelectList(Model.Times.Select(time => time.StartTime)), Model.EndTimeValue.ToString(), new { @class = "form-control" })
+                            @Html.DropDownList("endTime", new SelectList(Model.Times.Select(time => time.StartTime)), "", new { @class = "form-control" })
                             <label>
                                 @Html.CheckBox("cancelledDay", Model.IsCancelled) Zrušit hraní v tento den
                             </label>
