@@ -24,8 +24,8 @@ namespace ReservationSystem.Models
         public int TimeId { get; set; }
         public virtual TimeModel Time { get; set; }
 
-        /*IN HALF HOURS*/
-        public int Length { get; set; }
+        [DataType(DataType.DateTime)]
+        public DateTime TimeStamp { get; set; }
 
         [DataType(DataType.Date)]
         public DateTime PickedDate { get; set; }

@@ -89,10 +89,16 @@ namespace ReservationSystem.Controllers
 
             using (IUnitOfWork uow = new UnitOfWork(new DbContextWrap()))
             {
-                //is free
-                var isFree =repository.Get<PickedModel, int>(uow, (pick => pick.TableId == table && pick.TimeId == time && pick.UserId != userId), (item => item.Id));
+                var samePicks = repository.Get<PickedModel, int>(
+                    uow, 
+                    (pick => 
+                        pick.TableId == table && 
+                        pick.TimeId == time && 
+                        pick.PickedDate == date.Date && 
+                        pick.UserId != userId), 
+                    (item => item.Id));
 
-                if (isFree.Any())
+                if (this.CheckPeriod(uow, samePicks))
                 {
                     return RedirectToAction("MainTable", "Home", new { code = new ReturnCode(ReturnCodeLevel.WARNING, Resource.TableAlreadyPickedWarning, null).ToString(), date = date });
                 }
@@ -121,7 +127,8 @@ namespace ReservationSystem.Controllers
                         UserId = userId,
                         TableId = table,
                         TimeId = time,
-                        PickedDate = date
+                        PickedDate = date,
+                        TimeStamp = DateTime.Now
                     };
                     repository.Add<PickedModel>(uow, picked);
                 }
@@ -133,6 +140,19 @@ namespace ReservationSystem.Controllers
                 return RedirectToAction("MainTable", "Home", new { code = new ReturnCode(ReturnCodeLevel.WARNING, Resource.TablesOneFour, null).ToString(), date = date });
             
             return RedirectToAction("MainTable", "Home", new {code= new ReturnCode(ReturnCodeLevel.RELOAD, Resource.ReloadOK, null).ToString(), date =date});
+        }
+
+        private bool CheckPeriod(IUnitOfWork uow, IEnumerable<PickedModel> pickedModels)
+        {
+            foreach (var model in pickedModels)
+            {
+                if (DateTime.Now > model.TimeStamp.AddMinutes(15))
+                {
+                    this.repository.Delete<PickedModel>(uow, model);
+                }
+            }
+
+            return pickedModels.Any();
         }
 
         public ActionResult GroupReservations(string date, string reservationName, string startTime, string endTime, IEnumerable<string> tables)
