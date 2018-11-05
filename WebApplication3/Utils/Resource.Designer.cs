@@ -151,6 +151,15 @@ namespace ReservationSystem.Utils {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Vybrání vašeho stolu expirovalo. Prosím vyberte znovu..
+        /// </summary>
+        internal static string ReservationExpired {
+            get {
+                return ResourceManager.GetString("ReservationExpired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Rezervováno!.
         /// </summary>
         internal static string ReservationSuccess {

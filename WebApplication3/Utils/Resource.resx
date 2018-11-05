@@ -147,6 +147,9 @@
   <data name="ReservationEmailConfirmationSubject" xml:space="preserve">
     <value>Potvrzení rezervace SPARTA PRAHA STOLNÍ TENIS</value>
   </data>
+  <data name="ReservationExpired" xml:space="preserve">
+    <value>Vybrání vašeho stolu expirovalo. Prosím vyberte znovu.</value>
+  </data>
   <data name="ReservationSuccess" xml:space="preserve">
     <value>Rezervováno!</value>
   </data>
