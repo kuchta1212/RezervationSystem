@@ -14,9 +14,9 @@
                         @Html.Label("Název")
                         @Html.TextBox("name", @Model.Name, new { @class = "form-control input-lg", @style = "text-align:center" })
                         @Html.Label("Začátek")
-                        @Html.TextBox("startDate", @Model.StartDate.ToShortDateString(), new { @class = "form-control input-lg", @style = "text-align:center" })
+                        @Html.TextBox("startDate", @Model.StartDate.ToString("dd.MM"), new { @class = "form-control input-lg", @style = "text-align:center" })
                         @Html.Label("Konec")
-                        @Html.TextBox("endDate", @Model.EndTime.ToShortDateString(), new { @class = "form-control input-lg", @style = "text-align:center" })
+                        @Html.TextBox("endDate", @Model.EndTime.ToString("dd.MM"), new { @class = "form-control input-lg", @style = "text-align:center" })
                     </div>
 
                 </div>

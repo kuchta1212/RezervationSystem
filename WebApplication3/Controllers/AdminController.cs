@@ -321,7 +321,12 @@ namespace ReservationSystem.Controllers
             using (IUnitOfWork uow = new UnitOfWork(new DbContextWrap()))
             {
                 var m = _repository.GetByKey<DateRangeModel>(uow, model.Id);
-               
+
+                if (!string.IsNullOrEmpty(name) && !name.Equals(m.Name))
+                {
+                    m.Name = name;
+                }
+
                 if (!string.IsNullOrEmpty(startDate))
                 {
                     m.StartDate = DateTime.ParseExact(startDate, "dd.MM", CultureInfo.InvariantCulture);
