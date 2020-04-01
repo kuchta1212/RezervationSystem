@@ -7,7 +7,7 @@ namespace ReservationSystem.MyMigrations
     {
         public override void Up()
         {
-            
+         /*   
             CreateTable(
                 "dbo.PickedModels",
                 c => new
@@ -24,7 +24,7 @@ namespace ReservationSystem.MyMigrations
                 .ForeignKey("dbo.TimeModels", t => t.TimeId, cascadeDelete: true)
                 .Index(t => t.TableId)
                 .Index(t => t.TimeId);
-            
+            */
         }
         
         public override void Down()

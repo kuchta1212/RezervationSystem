@@ -6,7 +6,7 @@ namespace ReservationSystem.MyMigrations
     public partial class AddWeekDay : DbMigration
     {
         public override void Up()
-        {
+        {/*
             CreateTable(
                 "dbo.WeekDayModels",
                 c => new
@@ -20,7 +20,7 @@ namespace ReservationSystem.MyMigrations
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.TimeModels", t => t.EndTime, cascadeDelete: false)
                 .ForeignKey("dbo.TimeModels", t => t.StartTime, cascadeDelete: false)
-                .Index(t => t.StartTime);
+                .Index(t => t.StartTime);*/
 
         }
         

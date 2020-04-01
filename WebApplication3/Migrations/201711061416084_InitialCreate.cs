@@ -6,7 +6,7 @@ namespace ReservationSystem.AppMigrations
     public partial class InitialCreate : DbMigration
     {
         public override void Up()
-        {
+        {/*
             CreateTable(
                 "dbo.AspNetRoles",
                 c => new
@@ -74,7 +74,7 @@ namespace ReservationSystem.AppMigrations
                 .PrimaryKey(t => new { t.LoginProvider, t.ProviderKey, t.UserId })
                 .ForeignKey("dbo.AspNetUsers", t => t.UserId, cascadeDelete: true)
                 .Index(t => t.UserId);
-            
+            */
         }
         
         public override void Down()

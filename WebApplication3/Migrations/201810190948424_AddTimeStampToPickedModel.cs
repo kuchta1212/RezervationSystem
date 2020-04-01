@@ -7,8 +7,8 @@ namespace ReservationSystem.MyMigrations
     {
         public override void Up()
         {
-            AddColumn("dbo.PickedModels", "TimeStamp", c => c.DateTime(nullable: false));
-            DropColumn("dbo.PickedModels", "Length");
+            //AddColumn("dbo.PickedModels", "TimeStamp", c => c.DateTime(nullable: false));
+            //DropColumn("dbo.PickedModels", "Length");
         }
         
         public override void Down()

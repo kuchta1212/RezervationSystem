@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -18,7 +19,7 @@ namespace ReservationSystem.Models
         public DbSet<WeekDayModel> WeekDays { get; set; }
         public DbSet<DateRangeModel> DateRanges { get; set; }
 
-        public DbContextWrap() : base("name=ReservationSystem")
+        public DbContextWrap() : base(ConfigurationManager.AppSettings.Get("databaseName"))
         {
           
         }

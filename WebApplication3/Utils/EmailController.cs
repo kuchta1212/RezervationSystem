@@ -54,6 +54,14 @@ namespace ReservationSystem.Utils
             SendEmail(emailTo, body, subject);
         }
 
+        public void SendResetPasswordEmail(string url, string email)
+        {
+            var body = string.Format(Resource.ResetPassword, url);
+            var subject = Resource.ResetPasswordSubject;
+
+            SendEmail(email, body, subject);
+        }
+
         public void SendRegisterEmail(string url, string email)
         {
             var body = string.Format(Resource.RegistrationEmail, url);

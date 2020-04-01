@@ -7,7 +7,7 @@ namespace ReservationSystem.MyMigrations
     {
         public override void Up()
         {
-            AddColumn("dbo.ReservationModels", "Name", c => c.String());
+            //AddColumn("dbo.ReservationModels", "Name", c => c.String());
         }
         
         public override void Down()

@@ -178,6 +178,24 @@ namespace ReservationSystem.Utils {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Prosím vyresetujte své heslo kliknutím na tento odkaz &lt;a href={0}&gt;here&lt;/a&gt;.
+        /// </summary>
+        internal static string ResetPassword {
+            get {
+                return ResourceManager.GetString("ResetPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reset hesla SPARTA PRAHA STOLNÍ TENIS.
+        /// </summary>
+        internal static string ResetPasswordSubject {
+            get {
+                return ResourceManager.GetString("ResetPasswordSubject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Vybraný stůl, je již bohužel rezervován..
         /// </summary>
         internal static string TableAlreadyPickedWarning {

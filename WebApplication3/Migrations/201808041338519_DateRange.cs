@@ -6,7 +6,7 @@ namespace ReservationSystem.MyMigrations
     public partial class DateRange : DbMigration
     {
         public override void Up()
-        {
+        {/*
             CreateTable(
                 "dbo.DateRangeModels",
                 c => new
@@ -21,7 +21,7 @@ namespace ReservationSystem.MyMigrations
             
             AddColumn("dbo.WeekDayModels", "DateRange", c => c.Int(nullable: false));
             CreateIndex("dbo.WeekDayModels", "DateRange");
-            AddForeignKey("dbo.WeekDayModels", "DateRange", "dbo.DateRangeModels", "Id", cascadeDelete: true);
+            AddForeignKey("dbo.WeekDayModels", "DateRange", "dbo.DateRangeModels", "Id", cascadeDelete: true);*/
         }
         
         public override void Down()

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Configuration;
+using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -25,7 +26,7 @@ namespace ReservationSystem.Models
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
-            : base("ReservationSystem", throwIfV1Schema: false)
+            : base(ConfigurationManager.AppSettings.Get("databaseName"), throwIfV1Schema: false)
         {
         }
 

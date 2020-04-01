@@ -6,8 +6,8 @@ namespace ReservationSystem.AppMigrations
     public partial class AddName : DbMigration
     {
         public override void Up()
-        {
-            AddColumn("dbo.AspNetUsers", "Name", c => c.String(nullable: false));
+        {/*
+            AddColumn("dbo.AspNetUsers", "Name", c => c.String(nullable: false));*/
         }
         
         public override void Down()

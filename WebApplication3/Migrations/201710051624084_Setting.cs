@@ -6,7 +6,7 @@ namespace ReservationSystem.MyMigrations
     public partial class Setting : DbMigration
     {
         public override void Up()
-        {
+        {/*
             CreateTable(
                 "dbo.SettingModels",
                 c => new
@@ -16,7 +16,7 @@ namespace ReservationSystem.MyMigrations
                         Value = c.String(),
                     })
                 .PrimaryKey(t => t.Id);
-            
+            */
         }
         
         public override void Down()

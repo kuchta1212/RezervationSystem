@@ -324,7 +324,7 @@ namespace ReservationSystem.Controllers
             }
             catch (Exception e)
             {
-                return RedirectToAction("MainTable", "Home", new { code = new ReturnCode(ReturnCodeLevel.ERROR, Resource.WrongDateFormat, "").ToString() });
+               return RedirectToAction("MainTable", "Home", new { code = new ReturnCode(ReturnCodeLevel.ERROR, Resource.WrongDateFormat, "").ToString() });
             }
 
             using (IUnitOfWork uow = new UnitOfWork(new DbContextWrap()))

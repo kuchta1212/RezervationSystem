@@ -156,6 +156,12 @@
   <data name="ReservationSuccessReason" xml:space="preserve">
     <value>Vaše rezervace proběhal úsěšně. </value>
   </data>
+  <data name="ResetPassword" xml:space="preserve">
+    <value>Prosím vyresetujte své heslo kliknutím na tento odkaz &lt;a href={0}&gt;here&lt;/a&gt;</value>
+  </data>
+  <data name="ResetPasswordSubject" xml:space="preserve">
+    <value>Reset hesla SPARTA PRAHA STOLNÍ TENIS</value>
+  </data>
   <data name="TableAlreadyPickedWarning" xml:space="preserve">
     <value>Vybraný stůl, je již bohužel rezervován.</value>
   </data>

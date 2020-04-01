@@ -7,6 +7,7 @@ namespace ReservationSystem.MyMigrations
     {
         public override void Up()
         {
+            /*
             CreateTable(
                 "dbo.CancelledDayModels",
                 c => new
@@ -16,7 +17,7 @@ namespace ReservationSystem.MyMigrations
                         Reason = c.String(),
                     })
                 .PrimaryKey(t => t.Id);
-            
+            */
         }
         
         public override void Down()

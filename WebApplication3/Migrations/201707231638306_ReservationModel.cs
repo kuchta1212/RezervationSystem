@@ -7,7 +7,25 @@ namespace ReservationSystem.MyMigrations
     {
         public override void Up()
         {
-            
+            /*
+            CreateTable(
+                    "dbo.TableModels",
+                    c => new
+                    {
+                        Id = c.Int(nullable: false),
+                        Number = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id);
+
+            CreateTable(
+                    "dbo.TimeModels",
+                    c => new
+                    {
+                        Id = c.Int(nullable: false),
+                        StartTime = c.Time(nullable: false, precision: 7),
+                    })
+                .PrimaryKey(t => t.Id);
+
             CreateTable(
                 "dbo.ReservationModels",
                 c => new
@@ -24,24 +42,8 @@ namespace ReservationSystem.MyMigrations
                 .ForeignKey("dbo.TimeModels", t => t.TimeId, cascadeDelete: true)
                 .Index(t => t.TableId)
                 .Index(t => t.TimeId);
-
-            CreateTable(
-                "dbo.TableModels",
-                c => new
-                {
-                    Id = c.Int(nullable: false),
-                    Number = c.Int(nullable: false),
-                })
-                .PrimaryKey(t => t.Id);
-
-            CreateTable(
-                "dbo.TimeModels",
-                c => new
-                {
-                    Id = c.Int(nullable: false),
-                    StartTime = c.Time(nullable: false, precision: 7),
-                })
-                .PrimaryKey(t => t.Id);
+                */
+            
 
         }
         
