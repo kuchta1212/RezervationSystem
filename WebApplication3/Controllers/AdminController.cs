@@ -303,6 +303,43 @@ namespace ReservationSystem.Controllers
         }
 
         [HttpGet]
+        public ActionResult EditDateRange(int id)
+        {
+            DateRangeModel model = null;
+
+            using (IUnitOfWork uow = new UnitOfWork(new DbContextWrap()))
+            {
+                model = _repository.GetByKey<DateRangeModel>(uow, id);
+            }
+
+            return PartialView("_EditDateRangePartialView", model);
+        }
+
+        [HttpPost] // this action takes the viewModel from the modal
+        public ActionResult EditDateRange(DateRangeModel model, string name, string startDate, string endDate)
+        {
+            using (IUnitOfWork uow = new UnitOfWork(new DbContextWrap()))
+            {
+                var m = _repository.GetByKey<DateRangeModel>(uow, model.Id);
+               
+                if (!string.IsNullOrEmpty(startDate))
+                {
+                    m.StartDate = DateTime.ParseExact(startDate, "dd.MM", CultureInfo.InvariantCulture);
+                }
+
+                if (!string.IsNullOrEmpty(endDate))
+                {
+                    m.EndTime = DateTime.ParseExact(endDate, "dd.MM", CultureInfo.InvariantCulture);
+                }
+
+                _repository.Update(uow, m);
+                uow.SaveChanges();
+            }
+
+            return RedirectToAction("Settings");
+        }
+
+        [HttpGet]
         public ActionResult CreateDateRange()
         {
             return PartialView("_CreateDateRangePartialView");
@@ -322,7 +359,7 @@ namespace ReservationSystem.Controllers
                     IsActive = false
                 };
             }
-            catch (Exception e)
+            catch (Exception)
             {
                return RedirectToAction("MainTable", "Home", new { code = new ReturnCode(ReturnCodeLevel.ERROR, Resource.WrongDateFormat, "").ToString() });
             }

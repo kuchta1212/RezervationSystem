@@ -40,39 +40,40 @@
 {
 
 <div class="panel panel-default">
-        <div class="panel panel-heading">
-            @dateRange.Name   @dateRange.StartDate.Day.@dateRange.StartDate.Month - @dateRange.EndTime.Day.@dateRange.EndTime.Month
-        </div>
-        <div class="panel panel-body">
-            <table class="table table-striped table-hover ">
+    <div class="panel panel-heading">
+        @dateRange.Name   @dateRange.StartDate.Day.@dateRange.StartDate.Month - @dateRange.EndTime.Day.@dateRange.EndTime.Month
+    </div>
+    <div class="panel panel-body">
+        <table class="table table-striped table-hover ">
+            <tr>
+                <th>Den v týdnu</th>
+                <th>Začátek</th>
+                <th>Konec</th>
+                <th>Den zrušen</th>
+                <th>Změnit</th>
+            </tr>
+            @foreach (var item in Model.WeekDays.Where(x => x.DateRangeId == dateRange.Id).OrderBy(x => x.Id))
+            {
                 <tr>
-                    <th>Den v týdnu</th>
-                    <th>Začátek</th>
-                    <th>Konec</th>
-                    <th>Den zrušen</th>
-                    <th>Změnit</th>
-                </tr>
-                @foreach (var item in Model.WeekDays.Where(x => x.DateRangeId == dateRange.Id).OrderBy(x => x.Id))
-                {
-                    <tr>
-                        <td>@item.Name</td>
-                        <td>@item.StartTimeValue.ToString()</td>
-                        <td>@item.EndTimeValue.ToString()</td>
-                        @if (item.IsCancelled)
-                        {
-                            <td>ANO</td>
-                        }
-                        else
-                        {
-                            <td>NE</td>
-                        }
+                    <td>@item.Name</td>
+                    <td>@item.StartTimeValue.ToString()</td>
+                    <td>@item.EndTimeValue.ToString()</td>
+                    @if (item.IsCancelled)
+                    {
+                        <td>ANO</td>
+                    }
+                    else
+                    {
+                        <td>NE</td>
+                    }
 
-                        <td>@Html.ActionLink("Změnit ", "EditWeekDay", "Admin", new {id = @item.Id}, new {@class = "modal-link"})</td>
-                    </tr>
-                }
-            </table>
-            @Html.ActionLink("Smazat", "DeleteDateRange", "Admin", new { id = @dateRange.Id }, new { @class = "btn btn-danger" })
-        </div>
+                    <td>@Html.ActionLink("Změnit ", "EditWeekDay", "Admin", new { id = @item.Id }, new { @class = "modal-link" })</td>
+                </tr>
+            }
+        </table>
+        @Html.ActionLink("Změnit ", "EditDateRange", "Admin", new { id = @dateRange.Id }, new { @class = "modal-link" })
+        @Html.ActionLink("Smazat", "DeleteDateRange", "Admin", new { id = @dateRange.Id }, new { @class = "btn btn-danger" })
+    </div>
     </div>
 }
 <p>

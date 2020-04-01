@@ -493,6 +493,7 @@
     <Content Include="Views\Home\MainTable.cshtml" />
     <Content Include="Views\Account\ConfirmEmailSend.cshtml" />
     <Content Include="Views\Admin\_CreateDateRangePartialView.cshtml" />
+    <Content Include="Views\Admin\_EditDateRangePartialView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />

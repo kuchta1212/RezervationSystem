@@ -1,0 +1,30 @@
+﻿@model ReservationSystem.Models.DateRangeModel
+
+<div class="modal-body">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Nastavení: @Model.Name</h4>
+            </div>
+            @using (Html.BeginForm("EditDateRange", "Admin", null, FormMethod.Post))
+            {
+                <div class="modal-body">
+                    <div class="form-group">
+                        @Html.Label("Název")
+                        @Html.TextBox("name", @Model.Name, new { @class = "form-control input-lg", @style = "text-align:center" })
+                        @Html.Label("Začátek")
+                        @Html.TextBox("startDate", @Model.StartDate.ToShortDateString(), new { @class = "form-control input-lg", @style = "text-align:center" })
+                        @Html.Label("Konec")
+                        @Html.TextBox("endDate", @Model.EndTime.ToShortDateString(), new { @class = "form-control input-lg", @style = "text-align:center" })
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Zavřít</button>
+                    <button type="submit" class="btn btn-primary">Uložit</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
