@@ -425,7 +425,10 @@
     <Content Include="Connected Services\reservationsystemAzureStorage\ConnectedService.json" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\PublishProfiles\ReservationSystem.pubxml" />
+    <None Include="Properties\PublishProfiles\sparta-reservationsystem - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\sparta-reservationsystem - ReadOnly - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\sparta-reservationsystem - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\sparta-reservationsystem - Web Deploy1.pubxml" />
     <None Include="Scripts\jquery-3.1.1-vsdoc.js" />
     <Content Include="Scripts\jquery-3.1.1.min.map" />
     <Content Include="Scripts\jquery-3.1.1.slim.min.map" />

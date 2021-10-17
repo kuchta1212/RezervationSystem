@@ -12,7 +12,7 @@
     <WebStackScaffolding_ViewDialogWidth>1200</WebStackScaffolding_ViewDialogWidth>
     <WebStackScaffolding_DbContextTypeFullName>ReservationSystem.Models.DbContextWrap</WebStackScaffolding_DbContextTypeFullName>
     <WebStackScaffolding_IsViewGenerationSelected>True</WebStackScaffolding_IsViewGenerationSelected>
-    <NameOfLastUsedPublishProfile>sparta-reservationsystem - Web Deploy</NameOfLastUsedPublishProfile>
+    <NameOfLastUsedPublishProfile>C:\Users\jakuchar\source\repos\RezervationSystem\WebApplication3\Properties\PublishProfiles\sparta-reservationsystem - Web Deploy1.pubxml</NameOfLastUsedPublishProfile>
     <Use64BitIISExpress />
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
