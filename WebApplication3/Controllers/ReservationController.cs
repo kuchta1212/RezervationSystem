@@ -187,37 +187,58 @@ namespace ReservationSystem.Controllers
             }
             else
             {
-                var timeIds = DateUtil.GetTimeIds(repository, startTime, endTime);
-                var models = new List<ReservationModel>();
-                var dates = date.Split(',');
-
-                foreach (var sdate in dates)
+                try
                 {
-                    var finalDate = DateTime.ParseExact(sdate.Replace(" ", ""), "dd.MM.yyyy", CultureInfo.InvariantCulture);
-                    foreach (var table in tables)
+                    var tableIds = (tables ?? Enumerable.Empty<string>())
+                        .Select(t => Int32.Parse(t))
+                        .Distinct()
+                        .ToList();
+
+                    var timeIds = DateUtil.GetTimeIds(repository, startTime, endTime);
+                    var models = new List<ReservationModel>();
+                    var dates = date.Split(',');
+
+                    using (IUnitOfWork uow = new UnitOfWork(new DbContextWrap()))
                     {
-                        //pro kazdy stul
-                        models.AddRange(timeIds.Select(time => new ReservationModel()
+                        var knownTableIds = repository.GetAll<TableModel>(uow).Select(t => t.Id).ToList();
+                        var missing = tableIds.Where(id => !knownTableIds.Contains(id)).ToList();
+                        if (!tableIds.Any() || missing.Any())
                         {
-                            Name = reservationName,
-                            Date = finalDate.Date,
-                            TableId = Int32.Parse(table),
-                            TimeId = time,
-                            UserId = User.Identity.GetUserId()
-                        }));
-                    }
-                }
+                            logger.Error("GroupReservations: no valid table selected. Unknown table ids: " + string.Join(", ", missing));
+                            return RedirectToAction("MainTable", "Home", new { code = new ReturnCode(ReturnCodeLevel.ERROR, Resource.WriteAnAdministrator, "Invalid table selection.").ToString() });
+                        }
 
-                using (IUnitOfWork uow = new UnitOfWork(new DbContextWrap()))
-                {
-                    foreach (var model in models)
-                    {
-                        this.repository.Add<ReservationModel>(uow, model);
+                        foreach (var sdate in dates)
+                        {
+                            var finalDate = DateTime.ParseExact(sdate.Replace(" ", ""), "dd.MM.yyyy", CultureInfo.InvariantCulture);
+                            foreach (var tableId in tableIds)
+                            {
+                                //pro kazdy stul
+                                models.AddRange(timeIds.Select(time => new ReservationModel()
+                                {
+                                    Name = reservationName,
+                                    Date = finalDate.Date,
+                                    TableId = tableId,
+                                    TimeId = time,
+                                    UserId = User.Identity.GetUserId()
+                                }));
+                            }
+                        }
+
+                        foreach (var model in models)
+                        {
+                            this.repository.Add<ReservationModel>(uow, model);
+                        }
+                        uow.SaveChanges();
                     }
-                    uow.SaveChanges();
+
+                    return RedirectToAction("MainTable", "Home", new { code = new ReturnCode(ReturnCodeLevel.SUCCESS, Resource.ReservationSuccess, Resource.GroupReservationSuccessReason).ToString(), date = date });
                 }
-               
-                return RedirectToAction("MainTable", "Home", new { code = new ReturnCode(ReturnCodeLevel.SUCCESS, Resource.ReservationSuccess, Resource.GroupReservationSuccessReason).ToString(), date = date });
+                catch (Exception ex)
+                {
+                    logger.Error(ex.Message + Environment.NewLine + ex.StackTrace);
+                    return RedirectToAction("MainTable", "Home", new { code = new ReturnCode(ReturnCodeLevel.ERROR, Resource.WriteAnAdministrator, ex.Message).ToString() });
+                }
             }
         }
 

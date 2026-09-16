@@ -48,7 +48,7 @@
                 <select multiple="" class="form-control" id="tables" name="tables">
                     @foreach (var item in Model.Tables)
                     {
-                        <option>@item.Number.ToString()</option>
+                        <option value="@item.Id">@item.Number.ToString()</option>
                     }
                 </select>
             </div>
