@@ -77,11 +77,18 @@ namespace ReservationSystem.Utils
             // can be overridden via the "registrationNotificationEmail" appSetting.
             var to = ConfigurationManager.AppSettings["registrationNotificationEmail"] ?? "info@jancervenka.cz";
             var subject = "Nová registrace čeká na schválení";
-            var body = string.Format(
-                "Nový uživatel se zaregistroval a čeká na schválení:<br/><br/>Jméno: {0}<br/>Email: {1}<br/><br/>Povolit nebo zamítnout ho můžete v administraci: <a href=\"{2}\">{2}</a>",
-                newUserName, newUserEmail, adminUrl);
+            var body = BuildNewRegistrationNotificationBody(newUserName, newUserEmail, adminUrl);
 
             SendEmail(to, body, subject);
+        }
+
+        // The name and e-mail come straight from the public registration form (so also from bots):
+        // they must be HTML-encoded or a spammer could plant clickable links in the admin's mailbox.
+        public static string BuildNewRegistrationNotificationBody(string newUserName, string newUserEmail, string adminUrl)
+        {
+            return string.Format(
+                "Nový uživatel se zaregistroval a čeká na schválení:<br/><br/>Jméno: {0}<br/>Email: {1}<br/><br/>Povolit nebo zamítnout ho můžete v administraci: <a href=\"{2}\">{2}</a>",
+                WebUtility.HtmlEncode(newUserName), WebUtility.HtmlEncode(newUserEmail), WebUtility.HtmlEncode(adminUrl));
         }
 
         private void SendEmail(string mailTo, string body, string subject)

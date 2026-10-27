@@ -343,13 +343,16 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Utils\ControllersInstaller.cs" />
+    <Compile Include="Utils\ClientAddress.cs" />
     <Compile Include="Utils\DateUtil.cs" />
     <Compile Include="Utils\EmailController.cs" />
     <Compile Include="Utils\Extensions.cs" />
+    <Compile Include="Utils\RegistrationGuard.cs" />
     <Compile Include="Utils\IoC.cs" />
     <Compile Include="Utils\ITimeManager.cs" />
     <Compile Include="Utils\EditUserView.cs" />
     <Compile Include="Utils\MyUser.cs" />
+    <Compile Include="Utils\NoLinksAttribute.cs" />
     <Compile Include="Utils\Resource.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
