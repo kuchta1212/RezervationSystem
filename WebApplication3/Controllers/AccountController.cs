@@ -22,22 +22,25 @@ namespace ReservationSystem.Controllers
         private ApplicationUserManager _userManager;
         private IReservationManager _reservationManager;
         private EmailController _emailController;
+        private RegistrationGuard _registrationGuard;
         private ILog logger = LogManager.GetLogger(typeof(AccountController));
 
         private const string _passwordPostfix = "Tt1.";
 
-        public AccountController(IReservationManager reservationManager, EmailController emailController)
+        public AccountController(IReservationManager reservationManager, EmailController emailController, RegistrationGuard registrationGuard)
         {
             _reservationManager = reservationManager;
             _emailController = emailController;
+            _registrationGuard = registrationGuard;
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager, IReservationManager reservationManager, EmailController emailController)
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager, IReservationManager reservationManager, EmailController emailController, RegistrationGuard registrationGuard)
         {
             UserManager = userManager;
             SignInManager = signInManager;
             _reservationManager = reservationManager;
             _emailController = emailController;
+            _registrationGuard = registrationGuard;
         }
 
         public ApplicationSignInManager SignInManager
@@ -162,7 +165,7 @@ namespace ReservationSystem.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
-            return View();
+            return RegisterForm(new RegisterViewModel());
         }
 
         //
@@ -172,6 +175,35 @@ namespace ReservationSystem.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
+            model = model ?? new RegisterViewModel();
+
+            // Bot protection runs first: it is cheap and must happen before anything touches the
+            // database or sends an e-mail to the administrator.
+            var clientIp = ClientAddress.Resolve(Request.UserHostAddress, Request.Headers["X-Forwarded-For"]);
+            var check = _registrationGuard.Check(model.Website, model.FormToken, clientIp);
+            if (check != RegistrationCheckResult.Ok)
+            {
+                logger.Warn("Registration blocked (" + check + ") from " + clientIp + " for " + LogSafe(model.Email));
+
+                if (check == RegistrationCheckResult.Honeypot)
+                {
+                    // Pretend it worked - a bot that sees an error just adapts. No account is created
+                    // and nobody is notified.
+                    return View("RegistrationPending");
+                }
+
+                ModelState.AddModelError("", check == RegistrationCheckResult.RateLimited
+                    ? "Z této adresy bylo odesláno příliš mnoho pokusů o registraci. Zkuste to prosím později."
+                    : "Formulář byl odeslán příliš rychle nebo jeho platnost vypršela. Zkontrolujte údaje a odešlete jej prosím znovu.");
+                return RegisterForm(model);
+            }
+
+            if (_registrationGuard.IsBlockedEmailDomain(model.Email))
+            {
+                logger.Warn("Registration rejected (blocked e-mail domain): " + LogSafe(model.Email));
+                ModelState.AddModelError("Email", "Tuto e-mailovou adresu nelze použít. Zadejte prosím jinou.");
+            }
+
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser
@@ -199,7 +231,7 @@ namespace ReservationSystem.Controllers
             }
 
             // If we got this far, something failed, redisplay form
-            return View(model);
+            return RegisterForm(model);
         }
 
         //
@@ -399,6 +431,29 @@ namespace ReservationSystem.Controllers
             {
                 ModelState.AddModelError("", error);
             }
+        }
+
+        // Every rendering of the registration form carries a fresh signed timestamp. The posted
+        // token/honeypot are dropped from ModelState, otherwise the HTML helpers would echo them back.
+        private ActionResult RegisterForm(RegisterViewModel model)
+        {
+            ModelState.Remove("FormToken");
+            ModelState.Remove("Website");
+            model.Website = null;
+            model.FormToken = _registrationGuard.CreateFormToken();
+            return View("Register", model);
+        }
+
+        // Bot-supplied text goes into the log: strip line breaks (no forged log lines) and cap the length.
+        private static string LogSafe(string value)
+        {
+            if (string.IsNullOrEmpty(value))
+            {
+                return string.Empty;
+            }
+
+            var clean = value.Replace('\r', ' ').Replace('\n', ' ');
+            return clean.Length > 100 ? clean.Substring(0, 100) : clean;
         }
 
         private ActionResult RedirectToLocal(string returnUrl)

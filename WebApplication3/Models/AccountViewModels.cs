@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using ReservationSystem.Utils;
 
 namespace ReservationSystem.Models
 {
@@ -64,17 +65,25 @@ namespace ReservationSystem.Models
 
     public class RegisterViewModel
     {
+        // Czech/Slovak national number (9 digits, optional separators, optional Slovak-style leading 0) or an
+        // international number starting with + or 00. Bare 10-11 digit numbers - what registration bots
+        // typed - are refused.
+        public const string PhonePattern = @"^\s*(?:\(?(?:\+|00)[\s\-.()]*\d(?:[\s\-.()]*\d){7,14}|0?[2-9](?:[\s\-.]*\d){8})\s*$";
+
         [Required]
+        [StringLength(80, ErrorMessage = "{0} může mít nejvýše {1} znaků.")]
+        [NoLinks(ErrorMessage = "{0} nesmí obsahovat odkazy ani e-mailové adresy.")]
         [Display(Name = "Jméno")]
         public string Name { get; set; }
 
         [Required(ErrorMessage = "Telefon je povinný")]
-        [Phone]
+        [RegularExpression(PhonePattern, ErrorMessage = "Zadejte telefon ve tvaru 777 123 456 nebo +420 777 123 456.")]
         [Display(Name = "Telefon")]
         public string PhoneNumber { get; set; }
 
         [Required]
         [EmailAddress]
+        [StringLength(100, ErrorMessage = "{0} může mít nejvýše {1} znaků.")]
         [Display(Name = "Email")]
         public string Email { get; set; }
 
@@ -88,6 +97,12 @@ namespace ReservationSystem.Models
         [Display(Name = "Potvrdit heslo")]
         [Compare("Password", ErrorMessage = "Hesla nejsou shodná")]
         public string ConfirmPassword { get; set; }
+
+        // Bot protection (see RegistrationGuard): a honeypot that people never see and a signed
+        // "form rendered at" token. Neither is ever filled in by the user.
+        public string Website { get; set; }
+
+        public string FormToken { get; set; }
     }
 
     public class ResetPasswordViewModel

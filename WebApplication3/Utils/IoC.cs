@@ -18,6 +18,9 @@ namespace ReservationSystem.Utils
 
             container.Register(Component.For<EmailController>());
 
+            // Singleton on purpose: the registration rate limiter keeps its counters in this instance.
+            container.Register(Component.For<RegistrationGuard>().UsingFactoryMethod(() => new RegistrationGuard()));
+
             container.Register(Component.For<IReservationManager>().ImplementedBy<ReservationManager>());
 
             container.Register(Component.For<ITimeManager>().ImplementedBy<TimeManager>());
